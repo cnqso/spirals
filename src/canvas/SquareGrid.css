@@ -1,0 +1,82 @@
+:root {
+  --blue: #71C2A9;
+  --brown: #573B2A;
+  --cream: #F7E5AE;
+  --orange: #DE731D;
+  --tan: #EC9C26;
+  --red: #75280f;
+}
+
+
+.DisplayCard{
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em;
+    border: 1px solid var(--brown);
+    background-color: var(--blue);
+    color: var(--blue);
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    max-width: 750px;
+    max-height: 500px;
+  }
+  .MuiSlider-markLabel {
+    color: var(--yellow) !important;
+  }
+  .MuiSlider-markLabelActive {
+    color: var(--brown) !important;
+  }
+  .MuiSlider-colorPrimary {
+    color: var(--red) !important;
+  }
+  
+  
+  .Canvas {
+    display: inline;
+    float: left;
+    background-color: var(--blue);
+    text-align: center;  
+    width: 480px; 
+    height: 480px; 
+  }
+
+
+
+  .Slider{
+    flex: 1 1 auto;
+    display: inline;
+    float: right;
+    border: 1px solid var(--brown);
+    border-radius: 0.5em;
+    background-color: var(--blue);
+    color: var(--blue);
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+  }
+
+
+
+
+
+
+
+  @media (max-width: 600px) {
+    .DisplayCard {
+      width: 80vw;
+    }
+    .Canvas {
+      width: 60vw; 
+      height: 60vw; 
+    }
+    .MuiSlider-markLabel {
+      display: none !important;
+    }
+    .MuiSlider-markLabelActive {
+      display: none !important;
+    }
+    .MuiSlider-root{
+      margin-right: 3px !important;
+    }
+  }
