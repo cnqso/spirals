@@ -37,8 +37,8 @@
     float: left;
     background-color: var(--blue);
     text-align: center;  
-    width: 480px; 
-    height: 480px; 
+    width: 360x; 
+    height: 360px;
   }
 
 
@@ -65,10 +65,6 @@
   @media (max-width: 600px) {
     .DisplayCard {
       width: 80vw;
-    }
-    .Canvas {
-      width: 60vw; 
-      height: 60vw; 
     }
     .MuiSlider-markLabel {
       display: none !important;
