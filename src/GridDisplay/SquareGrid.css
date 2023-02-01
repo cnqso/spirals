@@ -20,6 +20,7 @@
     text-align: center;
     width: 460px;
     height: 360px;
+    margin-bottom : 200px;
   }
   .MuiSlider-markLabel {
     color: var(--yellow) !important;
@@ -32,7 +33,7 @@
   }
   
   
-  .Canvas {
+  .SquareGrid {
     display: inline;
     float: left;
     background-color: var(--blue);
@@ -44,27 +45,23 @@
 
 
   .Slider{
-    flex: 1 1 auto;
     display: inline;
     float: right;
-    border: 1px solid var(--brown);
-    border-radius: 0.5em;
-    background-color: var(--blue);
-    color: var(--blue);
-    font-size: 1.5em;
     font-weight: bold;
     text-align: center;
   }
 
-
-
-
-
-
-
   @media (max-width: 600px) {
     .DisplayCard {
       width: 80vw;
+      height: 60vw;
+    }
+    .SquareGrid {
+      width: 60vw;
+      height: 60vw;
+    }
+    .Slider {
+      max-height: 60vw;
     }
     .MuiSlider-markLabel {
       display: none !important;
@@ -73,6 +70,6 @@
       display: none !important;
     }
     .MuiSlider-root{
-      margin-right: 3px !important;
+      margin-right: -15px !important;
     }
   }

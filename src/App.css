@@ -7,12 +7,13 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: var(--blue);
-  width: 100vw;
-  height: 100vh;
 
 }
 
-
+.gap {
+  margin: 10 10 10 10;
+  padding: 10 10 10 10;
+}
 
 :root {
   --blue: #71C2A9;

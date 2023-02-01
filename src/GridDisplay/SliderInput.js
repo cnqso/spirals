@@ -10,12 +10,21 @@ function valuetext(value) {
 	return `${value}°C`;
 }
 
-export default function SliderInput({ newInput, squares, index }) {
+export default function SliderInput({ newInput }) {
 	const matches = useMediaQuery("(min-width:600px)");
+
+	function mediaQueryCss() {
+		if (matches) {
+			return ['off'];
+		}
+		return ['on'];
+	}
 
 	function onSelect(value) {
 		newInput(value);
 	}
+
+
 
 	const marks = [
 		{
@@ -65,34 +74,18 @@ export default function SliderInput({ newInput, squares, index }) {
 	];
 
 	return (
-		<>
-			{matches ? (
-				<Slider
+	<Slider
+	className={"Slider"}
 					onChangeCommitted={(e, value) => onSelect(value)}
 					aria-label='Squares'
 					orientation='vertical'
 					getAriaValueText={valuetext}
 					step={null}
-					valueLabelDisplay='off'
-					defaultValue={36}
+					valueLabelDisplay={mediaQueryCss()[0]}
+					defaultValue={25}
 					min={1}
 					max={144}
 					marks={marks}
 				/>
-			) : (
-				<Slider
-					onChangeCommitted={(e, value) => onSelect(value)}
-					aria-label='Squares'
-					orientation='vertical'
-					getAriaValueText={valuetext}
-					step={null}
-					valueLabelDisplay='on'
-					defaultValue={36}
-					min={1}
-					max={144}
-					marks={marks}
-				/>
-			)}
-		</>
 	);
 }

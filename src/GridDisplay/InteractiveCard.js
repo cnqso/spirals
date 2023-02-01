@@ -30,8 +30,14 @@ function fastSquareSpiral(n) {
 
 
 
+  
+  
 
-function InteractiveCard() {
+
+function InteractiveCard(props) {
+    const { inViewport, forwardedRef } = props;
+    const color = inViewport ? '#217ac0' : '#ff9800';
+    const text = inViewport ? 'In viewport' : 'Not in viewport';
 	const [squares, setSquares] = useState(25);
     const [squarray, setSquarray] = useState([ //Probably useRef
         [0, 0, 0, 0, 0],
@@ -43,6 +49,9 @@ function InteractiveCard() {
 	const [index, setIndex] = useState(0);
 
     function newInput (input) {
+        if (index !== -1) {
+            return;
+        }
         setSquares(input)
         var newArray = new Array(Math.ceil(Math.sqrt(input)));
          for (var i = 0; i < newArray.length; i++) {
@@ -53,7 +62,14 @@ function InteractiveCard() {
     }
 
 
+    // useEffect(() => {
+    //     if (inViewport && index === -1) {
+    //         setIndex(0);
+    //     }
+    // }, [inViewport]);
+
 	useEffect(() => {
+        if (inViewport) {
         const wh = Math.ceil(Math.sqrt(squares)) 
         const origin = Math.floor((wh-1)/2)
 
@@ -65,21 +81,24 @@ function InteractiveCard() {
             tempSquarray[y][x] = 1;
             setSquarray(tempSquarray);
             setIndex(index+1);
-        }, 1500/squares)
+        }, 2000/squares)
     } else {
         setIndex(-1)
     }
+}
         
-	}, [index]);
+	}, [index, inViewport]);
 
 	return (
-		<div className={"DisplayCard"}>
+		<div className={"DisplayCard"} ref={forwardedRef}>
 			<SquareGrid
 				squares={squarray}
                 index={index}
 			/>
-			<SliderInput className={"Slider"} newInput={newInput} squares={squares} index={index} />
-		</div>
+			<SliderInput  newInput={newInput} squares={squares} index={index} />
+      </div>
+
+
 	);
 }
 

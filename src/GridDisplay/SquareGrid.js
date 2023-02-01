@@ -56,7 +56,7 @@ function SquareGrid({squares, index}) {
 
     return (
         <canvas
-            className='Canvas'
+            className='SquareGrid'
             ref={canvas}
             width={720}
             height={720}/>
