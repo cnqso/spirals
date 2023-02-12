@@ -16,6 +16,7 @@
     "react-in-viewport": "^1.0.0-alpha.29",
     "react-pixel-grid": "^0.1.2",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
     "victory": "^36.6.8",
     "web-vitals": "^2.1.4"
   },

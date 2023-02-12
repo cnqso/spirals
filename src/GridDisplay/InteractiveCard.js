@@ -28,16 +28,8 @@ function fastSquareSpiral(n) {
     }
 }
 
-
-
-  
-  
-
-
 function InteractiveCard(props) {
     const { inViewport, forwardedRef } = props;
-    const color = inViewport ? '#217ac0' : '#ff9800';
-    const text = inViewport ? 'In viewport' : 'Not in viewport';
 	const [squares, setSquares] = useState(25);
     const [squarray, setSquarray] = useState([ //Probably useRef
         [0, 0, 0, 0, 0],
@@ -60,13 +52,6 @@ function InteractiveCard(props) {
         setSquarray(newArray);
         setIndex(0);
     }
-
-
-    // useEffect(() => {
-    //     if (inViewport && index === -1) {
-    //         setIndex(0);
-    //     }
-    // }, [inViewport]);
 
 	useEffect(() => {
         if (inViewport) {
