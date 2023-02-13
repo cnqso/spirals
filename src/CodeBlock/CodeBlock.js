@@ -1,43 +1,45 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import './CodeBlock.css';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+import syntaxStyle from './syntaxStyle';
 
 
-function codeBlock (props) {
+function codeBlock(props) {
 
 
-  const codeString = `function fastSquareSpiral(n) {
-let dir = 1;
-let loc = [0, 0];
-let len = 1;
-    let runi = 1;
-    let i = 0;
-    while (true) {
-        for (let k = 0; k < 2; k++) {
-            runi = len + i;
-            while (i < runi) {
-                if (n < i) {
-                    return loc;
+    const codeString =`
+    function fastSquareSpiral(n) {
+        let dir = 1;
+        let loc = [0, 0];
+        let len = 1;
+        let runi = 1;
+        let i = 0;
+        while (true) {
+            for (let k = 0; k < 2; k++) {
+                runi = len + i;
+                while (i < runi) {
+                    if (n < i) {
+                        return loc;
+                    }
+                    loc[k] += dir;
+                    i++;
                 }
-                loc[k] += dir;
-                i++;
-                }}
-        len++;
-        dir = ~dir + 1;
-    }
-}`;
-//Will probably need to recreate solo
+            }
+            len++;
+            dir = ~dir + 1;
+        }
+    }`;
+    //Will probably need to recreate solo
     return (
         <div className="codeBlock">
             <div className="codeBlockTitle">
-                {3}
-            </div>
-            <SyntaxHighlighter language="javascript" style={docco}> 
-      {codeString}
-    </SyntaxHighlighter>
+             <div>{"Title"}</div> <div style={{marginLeft: 'auto'}}> {"Javascript"} </div>
+            </div >
+
             <div className="codeBlockCode">
-                {3}
+            <SyntaxHighlighter language="javascript" style={syntaxStyle}>
+                    {codeString}
+                </SyntaxHighlighter>
             </div>
         </div>
     )
