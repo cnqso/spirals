@@ -6,6 +6,7 @@ import SquareGrid from "./GridDisplay/SquareGrid";
 import InteractiveCard from "./GridDisplay/InteractiveCard";
 import handleViewport from "react-in-viewport";
 import CodeBlock from "./CodeBlock/CodeBlock";
+import ManualInputCard from "./GridDisplay/ManualInputCard";
 //Simple introduction to problem
 // Code block
 // Visual representation next to code block
@@ -121,7 +122,8 @@ function App() {
 
 
 
-	const ViewportCard = handleViewport(InteractiveCard, /** options: {}, config: {} **/);
+	const ViewportIntCard = handleViewport(InteractiveCard, /** options: {}, config: {} **/);
+	const ViewportManCard = handleViewport(ManualInputCard, /** options: {}, config: {} **/);
 	const [languageChoice, setLanguageChoice] = useState('javascript');
 
 	return (
@@ -130,15 +132,15 @@ function App() {
 			<div style={{padding: 30}}></div>
 			<div className='codeAndDisplay'>
         	<CodeBlock />
-			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+			<ViewportIntCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
 			</div>
 			<div className='codeAndDisplay'>
         	<CodeBlock />
-			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+			<ViewportManCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
 			</div>
 			<div className='codeAndDisplay'>
         	<CodeBlock />
-			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+			<ViewportManCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
 			</div>
 			
 		</div>
