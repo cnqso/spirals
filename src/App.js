@@ -125,12 +125,22 @@ function App() {
 	const [languageChoice, setLanguageChoice] = useState('javascript');
 
 	return (
+		
 		<div className='App'>
+			<div style={{padding: 30}}></div>
+			<div className='codeAndDisplay'>
         	<CodeBlock />
 			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+			</div>
+			<div className='codeAndDisplay'>
+        	<CodeBlock />
 			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+			</div>
+			<div className='codeAndDisplay'>
+        	<CodeBlock />
 			<ViewportCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
-
+			</div>
+			
 		</div>
 	);
 }
