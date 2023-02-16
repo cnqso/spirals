@@ -179,7 +179,7 @@ while (i < n) {
 return loc;
 }`;
 
-const vss = `function verboseSquareSpiral(n) {
+	const vss = `function verboseSquareSpiral(n) {
 	let loc = [0, 0];
 	let len = 1;
 	let i = 0;
@@ -224,7 +224,7 @@ const vss = `function verboseSquareSpiral(n) {
 		len++;
 	}
 	return loc;
-}`
+}`;
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
 	const ViewportManCard = handleViewport(ManualInputCard /** options: {}, config: {} **/);
 	const [languageChoice, setLanguageChoice] = useState("javascript");
