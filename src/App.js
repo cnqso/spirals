@@ -113,36 +113,146 @@ You may not have noticed yet, but if we label the squares with numbers you might
 
 */
 
- 
-
-
 function App() {
+	const fss = `function fastSquareSpiral(n) {
+  let dir = 1;
+  let loc = [0, 0];
+  let len = 1;
+  let runi = 1;
+  let i = 0;
+  while (true) {
+    for (let k = 0; k < 2; k++) {
+      runi = len + i;
+      while (i < runi) {
+        if (n < i) {
+          return loc;
+        }
+        loc[k] += dir;
+        i++;
+      }
+    }
+    len++;
+    dir = ~dir + 1;
+  }
+}`;
 
+	const lss = `function lineSquareSpiral(n) {
+let loc = [0, 0];
+let len = 1;
+let i = 0;
 
+while (i < n) {
+	if (n >= i + len * 2 + (len + 1) * 2) {
+		i += len * 2 + (len + 1) * 2;
+		loc[0] -= 1;
+		loc[1] -= 1;
+		len += 2;
+		continue;
+	}
+	if (n === i) {
+		return loc;
+	}
+	if (n <= i + len) {
+		loc[0] += n - i;
+		return loc;
+	}
+	loc[0] += len;
+	i += len;
+	if (n <= i + len) {
+		loc[1] += n - i;
+		return loc;
+	}
+	loc[1] += len;
+	i += len;
+	len++; // important
+	if (n <= i + len) {
+		loc[0] -= n - i;
+		return loc;
+	}
+	loc[0] -= len;
+	i += len;
+	if (n <= i + len) {
+		loc[1] -= n - i;
+		return loc;
+	}
+}
+return loc;
+}`;
 
-
-
-	const ViewportIntCard = handleViewport(InteractiveCard, /** options: {}, config: {} **/);
-	const ViewportManCard = handleViewport(ManualInputCard, /** options: {}, config: {} **/);
-	const [languageChoice, setLanguageChoice] = useState('javascript');
+const vss = `function verboseSquareSpiral(n) {
+	let loc = [0, 0];
+	let len = 1;
+	let i = 0;
+	while (i < n) {
+		for (let j = 0; j < len; j++) {
+			//right
+			if (i === n) {
+				break;
+			}
+			console.log("right");
+			loc[0]++;
+			i++;
+		}
+		for (let j = 0; j < len; j++) {
+			//up
+			if (i === n) {
+				break;
+			}
+			console.log("up");
+			loc[1]++;
+			i++;
+		}
+		len++;
+		for (let j = 0; j < len; j++) {
+			//left
+			if (i === n) {
+				break;
+			}
+			console.log("left");
+			loc[0]--;
+			i++;
+		}
+		for (let j = 0; j < len; j++) {
+			//down
+			if (i === n) {
+				break;
+			}
+			console.log("down");
+			loc[1]--;
+			i++;
+		}
+		len++;
+	}
+	return loc;
+}`
+	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
+	const ViewportManCard = handleViewport(ManualInputCard /** options: {}, config: {} **/);
+	const [languageChoice, setLanguageChoice] = useState("javascript");
 
 	return (
-		
 		<div className='App'>
-			<div style={{padding: 30}}></div>
+			<div style={{ padding: 30 }}></div>
 			<div className='codeAndDisplay'>
-        	<CodeBlock />
-			<ViewportIntCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+				<CodeBlock codeString={fss} />
+				<ViewportIntCard
+					onEnterViewport={() => console.log("enter")}
+					onLeaveViewport={() => console.log("leave")}
+				/>
 			</div>
 			<div className='codeAndDisplay'>
-        	<CodeBlock />
-			<ViewportManCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+				<CodeBlock codeString={vss} />
+				<ViewportManCard
+					onEnterViewport={() => console.log("enter")}
+					onLeaveViewport={() => console.log("leave")}
+				/>
 			</div>
 			<div className='codeAndDisplay'>
-        	<CodeBlock />
-			<ViewportManCard onEnterViewport={() => console.log('enter')} onLeaveViewport={() => console.log('leave')} />
+				<CodeBlock codeString={lss} />
+				<ViewportManCard
+					onEnterViewport={() => console.log("enter")}
+					onLeaveViewport={() => console.log("leave")}
+				/>
 			</div>
-			
 		</div>
 	);
 }
