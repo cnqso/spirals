@@ -179,7 +179,7 @@ while (i < n) {
 return loc;
 }`;
 
-	const vss = `function verboseSquareSpiral(n) {
+const vss = `function verboseSquareSpiral(n) {
 	let loc = [0, 0];
 	let len = 1;
 	let i = 0;
@@ -225,6 +225,25 @@ return loc;
 	}
 	return loc;
 }`;
+
+const mss = `function mathSquareSpiral(n) {
+	const lowerRoot = Math.floor(Math.sqrt(n));
+	let anchor = lowerRoot ** 2;
+	let location = [0, 0];
+	//set location to the anchor point;
+	if (lowerRoot % 2 === 0) {
+		//if the number is even
+		location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
+		location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
+		location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
+	} else {
+		location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
+		location[1] += Math.min(n - anchor, lowerRoot); //Move up
+		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
+	}
+
+	return location;
+}`
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
 	const ViewportManCard = handleViewport(ManualInputCard /** options: {}, config: {} **/);
 	const [languageChoice, setLanguageChoice] = useState("javascript");
