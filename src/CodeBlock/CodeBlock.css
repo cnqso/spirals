@@ -1,72 +1,80 @@
-:root {
-    --blue: #71C2A9;
-    --brown: #573B2A;
-    --cream: #F7E5AE;
-    --orange: #DE731D;
-    --tan: #EC9C26;
-    --red: #75280f;
-  }
-  
-  
-  .codeBlock{
-      padding: 0.5em;
-      border: 1px solid var(--blue);
-      background-color: var(--brown);
-      color: var(--blue);
-      font-size: 0.5em;
-      font-weight: bold;
-      text-align: center;
-      width: 360px;
-      height: calc(100% + 2em);
-      overflow:auto;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
+/** @format */
 
-    
+:root {
+	--blue: #71c2a9;
+	--brown: #573b2a;
+	--cream: #f7e5ae;
+	--orange: #de731d;
+	--tan: #ec9c26;
+	--red: #75280f;
+}
+
+.codeBlock {
+	padding: 0.5em;
+	border: 1px solid var(--blue);
+	background-color: var(--brown);
+	color: var(--blue);
+	font-size: 0.5em;
+	font-weight: bold;
+	text-align: center;
+	width: 360px;
+	height: calc(100% + 2em);
+	overflow: auto;
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
 
 .codeBlock::-webkit-scrollbar {
-  width: 10px;
+	width: 10px;
+	height: 10px;
 }
 .codeBlock::-webkit-scrollbar-track {
-  background: var(--brown);
+	background: var(--brown);
 }
 .codeBlock::-webkit-scrollbar-thumb {
-  background: var(--tan)
+	background: var(--tan);
 }
 .codeBlock::-webkit-scrollbar-thumb:hover {
-  background: var(--orange);
+	background: var(--orange);
+}
+.codeBlock::-webkit-scrollbar-corner {
+	background: var(--brown);
 }
 
-    .codeBlockCode {
-      text-align: left;
-      font-size: 2em;
-      overflow-x:visible !important;
+.codeBlockCode {
+	text-align: left;
+	font-size: 2em;
+	overflow-x: visible !important;
+}
 
-    }
+.codeBlockTitle {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -4px;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
+  background-color: var(--brown);
+	display: flex;
+	justify-content: space-around;
+	font-size: 2.5em;
+	font-weight: bold;
+}
 
-    .codeBlockTitle {
-      display: flex;
-      justify-content: space-around;
-      font-size: 2.5em;
-      font-weight: bold;
-    }
-
-    
-
-  
-    @media (max-width: 900px) {
-      .codeBlock {
-        width: calc(80vw + 2em);
-        height: auto;
-      }
-    }
-    @media (max-width: 500px) {
-      .codeBlockCode {
-        font-size: 1.5em;
-      }
-      .codeBlockTitle {
-        font-size: 2em;
-      }
-    }
-  
+@media (max-width: 900px) {
+	.codeBlock {
+		width: calc(80vw + 2em);
+		min-height: 350px;
+		height: auto;
+	}
+	.codeBlockCode {
+		font-size: 2em;
+	}
+}
+@media (max-width: 500px) {
+	.codeBlockCode {
+		font-size: 1.5em;
+	}
+	.codeBlockTitle {
+		font-size: 2em;
+	}
+}

@@ -28,7 +28,7 @@ function fastSquareSpiral(n) {
     }
 }
 
-function InteractiveCard(props) {
+function ManualInputCard(props) {
     const { inViewport, forwardedRef } = props;
 	const [squares, setSquares] = useState(25);
     const [squarray, setSquarray] = useState([ //Probably useRef
@@ -87,4 +87,4 @@ function InteractiveCard(props) {
 	);
 }
 
-export default InteractiveCard;
+export default ManualInputCard;

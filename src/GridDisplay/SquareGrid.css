@@ -41,7 +41,10 @@
     width: 360px; 
     height: 360px;
   }
-
+  .lockButton {
+    height: 30px;
+    width: 30px;
+  }
 
 
   .Slider{
@@ -49,6 +52,18 @@
     float: right;
     font-weight: bold;
     text-align: center;
+    left: 10px;
+  }
+  .gridControl{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 360px;
+    width: 60px;
+  }
+  .sliderBox{
+    height: 330px;
+    width: auto;
   }
 
   @media (max-width: 900px) {
@@ -60,8 +75,13 @@
       width: 60vw;
       height: 60vw;
     }
-    .Slider {
-      max-height: 60vw;
+    .gridControl {
+      height: 60vw;
+      width: 10vw;
+    }
+    .sliderBox{
+      height: 55vw;
+      width: auto;
     }
     .MuiSlider-markLabel {
       display: none !important;

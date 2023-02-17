@@ -2,12 +2,11 @@
 import React from "react";
 import SvgIcon from "@mui/material/SvgIcon";
 
-
-export function AboutIcon({ ic }) {
+export function SendIcon({ ic }) {
 	return (
 		<SvgIcon className={ic}>
-		<path d="M24,3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V24H24ZM2,3A1,1,0,0,1,3,2H21a1,1,0,0,1,1,1V22H2Z"/><path d="M14.431,13.4,9.719,18.106,8.305,16.692l4.712-4.712L8.344,7.308,9.758,5.894l4.673,4.672a2,2,0,0,1,0,2.829Z"/>
-
+			<path d='M24,3a3,3,0,0,0-3-3H3A3,3,0,0,0,0,3V24H24ZM2,3A1,1,0,0,1,3,2H21a1,1,0,0,1,1,1V22H2Z' />
+			<path d='M14.431,13.4,9.719,18.106,8.305,16.692l4.712-4.712L8.344,7.308,9.758,5.894l4.673,4.672a2,2,0,0,1,0,2.829Z' />
 		</SvgIcon>
 	);
 }
@@ -117,5 +116,23 @@ export function WebsiteIcon({ ic }) {
 				<path d='M21,2H3C1.35,2,0,3.35,0,5V22H24V5c0-1.65-1.35-3-3-3ZM3,4H21c.55,0,1,.45,1,1v2H2v-2c0-.55,.45-1,1-1Zm-1,16V9H22v11H2Zm2-9h6v2h-2v5h-2v-5h-2v-2Zm8,0h7v2h-7v-2Zm0,4h7v2h-7v-2Z' />
 			</SvgIcon>
 		</a>
+	);
+}
+
+export function Locked({ ic }) {
+	return (
+		<SvgIcon>
+			<path d='M19,8V7A7,7,0,0,0,5,7V8H2V21a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V8ZM7,7A5,5,0,0,1,17,7V8H7ZM20,21a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V10H20Z' />
+			<rect x='11' y='14' width='2' height='4' />
+		</SvgIcon>
+	);
+}
+
+export function Unlocked({ ic }) {
+	return (
+		<SvgIcon>
+			<path d='M7,8V7a5,5,0,0,1,9.375-2.422l1.749-.971A7,7,0,0,0,5,7V8H2V21a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V8ZM20,21a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V10H20Z' />
+			<rect x='11' y='14' width='2' height='4' />
+		</SvgIcon>
 	);
 }

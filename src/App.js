@@ -2,11 +2,9 @@
 
 import { React, useState } from "react";
 import "./App.css";
-import SquareGrid from "./GridDisplay/SquareGrid";
 import InteractiveCard from "./GridDisplay/InteractiveCard";
 import handleViewport from "react-in-viewport";
 import CodeBlock from "./CodeBlock/CodeBlock";
-import ManualInputCard from "./GridDisplay/ManualInputCard";
 //Simple introduction to problem
 // Code block
 // Visual representation next to code block
@@ -108,7 +106,15 @@ You may not have noticed yet, but if we label the squares with numbers you might
 
 
 
-
+Header - Image, text, personal icons, etc
+Text - can be in box or not. Full width
+Image - can be in box or not. 3/4 - full width
+Solo Code - 3/4 width
+Code with squares - full width
+    Discrete square mode, linear mode, coordinate mode
+	1. Finished!
+	2. Same as before, but try rendering the "runs" (better version of run)
+	3. Coordinate mode -- could show on scatter plot?
 
 
 */
@@ -142,110 +148,109 @@ let len = 1;
 let i = 0;
 
 while (i < n) {
-	if (n >= i + len * 2 + (len + 1) * 2) {
-		i += len * 2 + (len + 1) * 2;
-		loc[0] -= 1;
-		loc[1] -= 1;
-		len += 2;
-		continue;
-	}
-	if (n === i) {
-		return loc;
-	}
-	if (n <= i + len) {
-		loc[0] += n - i;
-		return loc;
-	}
-	loc[0] += len;
-	i += len;
-	if (n <= i + len) {
-		loc[1] += n - i;
-		return loc;
-	}
-	loc[1] += len;
-	i += len;
-	len++; // important
-	if (n <= i + len) {
-		loc[0] -= n - i;
-		return loc;
-	}
-	loc[0] -= len;
-	i += len;
-	if (n <= i + len) {
-		loc[1] -= n - i;
-		return loc;
-	}
+  if (n >= i + len * 2 + (len + 1) * 2) {
+    i += len * 2 + (len + 1) * 2;
+    loc[0] -= 1;
+    loc[1] -= 1;
+    len += 2;
+    continue;
+  }
+  if (n === i) {
+    return loc;
+  }
+  if (n <= i + len) {
+    loc[0] += n - i;
+    return loc;
+  }
+  loc[0] += len;
+  i += len;
+  if (n <= i + len) {
+    loc[1] += n - i;
+    return loc;
+  }
+  loc[1] += len;
+  i += len;
+  len++; // important
+  if (n <= i + len) {
+    loc[0] -= n - i;
+    return loc;
+  }
+  loc[0] -= len;
+  i += len;
+  if (n <= i + len) {
+    loc[1] -= n - i;
+    return loc;
+  }
 }
 return loc;
 }`;
 
 const vss = `function verboseSquareSpiral(n) {
-	let loc = [0, 0];
-	let len = 1;
-	let i = 0;
-	while (i < n) {
-		for (let j = 0; j < len; j++) {
-			//right
-			if (i === n) {
-				break;
-			}
-			console.log("right");
-			loc[0]++;
-			i++;
-		}
-		for (let j = 0; j < len; j++) {
-			//up
-			if (i === n) {
-				break;
-			}
-			console.log("up");
-			loc[1]++;
-			i++;
-		}
-		len++;
-		for (let j = 0; j < len; j++) {
-			//left
-			if (i === n) {
-				break;
-			}
-			console.log("left");
-			loc[0]--;
-			i++;
-		}
-		for (let j = 0; j < len; j++) {
-			//down
-			if (i === n) {
-				break;
-			}
-			console.log("down");
-			loc[1]--;
-			i++;
-		}
-		len++;
-	}
-	return loc;
+  let loc = [0, 0];
+  let len = 1;
+  let i = 0;
+  while (i < n) {
+    for (let j = 0; j < len; j++) {
+      //right
+      if (i === n) {
+        break;
+      }
+      console.log("right");
+      loc[0]++;
+      i++;
+    }
+    for (let j = 0; j < len; j++) {
+      //up
+      if (i === n) {
+        break;
+      }
+      console.log("up");
+      loc[1]++;
+      i++;
+    }
+    len++;
+    for (let j = 0; j < len; j++) {
+      //left
+      if (i === n) {
+        break;
+      }
+      console.log("left");
+      loc[0]--;
+      i++;
+    }
+    for (let j = 0; j < len; j++) {
+      //down
+      if (i === n) {
+        break;
+      }
+      console.log("down");
+      loc[1]--;
+      i++;
+    }
+    len++;
+  }
+  return loc;
 }`;
 
 const mss = `function mathSquareSpiral(n) {
-	const lowerRoot = Math.floor(Math.sqrt(n));
-	let anchor = lowerRoot ** 2;
-	let location = [0, 0];
-	//set location to the anchor point;
-	if (lowerRoot % 2 === 0) {
-		//if the number is even
-		location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
-		location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
-		location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
-	} else {
-		location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
-		location[1] += Math.min(n - anchor, lowerRoot); //Move up
-		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
-	}
+  const lowerRoot = Math.floor(Math.sqrt(n));
+  let anchor = lowerRoot ** 2;
+  let location = [0, 0];
+  //set location to the anchor point;
+  if (lowerRoot % 2 === 0) {
+    //if the number is even
+    location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
+    location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
+    location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
+  } else {
+    location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
+    location[1] += Math.min(n - anchor, lowerRoot); //Move up
+    location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
+  }
 
-	return location;
+  return location;
 }`
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
-	const ViewportManCard = handleViewport(ManualInputCard /** options: {}, config: {} **/);
 	const [languageChoice, setLanguageChoice] = useState("javascript");
 
 	return (
@@ -253,23 +258,22 @@ const mss = `function mathSquareSpiral(n) {
 			<div style={{ padding: 30 }}></div>
 			<div className='codeAndDisplay'>
 				<CodeBlock codeString={fss} />
-				<ViewportIntCard
-					onEnterViewport={() => console.log("enter")}
-					onLeaveViewport={() => console.log("leave")}
+				<ViewportIntCard type='fss' 
 				/>
 			</div>
 			<div className='codeAndDisplay'>
 				<CodeBlock codeString={vss} />
-				<ViewportManCard
-					onEnterViewport={() => console.log("enter")}
-					onLeaveViewport={() => console.log("leave")}
+				<ViewportIntCard type='fss'
 				/>
 			</div>
 			<div className='codeAndDisplay'>
 				<CodeBlock codeString={lss} />
-				<ViewportManCard
-					onEnterViewport={() => console.log("enter")}
-					onLeaveViewport={() => console.log("leave")}
+				<ViewportIntCard type='lss'
+				/>
+			</div>
+			<div className='codeAndDisplay'>
+				<CodeBlock codeString={mss} />
+				<ViewportIntCard type='fss'
 				/>
 			</div>
 		</div>

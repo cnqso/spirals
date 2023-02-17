@@ -5,11 +5,7 @@ import { useMediaQuery } from "@mui/material";
 import "./SquareGrid.css";
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import {LogOutIcon, AboutIcon, QuestionIcon, SunMoonIcon, GithubIcon, WebsiteIcon, ResidentialIcon, IndustrialIcon, CommercialIcon} from "./icons";
-
-function valuetext(value) {
-	return `${value}°C`;
-}
+import {LogOutIcon, SendIcon, QuestionIcon, SunMoonIcon, GithubIcon, WebsiteIcon, ResidentialIcon, IndustrialIcon, CommercialIcon} from "./icons";
 
 export default function ManualInput({ newInput }) {
 	const matches = useMediaQuery("(min-width:600px)");
@@ -46,8 +42,8 @@ export default function ManualInput({ newInput }) {
 				}
 			  }}
 	  />
-	  <IconButton aria-label="delete" size="small" ref={buttonRef} onClick={onEnter}>
-  		<AboutIcon fontSize="inherit" />
+	  <IconButton aria-label="input" size="small" ref={buttonRef} onClick={onEnter}>
+  		<SendIcon fontSize="inherit" />
 		</IconButton>
 	  </div>
 	);
