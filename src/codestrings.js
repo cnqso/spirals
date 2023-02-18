@@ -1,3 +1,25 @@
+const iss = `function squareSpiral(n) {
+  let location = [0,0]; // x,y
+  let length = 1;
+  while (true) {
+    for (let i = 0; i < length; i++) {
+      location[0]++
+    }
+    for (let i = 0; i < length; i++) {
+      location[1]++
+    }
+    length++;
+    for (let i = 0; i < length; i++) {
+      location[0]--
+    }
+    for (let i = 0; i < length; i++) {
+      location[1]--
+    }
+    length++;
+  }
+}`;
+
+
 
 const fss = `function fastSquareSpiral(n) {
   let dir = 1;
@@ -9,6 +31,7 @@ const fss = `function fastSquareSpiral(n) {
     for (let k = 0; k < 2; k++) {
       runi = len + i;
       while (i < runi) {
+        console.log(loc);
         if (n < i) {
           return loc;
         }
@@ -130,5 +153,5 @@ const mss = `function mathSquareSpiral(n) {
   return location;
 }`
 
-const codestrings = {javascript: {fss:fss, lss:lss, vss:vss, mss:mss}, go: {fss:fss, lss:lss, vss:vss, mss:mss}}
+const codestrings = {javascript: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss}, go: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss}}
 export default codestrings;

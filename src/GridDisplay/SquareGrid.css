@@ -1,25 +1,17 @@
-:root {
-  --blue: #71C2A9;
-  --brown: #573B2A;
-  --cream: #F7E5AE;
-  --orange: #DE731D;
-  --tan: #EC9C26;
-  --red: #75280f;
-}
+
 
 
 .DisplayCard{
     display: flex;
     justify-content: space-between;
-    padding: 0.5em;
     border: 1px solid var(--brown);
     background-color: var(--blue);
     color: var(--blue);
     font-size: 1.5em;
     font-weight: bold;
     text-align: center;
-    width: 420px;
     height: 100%;
+    width: 100%;
     
   }
   .MuiSlider-markLabel {
@@ -38,8 +30,8 @@
     float: left;
     background-color: var(--blue);
     text-align: center;  
-    width: 360px; 
-    height: 360px;
+    width: 400px; 
+    height: 400px;
   }
   .lockButton {
     height: 30px;
@@ -49,17 +41,17 @@
 
   .Slider{
     display: inline;
-    float: right;
     font-weight: bold;
     text-align: center;
-    left: 10px;
+    
   }
   .gridControl{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 360px;
-    width: 60px;
+    height: 100%;
+    width: 80px;
+    margin-top: 10px;
   }
   .sliderBox{
     height: 330px;
@@ -68,28 +60,26 @@
 
   @media (max-width: 900px) {
     .DisplayCard {
-      width: 80vw;
-      height: 60vw;
+      width: 100%;
     }
     .SquareGrid {
-      width: 60vw;
-      height: 60vw;
+      width: 80%;
+      height: 80%;
     }
     .gridControl {
       height: 60vw;
       width: 10vw;
+      
     }
     .sliderBox{
       height: 55vw;
       width: auto;
+      margin-right: -40px;
     }
     .MuiSlider-markLabel {
       display: none !important;
     }
     .MuiSlider-markLabelActive {
       display: none !important;
-    }
-    .MuiSlider-root{
-      margin-right: -15px !important;
     }
   }

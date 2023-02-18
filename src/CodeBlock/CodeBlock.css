@@ -1,27 +1,21 @@
 /** @format */
 
-:root {
-	--blue: #71c2a9;
-	--brown: #573b2a;
-	--cream: #f7e5ae;
-	--orange: #de731d;
-	--tan: #ec9c26;
-	--red: #75280f;
-}
+
 
 .codeBlock {
-	padding: 0.5em;
 	border: 1px solid var(--blue);
 	background-color: var(--brown);
 	color: var(--blue);
 	font-size: 0.5em;
 	font-weight: bold;
 	text-align: center;
-	width: 360px;
-	height: calc(100% + 2em);
 	overflow: auto;
-	-ms-overflow-style: none;
 	scrollbar-width: none;
+	width: 100%;
+	height: 100%;
+	max-width: 900px;
+	max-height: 750px;
+
 }
 
 .codeBlock::-webkit-scrollbar {
@@ -45,26 +39,25 @@
 	text-align: left;
 	font-size: 2em;
 	overflow-x: visible !important;
+	height: 100%;
 }
 
 .codeBlockTitle {
   position: -webkit-sticky;
   position: sticky;
-  top: -4px;
-  padding-bottom: 0.2em;
-  padding-top: 0.2em;
+  top: -3px;
   background-color: var(--brown);
 	display: flex;
 	justify-content: space-around;
 	font-size: 2.5em;
 	font-weight: bold;
+
 }
 
 @media (max-width: 900px) {
 	.codeBlock {
-		width: calc(80vw + 2em);
-		min-height: 350px;
-		height: auto;
+		width: 100%;
+		max-height: 55vh;
 	}
 	.codeBlockCode {
 		font-size: 2em;
