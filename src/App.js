@@ -1,10 +1,13 @@
 /** @format */
 
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import "./App.css";
 import InteractiveCard from "./GridDisplay/InteractiveCard";
 import handleViewport from "react-in-viewport";
 import CodeBlock from "./CodeBlock/CodeBlock";
+import codestrings from "./codestrings";
+import AIImage from "./AI.png";
+import Collapse from "@mui/material/Collapse";
 //Simple introduction to problem
 // Code block
 // Visual representation next to code block
@@ -118,163 +121,122 @@ Code with squares - full width
 
 
 */
+function FootnoteText1() {
+	return (
+		<div className='footnote'>
+			The first was very theoretical: trying to find a single formula for a point on a spiral given n.
+			This was very promising and exactly what I was looking for, but the solutions were incredibly
+			complex, both in terms of understanding and computation. The second was practical and what I will
+			brazenly call the "naive" approach. This approach was to record every visited square and try to
+			turn right whenever possible. This was more programmatic, sure, but the amount of time needed for
+			each step and the balooning memory complexity of the operation was untenable to me. My solution
+			didn't need to be efficient, but I was frustrated that what I saw as a simple problem had no
+			simple and fast solution.
+			<div/>
+			
+			<Footnote
+					num={<img src={AIImage} />}
+					text={`a simple problem had no simple and fast solution.`}
+					punctuation={""}
+				/>
+		</div>
+	);
+}
+function Header() {
+	return <h1>Square Spirals</h1>;
+}
+function Footnote({ num, text, punctuation = ". " }) {
+	const [show, setShow] = useState(false);
+	return (
+		<>
+			<span
+				className={"footnoteButton"}
+				onClick={() => {
+					setShow(!show);
+				}}>
+				<sup style={{ color: "#de731d" }}>{num}</sup>
+				{punctuation}
+			</span>
+
+			<Collapse in={show} timeout='auto' unmountOnExit>
+				<FootnoteText1/>
+			</Collapse>
+		</>
+	);
+}
 
 function App() {
-	const fss = `function fastSquareSpiral(n) {
-  let dir = 1;
-  let loc = [0, 0];
-  let len = 1;
-  let runi = 1;
-  let i = 0;
-  while (true) {
-    for (let k = 0; k < 2; k++) {
-      runi = len + i;
-      while (i < runi) {
-        if (n < i) {
-          return loc;
-        }
-        loc[k] += dir;
-        i++;
-      }
-    }
-    len++;
-    dir = ~dir + 1;
-  }
-}`;
-
-	const lss = `function lineSquareSpiral(n) {
-let loc = [0, 0];
-let len = 1;
-let i = 0;
-
-while (i < n) {
-  if (n >= i + len * 2 + (len + 1) * 2) {
-    i += len * 2 + (len + 1) * 2;
-    loc[0] -= 1;
-    loc[1] -= 1;
-    len += 2;
-    continue;
-  }
-  if (n === i) {
-    return loc;
-  }
-  if (n <= i + len) {
-    loc[0] += n - i;
-    return loc;
-  }
-  loc[0] += len;
-  i += len;
-  if (n <= i + len) {
-    loc[1] += n - i;
-    return loc;
-  }
-  loc[1] += len;
-  i += len;
-  len++; // important
-  if (n <= i + len) {
-    loc[0] -= n - i;
-    return loc;
-  }
-  loc[0] -= len;
-  i += len;
-  if (n <= i + len) {
-    loc[1] -= n - i;
-    return loc;
-  }
-}
-return loc;
-}`;
-
-const vss = `function verboseSquareSpiral(n) {
-  let loc = [0, 0];
-  let len = 1;
-  let i = 0;
-  while (i < n) {
-    for (let j = 0; j < len; j++) {
-      //right
-      if (i === n) {
-        break;
-      }
-      console.log("right");
-      loc[0]++;
-      i++;
-    }
-    for (let j = 0; j < len; j++) {
-      //up
-      if (i === n) {
-        break;
-      }
-      console.log("up");
-      loc[1]++;
-      i++;
-    }
-    len++;
-    for (let j = 0; j < len; j++) {
-      //left
-      if (i === n) {
-        break;
-      }
-      console.log("left");
-      loc[0]--;
-      i++;
-    }
-    for (let j = 0; j < len; j++) {
-      //down
-      if (i === n) {
-        break;
-      }
-      console.log("down");
-      loc[1]--;
-      i++;
-    }
-    len++;
-  }
-  return loc;
-}`;
-
-const mss = `function mathSquareSpiral(n) {
-  const lowerRoot = Math.floor(Math.sqrt(n));
-  let anchor = lowerRoot ** 2;
-  let location = [0, 0];
-  //set location to the anchor point;
-  if (lowerRoot % 2 === 0) {
-    //if the number is even
-    location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
-    location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
-    location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
-  } else {
-    location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
-    location[1] += Math.min(n - anchor, lowerRoot); //Move up
-    location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
-  }
-
-  return location;
-}`
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
-	const [languageChoice, setLanguageChoice] = useState("javascript");
+	const [language, setLanguage] = useState("javascript");
 
 	return (
 		<div className='App'>
-			<div style={{ padding: 30 }}></div>
-			<div className='codeAndDisplay'>
-				<CodeBlock codeString={fss} />
-				<ViewportIntCard type='fss' 
+			<Header />
+
+			<div className='textBlock'>
+				While working on my most recent project, I ran into a problem which seemed simple: I had a
+				game in which many people build cities next to each other on an infinite grid of square plots.
+				I wanted to make sure that users were often connected to many other players. I also wanted to
+				make sure that players who joined earlier would be closer to the center, while players who
+				joined later would be further away. Lastly, I wanted a simple way to shift the location of
+				users, so I needed positions to be deterministic without taking neighboring plots into
+				consideration. I decided that the best way to accomplish this was to have players "spiral"
+				around a central plot.
+			</div>
+
+			<div className='textBlock'>
+				<img src={AIImage} />
+			</div>
+
+			<div className='textBlock'>
+				I assumed that there would be a simple, well known answer to this problem, so I did a quick
+				google search. I found two different types of approaches
+				<Footnote
+					num={1}
+					text={`The first was very theoretical: trying to find a single formula for a point on a spiral
+					given n. This was very promising and exactly what I was looking for, but the solutions
+					were incredibly complex, both in terms of understanding and computation. The second was
+					practical and what I will brazenly call the "naive" approach. This approach was to record
+					every visited square and try to turn right whenever possible. This was more programmatic,
+					sure, but the amount of time needed for each step and the balooning memory complexity of
+					the operation was untenable to me. My solution didn't need to be efficient, but I was
+					frustrated that what I saw as a simple problem had no simple and fast solution.`}
 				/>
+				I decided to take a shot at it. I started by just drawing a bunch of spirals and seeing what I
+				noticed. Here were the big patterns.
+			</div>
+
+			<div className='codeAndDisplay'>
+				<CodeBlock
+					codeString={codestrings[language].fss}
+					language={language}
+					setLanguage={setLanguage}
+				/>
+				<ViewportIntCard type='fss' />
 			</div>
 			<div className='codeAndDisplay'>
-				<CodeBlock codeString={vss} />
-				<ViewportIntCard type='fss'
+				<CodeBlock
+					codeString={codestrings[language].vss}
+					language={language}
+					setLanguage={setLanguage}
 				/>
+				<ViewportIntCard type='fss' />
 			</div>
 			<div className='codeAndDisplay'>
-				<CodeBlock codeString={lss} />
-				<ViewportIntCard type='lss'
+				<CodeBlock
+					codeString={codestrings[language].lss}
+					language={language}
+					setLanguage={setLanguage}
 				/>
+				<ViewportIntCard type='lss' />
 			</div>
 			<div className='codeAndDisplay'>
-				<CodeBlock codeString={mss} />
-				<ViewportIntCard type='fss'
+				<CodeBlock
+					codeString={codestrings[language].mss}
+					language={language}
+					setLanguage={setLanguage}
 				/>
+				<ViewportIntCard type='fss' />
 			</div>
 		</div>
 	);

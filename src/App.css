@@ -1,41 +1,87 @@
-.App {
-  text-align: center;
-  background-color: var(--cream);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: var(--blue);
+/** @format */
 
+.App {
+	text-align: center;
+	background-color: var(--cream);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	color: var(--blue);
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .codeAndDisplay {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom : 200px;
-  width: 900px;
-  height: 360px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+  margin-top: 20px;
+	margin-bottom: 200px;
+	width: 900px;
+	height: 360px;
+}
+
+.textBlock {
+  color: var(--blue);
+  background-color: var(--cream);
+	font-size: 1.4em;
+	text-align: justify;
+	margin-bottom: 65px;
+	width: calc(900px - 5.5em);
+	height: auto;
+  padding: 20px;
+  padding-bottom: 16px;
+  border: #573b2a 1px solid;
+}
+.footnote {
+  font-size: 0.9em;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: justify;
+  padding: 5%;
+  color: var(--orange);
+  max-width: 100%;
+  max-height: 100%;
+}
+.footnoteButton {
+  cursor: pointer;
 }
 @media (max-width: 900px) {
-  .codeAndDisplay {
-    flex-direction: column;
-    height: 720px;
-    width: 80vw;
-    margin-bottom : 30vw;
-  }
+	.codeAndDisplay {
+		flex-direction: column;
+		height: 720px;
+		width: 80vw;
+		margin-bottom: 30vw;
+	}
+	.textBlock {
+		width: 77vw;
+    margin-bottom: 10vw;
+	}
+}
+
+@media (max-width: 500px) {
+	.textBlock {
+		text-align: left;
+    font-size: 1.1em;
+    margin-bottom: 1vw;
+
+	}
 }
 
 .gap {
-  margin: 10 10 10 10;
-  padding: 10 10 10 10;
+	margin: 10 10 10 10;
+	padding: 10 10 10 10;
 }
 
 :root {
-  --blue: #71C2A9;
-  --brown: #573B2A;
-  --cream: #F7E5AE;
-  --orange: #DE731D;
-  --tan: #EC9C26;
+	--blue: #71c2a9;
+	--brown: #573b2a;
+	--cream: #f7e5ae;
+	--orange: #de731d;
+	--tan: #ec9c26;
 }

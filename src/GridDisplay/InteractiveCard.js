@@ -103,38 +103,44 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		setLocked(!locked);
 	}
 
-	useEffect(() => {
-		function iterateFastSquareSpiral(origin) {
-			const [ix, iy] = lineSquareSpiral(index);
+	function iterateFastSquareSpiral(origin) {
+		const [ix, iy] = lineSquareSpiral(index);
+		const [x, y] = [ix + origin, iy + origin];
+		const tempSquarray = squarray;
+		tempSquarray[y][x] = 1;
+		setSquarray(tempSquarray);
+		setIndex(index + 1);
+	}
+
+	function iterateLineSquareSpiral(origin) {
+		let nextHighestSquare = Math.ceil(Math.sqrt(index + 1)) ** 2;
+		if (nextHighestSquare > squares) {
+			nextHighestSquare = squares;
+		}
+		let tempSquarray = squarray;
+		for (let i = index; i < nextHighestSquare; i++) {
+			const [ix, iy] = lineSquareSpiral(i);
 			const [x, y] = [ix + origin, iy + origin];
-			const tempSquarray = squarray;
 			tempSquarray[y][x] = 1;
-			setSquarray(tempSquarray);
-			setIndex(index + 1);
 		}
+		setSquarray(tempSquarray);
+		setIndex(nextHighestSquare);
+	}
 
-		function iterateLineSquareSpiral(origin) {
-			let nextHighestSquare = Math.ceil(Math.sqrt(index + 1)) ** 2;
-            let tempSquarray = squarray;
-            for (let i = index; i < nextHighestSquare; i++) {
-                const [ix, iy] = lineSquareSpiral(i);
-			    const [x, y] = [ix + origin, iy + origin];
-			    tempSquarray[y][x] = 1;
-            }
-            setSquarray(tempSquarray);
-			setIndex(nextHighestSquare);
-		}
-        const spiralFunctions = {fss: iterateFastSquareSpiral, lss: iterateLineSquareSpiral};
+	const spiralFunctions = {
+		fss: { fn: iterateFastSquareSpiral, delay: 2000, range: [4, 144] },
+		lss: { fn: iterateLineSquareSpiral, delay: 7000, range: [4, 144] },
+	};
 
+	useEffect(() => {
 		if (inViewport) {
 			const wh = Math.ceil(Math.sqrt(squares));
 			const origin = Math.floor((wh - 1) / 2);
 
 			if (index < squares && index >= 0) {
 				setTimeout(() => {
-                    spiralFunctions[type](origin)
-					
-				}, 2000 / squares);
+					spiralFunctions[type].fn(origin);
+				}, spiralFunctions[type].delay / squares);
 			} else {
 				setIndex(-1);
 			}

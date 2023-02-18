@@ -1,23 +1,27 @@
-import { React, useState } from 'react';
-import './CodeBlock.css';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import syntaxStyle from './syntaxStyle';
+/** @format */
+
+import { React, useState } from "react";
+import "./CodeBlock.css";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import syntaxStyle from "./syntaxStyle";
+
+function CodeBlock({ codeString, language, setLanguage }) {
 
 
-function codeBlock({codeString}) {
+    const capitalLanguage = language[0].toUpperCase() + language.slice(1);
+	//Will probably need to recreate solo
+	return (
+		<div className='codeBlock'>
+			<div className='codeBlockTitle' onClick={()=>{setLanguage("go")}}>
+				<div>{"Title"}</div>{" "}
+				<div style={{ marginLeft: "auto" }}> {capitalLanguage} </div>
+			</div>
 
-    //Will probably need to recreate solo
-    return (
-        <div className="codeBlock">
-            <div className="codeBlockTitle">
-             <div>{"Title"}</div> <div style={{marginLeft: 'auto'}}> {"Javascript"} </div>
-            </div >
-
-            <SyntaxHighlighter className="codeBlockCode" language="javascript" style={syntaxStyle}>
-                    {codeString}
-                </SyntaxHighlighter>
-        </div>
-    )
+			<SyntaxHighlighter className='codeBlockCode' language={language} style={syntaxStyle}>
+				{codeString}
+			</SyntaxHighlighter>
+		</div>
+	);
 }
 
-export default codeBlock;
+export default CodeBlock;
