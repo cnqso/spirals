@@ -11,7 +11,7 @@ function CodeBlock({ codeString, language, setLanguage }) {
     const capitalLanguage = language[0].toUpperCase() + language.slice(1);
 	//Will probably need to recreate solo
 	return (
-		<div className='codeBlock'>
+		<div className='codeBlock' style={{maxHeight: 750}}>
 			<div className='codeBlockTitle' onClick={()=>{setLanguage("go")}}>
 				<div>{"Title"}</div>{" "}
 				<div style={{ marginLeft: "auto" }}> {capitalLanguage} </div>

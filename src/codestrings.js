@@ -21,74 +21,58 @@ const iss = `function squareSpiral(n) {
 
 
 
-const fss = `function fastSquareSpiral(n) {
-  let dir = 1;
-  let loc = [0, 0];
+const fss = `function squareSpiral(n) {
+  let location = [0, 0];
   let len = 1;
-  let runi = 1;
-  let i = 0;
-  while (true) {
-    for (let k = 0; k < 2; k++) {
-      runi = len + i;
-      while (i < runi) {
-        console.log(loc);
-        if (n < i) {
-          return loc;
-        }
-        loc[k] += dir;
-        i++;
+  let direction = 1;
+  let axis = 0;
+  for (let i = 0; i < n;) {
+    for (let j = 0; j < len; j++) {
+      drawSquare(location);
+      if (i >= n) { // Check at each square
+        return location;
       }
+      location[axis] += direction; 
+      i++; 
     }
-    len++;
-    dir = ~dir + 1;
+    if (axis === 1) { 
+      len++;
+      // Flip between 1 and -1
+      direction = -direction;
+    }
+    // Flip between 0 and 1 (x and y)
+    axis ^= 1; 
   }
+  return location;
 }`;
 
 const lss = `function lineSquareSpiral(n) {
-  let loc = [0, 0];
+  let location = [0, 0];
   let len = 1;
-  let i = 0;
+  let direction = 1;
+  let axis = 0;
+  for (let i = 0; i < n; ) {
+    if (i + len > n) {
+      location[axis] += direction * (n - i);
+      return location;
+    }
+    location[axis] += direction * len;
+    i += len;
 
-  while (i < n) {
-    if (n >= i + len * 2 + (len + 1) * 2) {
-      i += len * 2 + (len + 1) * 2;
-      loc[0] -= 1;
-      loc[1] -= 1;
-      len += 2;
-      continue;
+    if (axis === 1) {
+      // Every other time
+      len++;
+      // Flip between 1 and -1
+      direction = -direction; 
     }
-    if (n === i) {
-      return loc;
-    }
-    if (n <= i + len) {
-      loc[0] += n - i;
-      return loc;
-    }
-    loc[0] += len;
-    i += len;
-    if (n <= i + len) {
-      loc[1] += n - i;
-      return loc;
-    }
-    loc[1] += len;
-    i += len;
-    len++; // important
-    if (n <= i + len) {
-      loc[0] -= n - i;
-      return loc;
-    }
-    loc[0] -= len;
-    i += len;
-    if (n <= i + len) {
-      loc[1] -= n - i;
-      return loc;
-    }
+    // Flip between 0 and 1 (x and y)
+    axis ^= 1;
   }
-  return loc;
+  return location;
 }`;
 
 const vss = `function verboseSquareSpiral(n) {
-  let loc = [0, 0];
+  let location = [0, 0];
   let len = 1;
   let i = 0;
   while (i < n) {
@@ -98,7 +82,7 @@ const vss = `function verboseSquareSpiral(n) {
         break;
       }
       console.log("right");
-      loc[0]++;
+      location[0]++;
       i++;
     }
     for (let j = 0; j < len; j++) {
@@ -107,7 +91,7 @@ const vss = `function verboseSquareSpiral(n) {
         break;
       }
       console.log("up");
-      loc[1]++;
+      location[1]++;
       i++;
     }
     len++;
@@ -117,7 +101,7 @@ const vss = `function verboseSquareSpiral(n) {
         break;
       }
       console.log("left");
-      loc[0]--;
+      location[0]--;
       i++;
     }
     for (let j = 0; j < len; j++) {
@@ -126,12 +110,12 @@ const vss = `function verboseSquareSpiral(n) {
         break;
       }
       console.log("down");
-      loc[1]--;
+      location[1]--;
       i++;
     }
     len++;
   }
-  return loc;
+  return location;
 }`
 
 const mss = `function mathSquareSpiral(n) {

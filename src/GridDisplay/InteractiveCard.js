@@ -113,18 +113,21 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	}
 
 	function iterateLineSquareSpiral(origin) {
-		let nextHighestSquare = Math.ceil(Math.sqrt(index + 1)) ** 2;
-		if (nextHighestSquare > squares) {
-			nextHighestSquare = squares;
+		let nextHighestSquare = (Math.ceil(Math.sqrt(index + 1)) ** 2);
+		if (nextHighestSquare - index > Math.sqrt(nextHighestSquare)) {
+			nextHighestSquare = nextHighestSquare - Math.sqrt(nextHighestSquare);
+		}
+		if (nextHighestSquare+1 > squares) {
+			nextHighestSquare = squares-1;
 		}
 		let tempSquarray = squarray;
-		for (let i = index; i < nextHighestSquare; i++) {
+		for (let i = index; i < nextHighestSquare+1; i++) {
 			const [ix, iy] = lineSquareSpiral(i);
 			const [x, y] = [ix + origin, iy + origin];
 			tempSquarray[y][x] = 1;
 		}
 		setSquarray(tempSquarray);
-		setIndex(nextHighestSquare);
+		setIndex(nextHighestSquare+1);
 	}
 
 	const spiralFunctions = {

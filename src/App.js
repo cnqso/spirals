@@ -16,12 +16,13 @@ function Header() {
 function App() {
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
 	const [language, setLanguage] = useState("javascript");
-	
-	function codeBlockFootnote () {
-		return (
-			<CodeBlock codeString={codestrings[language].vss} language={language} setLanguage={setLanguage} />
-		)
 
+	function codeBlockFootnote() {
+		return (
+			<div style={{fontSize: '0.8em'}}>
+			<CodeBlock codeString={codestrings[language].vss} language={language} setLanguage={setLanguage} />
+			</div>
+		);
 	}
 
 	return (
@@ -34,7 +35,7 @@ function App() {
 			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} />
 
 			{Content[2]({ footnote: codeBlockFootnote })}
-			{Content[2]({ footnote: codeBlockFootnote })}
+			
 
 			<div className='codeAndDisplay'>
 				<CodeBlock
@@ -44,15 +45,8 @@ function App() {
 				/>
 				<ViewportIntCard type='fss' />
 			</div>
-			{Content[3]}
-			<div className='codeAndDisplay'>
-				<CodeBlock
-					codeString={codestrings[language].vss}
-					language={language}
-					setLanguage={setLanguage}
-				/>
-				<ViewportIntCard type='fss' />
-			</div>
+			{Content[3]()}
+
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].lss}
@@ -61,6 +55,7 @@ function App() {
 				/>
 				<ViewportIntCard type='lss' />
 			</div>
+			{Content[4]()}
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].mss}

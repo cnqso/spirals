@@ -5,7 +5,8 @@ import AIImage from "./AI.png";
 import Collapse from "@mui/material/Collapse";
 import CodeBlock from "./CodeBlock/CodeBlock";
 import codestrings from "./codestrings";
-
+import "katex/dist/katex.min.css";
+import { InlineMath, BlockMath } from "react-katex";
 
 function Text1() {
 	return (
@@ -37,45 +38,100 @@ function Text2() {
 			<img src={AIImage} />
 			<br />
 			<br />
-			The first thing you might notice is that we have a constant two-phase pattern. Lets think of{" "}
-			<i>m</i> as the length of each "side" of the spiral, starting at <i>m</i> = 1.
+			The first thing you might notice is that we have a constant four-phase movement pattern. Lets
+			think of <i>len</i> as the length of each "side" of the spiral, starting at <i>len</i> = 1. The
+			pattern looks like this:
 			<ol type='1'>
 				<li>
-					Increment <i>x</i> by <i>m</i>
+					Increment <i>x</i> by <i>len</i>
 				</li>
 				<li>
-					Increment <i>y</i> by <i>m</i>
+					Increment <i>y</i> by <i>len</i>
 				</li>
 				<li>
-					Increment <i>m</i> by 1
+					Increment <i>len</i> by 1
 				</li>
 				<li>
-					Decrement <i>x</i> by <i>m</i>
+					Decrement <i>x</i> by <i>len</i>
 				</li>
 				<li>
-					Decrement <i>y</i> by <i>m</i>
+					Decrement <i>y</i> by <i>len</i>
 				</li>
 				<li>
-					Increment <i>m</i> by 1
+					Increment <i>len</i> by 1
 				</li>
 			</ol>
-			This pattern continues forever. The order is a bit unusual, but other than that it seems like a
+			This pattern continues forever. The order is a bit novel, but other than that it seems like a
 			pretty simple loop. If I try to write this in javascript, it looks like this:
 		</div>
 	);
 }
 
-function Text3({footnote}) {
+function Text3({ footnote }) {
 	return (
 		<div className='textBlock'>
 			This approach gets us there. The function moves one square at a time and updates the location
-			variable at each new square, forever. To make it practical we need to add bounds and output. The
-			function is already repetitive and verbose, and adding these things would make it even worse
-			<Footnote num={3} extFootnote={footnote}/> We can make the function more concise by using a direction variable and a
-			axis variable: The axis we're moving along changes every step, and the direction we're moving
-			reverses every two steps. 
+			variable at each new square, forever. To make it practical we need to add bounds and output, but
+			the function is already repetitive and verbose, and adding these things would make it even worse
+			<Footnote num={3} extFootnote={footnote} /> We can make the function much more concise at the cost
+			of some readability. The 4-step pattern is simple to keep track of: every step we change the axis
+			we're moving along (x or y), and every two steps we increase the length <i>len</i> and change the
+			direction we're moving in (positive or negative). We will end up a nested loop: a top level which
+			flips the axis, flips the direction, and increases <i>len</i> at the appropriate time, and a
+			bottom level which iterates the spiral for <i>len</i> steps. Since the desired number of squares{" "}
+			<i>n</i> is not guaranteed to be divisible by <i>len</i>, we will have to check if we've reached
+			the end of the spiral at each bottom level loop. Below is my implementation of this function. Use
+			the slider on the right to text different values of <i>n</i>.
 		</div>
 	);
+}
+function Text4() {
+	return (
+		<div className='textBlock'>
+			This functions works great for me, and is what I ended up using to generate the spiral. It is very
+			short at 23 lines and it fit for multiple uses. You can put load bearing functions at every step
+			(in the above example I put "drawSquare(location) to draw the spiral on a canvas"), or you can
+			call it once to receive the coordinates of the square at position <i>n</i>. It is also very fast.
+			The time complexity is O(n), and the space complexity is O(1). The code can accept up to ~1
+			billion squares until it starts to choke up.
+			<br />
+			But what if you want to draw a square spiral but don't care about the individual squares? If you
+			wanted to draw a square spiral in a game for example, stopping at each pixel to iterate and run
+			checks is time wasted.
+			<br />
+			One easy way we could improve this is to stop moving one square at a time. Since we know the
+			length of each side of the spiral ahead of time, we can 'skip' to the end instead of moving one
+			square at a time. The only problem here is that we could end up skipping over the square we want,
+			so we will have to check for the target square at each step.
+		</div>
+	);
+}
+function Text5() {
+	return (
+		<div className='textBlock'>
+			Very few changes needed to be made to the original function to make this work. We replaced the
+			bottom loop with a single pass, and modified our end check from "if i is greater than n, return"
+			to "if i + len is greater than n, do a partial pass then return". Now the time to reach out square
+			is dependent on the number of sides we have to draw instead of the number of squares. This brings
+			it to{" "}
+			<span style={{ fontSize: "0.8em" }}>
+				<InlineMath math={"O\\sqrt{n}"} />
+			</span>{" "}
+			time complexity. You can actually visualize this pretty well if you set <i>n</i> to a high value:
+			it linearly approaches the edges of the spiral from the center. Cool!
+			<br />
+			If you're trying to draw a spiral
+		</div>
+	);
+}
+function Text6() {
+	return <div className='textBlock'></div>;
+}
+function Text7() {
+	return <div className='textBlock'></div>;
+}
+function Text8() {
+	return <div className='textBlock'></div>;
 }
 function Footnote1() {
 	return (
@@ -113,16 +169,16 @@ function Footnote3() {
 	return (
 		<div>
 			<CodeBlock
-					codeString={codestrings["javascript"].fss}
-					language={"javascript"}
-					setLanguage={Footnote1}
-				/>
+				codeString={codestrings["javascript"].fss}
+				language={"javascript"}
+				setLanguage={Footnote1}
+			/>
 		</div>
 	);
 }
 
 const Footnotes = [Footnote1, Footnote2, Footnote3];
-function Footnote({ num, punctuation = ". ", extFootnote}) {
+function Footnote({ num, punctuation = ". ", extFootnote }) {
 	const [show, setShow] = useState(false);
 	return (
 		<>
@@ -137,14 +193,14 @@ function Footnote({ num, punctuation = ". ", extFootnote}) {
 
 			<Collapse in={show} timeout='auto' unmountOnExit>
 				<div className='footnote'>
-					<h2
+					<div
 						className='footnoteButton'
 						onClick={() => {
 							setShow(false);
 						}}
-						style={{ textAlign: "center", marginTop: 0 }}>
+						style={{ textAlign: "center", marginTop: 0, fontSize: "2em" }}>
 						<b>^</b>
-					</h2>
+					</div>
 
 					{extFootnote ? extFootnote() : Footnotes[num - 1]()}
 				</div>
@@ -153,7 +209,7 @@ function Footnote({ num, punctuation = ". ", extFootnote}) {
 	);
 }
 
-const Content = [Text1, Text2, Text3];
+const Content = [Text1, Text2, Text3, Text4, Text5, Text6, Text7, Text8];
 
 export default Content;
 
@@ -171,60 +227,6 @@ export default Content;
 <Square Spirals> Maybe this is made of blocks. Soft fade in otherwise
 <Site, github> in top right corner
 <Big header image of a bunch of squares doing cool patterns>
-While working on my most recent project, I ran into a problem which I thought would be much simpler. 
-Without going into too much detail, this was my situation:
-
-I had a game in which many people build cities next to each other. These cities can connect via
-roads and power networks, and this would be the main "unique" feature of the game.
-Because of this, I wanted to make sure that users were often connected to many other players,
-so that "corner" plots were highly rare. I also wanted to make sure that players who joined earlier
-would be closer to the center, while players who joined later would be further away. This would
-give players an incentive to check back in on their cities to see if new people had built next to them.
-Lastly, I wanted a simple way to categorize the location of users, so I needed positions to be somehow deterministic.
-
-I decided that the best way to accomplish this was to have players "spiral" around a central plot. 
-
-<Picture, can just be a doodle>
-
-I assumed that there would be a simple, well known answer to this problem, so I did a quick google search.
-I found two different types of approaches:
-
-The first was very theoretical: trying to find a single formula for a point on a spiral given n. 
-This was very promising and exactly what I was looking for, but the solutions were incredibly complex,
-both in terms of understanding and computation. 
-
-The second was practical and what I will brazenly call the "naive" approach.
-This approach was to record every visited square and try to turn right whenever possible.
-<Code block> Make sure these can have file titles and different languages (maybe diff themes for languages)
-And also include a dropdown options thing for diff languages that also changes all other code blocks
-This was more programmatic, sure, but the amount of time needed for each step and the balooning
-memory complexity of the operation was untenable to me. My solution didn't need to be efficient, 
-but I was frustrated that what I saw as a simple problem had no simple and fast solution. 
-
-
-I decided to take a shot at it. I started by just drawing a bunch of spirals and seeing what I noticed.
-Here were the big patterns.
-
-1. Every spiral operates in a bidirectional pattern. 
-Every lap, the blocks move m number of times right and up then m=m+1 times left and down.
-The blocks then move m=m+1 number of times right and up, and it continues like this forever.
-Ultimately, it seems like we have a small number of simple, predictable variables. 
-You have a distance to travel, and a current direction. Every other time the direction changes,
-you increase the distance. Continue until you've reached the square n you wanted to find.
-
-Let's summarize: we want a function which takes in a single variable, n, and returns the coordinates of that square
-assuming a starting point of (0,0). We can take some examples from manually drawn squares to 
-determine if we've reached that goal.
-
-<Code block>
-unit tests, gotta learn how to make those look nice.
-
-
-Here is my implementation:
-<Code with squares block>
-
-
-bla bla bla
 This is useful for operations for which n is small or for which you need to do
 an operation on each square (as is the case in these visualizations)
 
@@ -234,7 +236,8 @@ an operation on each square (as is the case in these visualizations)
 
 <Runs/Laps>
 
-This approach is one I saw on my first google search -- it didn't apply to my immediate problem but got me thinking.
+This approach is one I saw on my first google search -- 
+it didn't apply to my immediate problem but got me thinking.
 https://jonseymour.medium.com/investigating-the-properties-of-a-square-spiral-6aa635a4d803
 Here, instead of iterating through a spiral of points we iterate through a spiral of lines.
 This is much faster at drawing a square spiral, though it lacks some of the practicality.
