@@ -137,5 +137,33 @@ const mss = `function mathSquareSpiral(n) {
   return location;
 }`
 
-const codestrings = {javascript: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss}, go: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss}}
+const rmss = `function readableMathSquareSpiral(n) {
+  const lowerRoot = Math.floor(Math.sqrt(n));
+  let anchor = lowerRoot ** 2;
+  const distance = n - anchor;
+  let location = [0, 0];
+  //set location to the anchor point;
+  if (lowerRoot % 2 === 0) {
+    location = [-lowerRoot / 2, lowerRoot / 2]; 
+
+    if (distance < lowerRoot) {
+      location[1] -= distance; 
+    } else {
+      location[1] -= lowerRoot; 
+      location[0] += distance - lowerRoot; 
+    }
+  } else {
+    location = [(lowerRoot + 1) / 2, -(lowerRoot - 1) / 2];
+    if (distance < lowerRoot) {
+      location[1] += distance;
+    } else {
+      location[1] += lowerRoot;
+      location[0] -= distance - lowerRoot;
+    }
+  }
+
+  return location;
+}`
+
+const codestrings = {javascript: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss, rmss:rmss}, go: {iss:iss, fss:fss, lss:lss, vss:vss, mss:mss, rmss:rmss}}
 export default codestrings;
