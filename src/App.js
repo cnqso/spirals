@@ -56,6 +56,8 @@ function App() {
 				<ViewportIntCard type='lss' />
 			</div>
 			{Content[4]()}
+			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} />
+			{Content[5]()}
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].mss}
