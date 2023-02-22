@@ -90,6 +90,15 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	const wh = Math.ceil(Math.sqrt(squares));
 	const origin = Math.floor((wh - 1) / 2);
 
+	const spiralFunctions = {
+		fss: { fn: iterateFastSquareSpiral, delay: 2000, range: [4, 144] },
+		lss: { fn: iterateLineSquareSpiral, delay: 7000, range: [4, 144] },
+	};
+	let drawDelay = Math.min(spiralFunctions[type].delay / squares, 100);
+	if (drawDelay < 10) {
+		drawDelay = 0;
+	}
+
 	function newInput(input) {
 		if (index !== -1) {
 			return;
@@ -107,12 +116,12 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		setLocked(!locked);
 	}
 	function togglePlot() {
-		setPlotMode((plotMode+1) % 3);
+		setPlotMode((plotMode + 1) % 3);
 	}
 
 	function iterateFastSquareSpiral(origin) {
 		const [ix, iy] = lineSquareSpiral(index);
-		const [x, y] = [ix + origin, origin+iy];
+		const [x, y] = [ix + origin, origin + iy];
 		const tempSquarray = squarray;
 		tempSquarray[y][x] = 1;
 		setSquarray(tempSquarray);
@@ -130,24 +139,21 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		let tempSquarray = squarray;
 		for (let i = index; i < nextHighestSquare + 1; i++) {
 			const [ix, iy] = lineSquareSpiral(i);
-			const [x, y] = [ix + origin, (iy + origin)];
+			const [x, y] = [ix + origin, iy + origin];
 			tempSquarray[y][x] = 1;
 		}
 		setSquarray(tempSquarray);
 		setIndex(nextHighestSquare + 1);
 	}
 
-	const spiralFunctions = {
-		fss: { fn: iterateFastSquareSpiral, delay: 2000, range: [4, 144] },
-		lss: { fn: iterateLineSquareSpiral, delay: 7000, range: [4, 144] },
-	};
+	
 
 	useEffect(() => {
 		if (inViewport) {
 			if (index < squares && index >= 0) {
 				setTimeout(() => {
 					spiralFunctions[type].fn(origin);
-				}, spiralFunctions[type].delay / squares);
+				}, drawDelay);
 			} else {
 				setIndex(-1);
 			}
