@@ -21,10 +21,11 @@ function SquareGrid({squares, index}) {
         const wh = Math.max(squares.length, squares[0].length);
         const squareSz= (720 / wh) * 0.95;
         const padding = (720 / wh) * 0.05;
+        const yMirrorOffset = 720 - squareSz; // Y is drawn top to bottom by default
         const ctx = canvas.current.getContext("2d");
         ctx.fillStyle = color;
         ctx.fillRect(
-            y * (squareSz + padding) + padding/2,
+            yMirrorOffset - (y * (squareSz + padding) + padding/2),
             x * (squareSz + padding) + padding/2,
             squareSz,
             squareSz

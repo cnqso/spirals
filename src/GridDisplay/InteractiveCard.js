@@ -2,10 +2,11 @@
 
 import { React, useState, useEffect } from "react";
 import SquareGrid from "./SquareGrid";
+import SquarePlot from "./SquarePlot";
 import SliderInput from "./SliderInput";
 import ManualInput from "./ManualInput";
 import IconButton from "@mui/material/IconButton";
-import { Locked, Unlocked } from "./icons";
+import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
 
 function fastSquareSpiral(n) {
@@ -85,6 +86,9 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	]);
 	const [index, setIndex] = useState(0);
 	const [locked, setLocked] = useState(true);
+	const [plotMode, setPlotMode] = useState(false);
+	const wh = Math.ceil(Math.sqrt(squares));
+	const origin = Math.floor((wh - 1) / 2);
 
 	function newInput(input) {
 		if (index !== -1) {
@@ -102,10 +106,13 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	function toggleLock() {
 		setLocked(!locked);
 	}
+	function togglePlot() {
+		setPlotMode((plotMode+1) % 3);
+	}
 
 	function iterateFastSquareSpiral(origin) {
 		const [ix, iy] = lineSquareSpiral(index);
-		const [x, y] = [ix + origin, iy + origin];
+		const [x, y] = [ix + origin, origin+iy];
 		const tempSquarray = squarray;
 		tempSquarray[y][x] = 1;
 		setSquarray(tempSquarray);
@@ -113,21 +120,21 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	}
 
 	function iterateLineSquareSpiral(origin) {
-		let nextHighestSquare = (Math.ceil(Math.sqrt(index + 1)) ** 2);
+		let nextHighestSquare = Math.ceil(Math.sqrt(index + 1)) ** 2;
 		if (nextHighestSquare - index > Math.sqrt(nextHighestSquare)) {
 			nextHighestSquare = nextHighestSquare - Math.sqrt(nextHighestSquare);
 		}
-		if (nextHighestSquare+1 > squares) {
-			nextHighestSquare = squares-1;
+		if (nextHighestSquare + 1 > squares) {
+			nextHighestSquare = squares - 1;
 		}
 		let tempSquarray = squarray;
-		for (let i = index; i < nextHighestSquare+1; i++) {
+		for (let i = index; i < nextHighestSquare + 1; i++) {
 			const [ix, iy] = lineSquareSpiral(i);
-			const [x, y] = [ix + origin, iy + origin];
+			const [x, y] = [ix + origin, (iy + origin)];
 			tempSquarray[y][x] = 1;
 		}
 		setSquarray(tempSquarray);
-		setIndex(nextHighestSquare+1);
+		setIndex(nextHighestSquare + 1);
 	}
 
 	const spiralFunctions = {
@@ -137,9 +144,6 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 
 	useEffect(() => {
 		if (inViewport) {
-			const wh = Math.ceil(Math.sqrt(squares));
-			const origin = Math.floor((wh - 1) / 2);
-
 			if (index < squares && index >= 0) {
 				setTimeout(() => {
 					spiralFunctions[type].fn(origin);
@@ -152,7 +156,11 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 
 	return (
 		<div className={"DisplayCard"} ref={forwardedRef}>
-			<SquareGrid squares={squarray} index={index} />
+			{plotMode ? (
+				<SquarePlot squares={squarray} index={index} origin={origin} linear={plotMode} />
+			) : (
+				<SquareGrid squares={squarray} index={index} />
+			)}
 			<div className='gridControl'>
 				<div className='sliderBox'>
 					{locked ? (
@@ -163,6 +171,9 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 				</div>
 				<IconButton aria-label='lock' size='small' onClick={toggleLock} className='lockButton'>
 					{locked ? <Locked fontSize='inherit' /> : <Unlocked fontSize='inherit' />}
+				</IconButton>
+				<IconButton aria-label='lock' size='small' onClick={togglePlot} className='lockButton'>
+					{plotMode ? <Plot fontSize='inherit' linear={plotMode} /> : <Grid fontSize='inherit' />}
 				</IconButton>
 			</div>
 		</div>

@@ -20,7 +20,6 @@ export default function ManualInput({ newInput }) {
 
 
 	function onEnter() {
-		console.log(numberRef.current.value);
 		newInput(numberRef.current.value);
 	}
 	
@@ -35,7 +34,6 @@ export default function ManualInput({ newInput }) {
 			defaultValue={25}
 			inputRef={numberRef}
 			onKeyDown={(ev) => {
-				console.log(`Pressed keyCode ${ev.key}`);
 				if (ev.key === 'Enter') {
 					buttonRef.current.click()
 				  ev.preventDefault();

@@ -8,6 +8,7 @@ import CodeBlock from "./CodeBlock/CodeBlock";
 import codestrings from "./codestrings";
 import Content from "./Content";
 import Collapse from "@mui/material/Collapse";
+import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
 
 function Header() {
 	return <h1>Square Spirals</h1>;
@@ -19,8 +20,12 @@ function App() {
 
 	function codeBlockFootnote() {
 		return (
-			<div style={{fontSize: '0.8em'}}>
-			<CodeBlock codeString={codestrings[language].vss} language={language} setLanguage={setLanguage} />
+			<div style={{ fontSize: "0.8em" }}>
+				<CodeBlock
+					codeString={codestrings[language].vss}
+					language={language}
+					setLanguage={setLanguage}
+				/>
 			</div>
 		);
 	}
@@ -35,7 +40,6 @@ function App() {
 			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} />
 
 			{Content[2]({ footnote: codeBlockFootnote })}
-			
 
 			<div className='codeAndDisplay'>
 				<CodeBlock
@@ -56,7 +60,11 @@ function App() {
 				<ViewportIntCard type='lss' />
 			</div>
 			{Content[4]()}
-			<CodeBlock codeString={codestrings[language].rmss} language={language} setLanguage={setLanguage} />
+			<CodeBlock
+				codeString={codestrings[language].rmss}
+				language={language}
+				setLanguage={setLanguage}
+			/>
 			{Content[5]()}
 			<div className='codeAndDisplay'>
 				<CodeBlock
@@ -66,6 +74,7 @@ function App() {
 				/>
 				<ViewportIntCard type='fss' />
 			</div>
+
 		</div>
 	);
 }
