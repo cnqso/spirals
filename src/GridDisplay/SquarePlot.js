@@ -25,54 +25,56 @@ function fastSquareSpiral(n) {
 	}
 }
 
-const ScatterPlotEventHandlers = {
-	target: "data",
-	eventHandlers: {
-		onMouseOver: () => {
-			return [
-				{
-					target: "data",
-					mutation: (props) => {
-						return { style: { fill: "black" } };
-					},
-				},
-				{
-					target: "labels",
-					mutation: (props) => {
-						return { text: `n: ${props.datum.n}, x: ${props.datum.x}, y: ${props.datum.y}` };
-					},
-				},
-			];
-		},
-		onMouseOut: () => {
-			return [
-				{
-					target: "data",
-					mutation: (props) => {
-						const fill = props.style && props.style.fill;
-						return null;
-					},
-				},
-				{
-					target: "labels",
-					mutation: (props) => {
-						return null;
-					},
-				},
-			];
-		},
-	},
-};
+
 
 function SquarePlot({ squarrayLength, plotData, origin, linear, index }) {
 	const maxima = squarrayLength / 2 - 1;
 	const bounds = maxima + 2;
-	const pointSize = 7;
+	const pointSize = 3;
 	const exampleList = [
 		[1, 0, 1],
 		[0, 1, 0],
 		[0, 0, 0],
 	];
+
+	const ScatterPlotEventHandlers = plotData.length > 501 ? {} : {
+		target: "data",
+		eventHandlers: {
+			onMouseOver: () => {
+				return [
+					{
+						target: "data",
+						mutation: (props) => {
+							return { style: { fill: "black" } };
+						},
+					},
+					{
+						target: "labels",
+						mutation: (props) => {
+							return { text: `n: ${props.datum.n}, x: ${props.datum.x}, y: ${props.datum.y}` };
+						},
+					},
+				];
+			},
+			onMouseOut: () => {
+				return [
+					{
+						target: "data",
+						mutation: (props) => {
+							const fill = props.style && props.style.fill;
+							return null;
+						},
+					},
+					{
+						target: "labels",
+						mutation: (props) => {
+							return null;
+						},
+					},
+				];
+			},
+		},
+	};
 
 	return (
 		
