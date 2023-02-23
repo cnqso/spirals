@@ -33,6 +33,16 @@
     width: 400px; 
     height: 400px;
   }
+  .BigGrid {
+    display: inline;
+    float: center;
+    background-color: var(--blue);
+    text-align: center;  
+    width: 900px; 
+  }
+  .BigSquareGrid {
+    width: 100%;
+  }
   .lockButton {
     height: 30px;
     width: 30px;

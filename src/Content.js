@@ -135,7 +135,7 @@ function Text6() {
 		<div className='textBlock'>
 			Every 2 steps in the spiral ends at a square number which is either diagonally North-West from
 			[0,0] if even or diagonally South-East from [1,0] if odd. If we find the closest square number
-			smaller than or equal to <i>n</i>, we can simply take the difference between that number and{" "}
+			less than or equal to <i>n</i>, we can simply take the difference between that number and{" "}
 			<i>n</i> to "skip" directly to our desired coordinates. We have to do a little bit of math to
 			determine which direction(s) to move from the square number, and then we're there. Since this is a
 			single-step solution, it's hard to make a fun animation like the past two. Instead, I'll just try

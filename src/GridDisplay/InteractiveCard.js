@@ -31,47 +31,22 @@ function fastSquareSpiral(n) {
 	}
 }
 
-function lineSquareSpiral(n) {
-	let loc = [0, 0];
-	let len = 1;
-	let i = 0;
-
-	while (i < n) {
-		if (n >= i + len * 2 + (len + 1) * 2) {
-			i += len * 2 + (len + 1) * 2;
-			loc[0] -= 1;
-			loc[1] -= 1;
-			len += 2;
-			continue;
-		}
-		if (n === i) {
-			return loc;
-		}
-		if (n <= i + len) {
-			loc[0] += n - i;
-			return loc;
-		}
-		loc[0] += len;
-		i += len;
-		if (n <= i + len) {
-			loc[1] += n - i;
-			return loc;
-		}
-		loc[1] += len;
-		i += len;
-		len++; // important
-		if (n <= i + len) {
-			loc[0] -= n - i;
-			return loc;
-		}
-		loc[0] -= len;
-		i += len;
-		if (n <= i + len) {
-			loc[1] -= n - i;
-			return loc;
-		}
+function mathSquareSpiral(n) {
+	const lowerRoot = Math.floor(Math.sqrt(n));
+	let anchor = lowerRoot ** 2;
+	let location = [0, 0];
+	//set location to the anchor point;
+	if (lowerRoot % 2 === 0) {
+		//if the number is even
+		location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
+		location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
+		location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
+	} else {
+		location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
+		location[1] += Math.min(n - anchor, lowerRoot); //Move up
+		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
 	}
-	return loc;
+	return location;
 }
 
 function InteractiveCard({ inViewport, forwardedRef, type }) {
@@ -84,6 +59,7 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		[0, 0, 0, 0, 0],
 		[0, 0, 0, 0, 0],
 	]);
+	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
 	const [locked, setLocked] = useState(true);
 	const [plotMode, setPlotMode] = useState(false);
@@ -109,6 +85,7 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 			newArray[i] = new Array(Math.ceil(Math.sqrt(input))).fill(0);
 		}
 		setSquarray(newArray);
+		setPlotData([]);
 		setIndex(0);
 	}
 
@@ -120,10 +97,13 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	}
 
 	function iterateFastSquareSpiral(origin) {
-		const [ix, iy] = lineSquareSpiral(index);
+		const [ix, iy] = mathSquareSpiral(index);
 		const [x, y] = [ix + origin, origin + iy];
 		const tempSquarray = squarray;
 		tempSquarray[y][x] = 1;
+		const tempPlotData = plotData;
+		tempPlotData.push({ n:index, x: ix, y: iy });
+		setPlotData(tempPlotData);
 		setSquarray(tempSquarray);
 		setIndex(index + 1);
 	}
@@ -137,11 +117,14 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 			nextHighestSquare = squares - 1;
 		}
 		let tempSquarray = squarray;
+		const tempPlotData = plotData;
 		for (let i = index; i < nextHighestSquare + 1; i++) {
-			const [ix, iy] = lineSquareSpiral(i);
+			const [ix, iy] = mathSquareSpiral(i);
 			const [x, y] = [ix + origin, iy + origin];
+			tempPlotData.push({ n:i, x: ix, y: iy });
 			tempSquarray[y][x] = 1;
 		}
+		setPlotData(tempPlotData);
 		setSquarray(tempSquarray);
 		setIndex(nextHighestSquare + 1);
 	}
@@ -160,10 +143,12 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		}
 	}, [index, inViewport]);
 
+	
+
 	return (
 		<div className={"DisplayCard"} ref={forwardedRef}>
 			{plotMode ? (
-				<SquarePlot squares={squarray} index={index} origin={origin} linear={plotMode} />
+				<div className='SquareGrid'><SquarePlot squarrayLength={squarray.length} plotData={plotData} index={index} origin={origin} linear={plotMode} /></div>
 			) : (
 				<SquareGrid squares={squarray} index={index} />
 			)}

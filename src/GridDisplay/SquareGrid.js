@@ -16,7 +16,7 @@ const highlightColor = tan;
 
 function SquareGrid({squares, index}) {
 
-
+    const canvas = useRef(null);
     function drawSquare(x, y, color) {
         const wh = Math.max(squares.length, squares[0].length);
         const squareSz= (720 / wh) * 0.95;
@@ -31,14 +31,8 @@ function SquareGrid({squares, index}) {
             squareSz
         );
     }
-
-
-
-    const canvas = useRef(null);
     useEffect(() => {
         const wh = Math.max(squares.length, squares[0].length);
-        const squareSz= (720 / wh) * 0.95;
-        const padding = (720 / wh) * 0.05;
         const ctx = canvas.current.getContext("2d");
         ctx.clearRect(0, 0, 720, 720);
         ctx.fillStyle = baseColor;

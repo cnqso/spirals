@@ -8,11 +8,42 @@ import CodeBlock from "./CodeBlock/CodeBlock";
 import codestrings from "./codestrings";
 import Content from "./Content";
 import Collapse from "@mui/material/Collapse";
-import { VictoryChart, VictoryScatter, VictoryTheme } from "victory";
+import SquarePlot from "./GridDisplay/SquarePlot";
+import BigGrid from "./GridDisplay/BigGrid";
+
+
+
+function fastSquareSpiral(n) {
+	let dir = 1;
+	let loc = [0, 0];
+	let len = 1;
+	let runi = 1;
+	let i = 0;
+	while (true) {
+		for (let k = 0; k < 2; k++) {
+			runi = len + i;
+			while (i < runi) {
+				if (n < i) {
+					return loc;
+				}
+				loc[k] += dir;
+				i++;
+			}
+		}
+		len++;
+		dir = ~dir + 1;
+	}
+}
+
+
 
 function Header() {
 	return <h1>Square Spirals</h1>;
 }
+
+
+
+
 
 function App() {
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
@@ -66,6 +97,13 @@ function App() {
 				setLanguage={setLanguage}
 			/>
 			{Content[5]()}
+
+
+			<br/><br/>
+				<BigGrid type='mss' />
+			<br/><br/>
+
+
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].mss}
@@ -74,6 +112,7 @@ function App() {
 				/>
 				<ViewportIntCard type='fss' />
 			</div>
+			
 
 		</div>
 	);
