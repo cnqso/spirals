@@ -68,14 +68,14 @@ function Text2() {
 	);
 }
 
-function Text3({ footnote }) {
+function Text3({ code }) {
 	return (
 		<div className='textBlock'>
 			This approach gets us there. The function moves one square at a time and updates the location
 			variable at each new square, forever. To make it practical we need to add bounds and output, but
 			the function is already repetitive and verbose, and adding these things would make it even worse
-			<Footnote num={3} extFootnote={footnote} /> We can make the function much more concise at the cost
-			of some readability. The 4-step pattern is simple to keep track of: every step we change the axis
+			<Footnote num={3} extFootnote={code} /> We can make the function much more concise at the cost of
+			some readability. The 4-step pattern is simple to keep track of: every step we change the axis
 			we're moving along (x or y), and every two steps we increase the length <i>len</i> and change the
 			direction we're moving in (positive or negative). We will end up a nested loop: a top level which
 			flips the axis, flips the direction, and increases <i>len</i> at the appropriate time, and a
@@ -133,18 +133,59 @@ function Text5() {
 function Text6() {
 	return (
 		<div className='textBlock'>
-			Every 2 steps in the spiral ends at a square number which is either diagonally North-West from
-			[0,0] if even or diagonally South-East from [1,0] if odd. If we find the closest square number
-			less than or equal to <i>n</i>, we can simply take the difference between that number and{" "}
-			<i>n</i> to "skip" directly to our desired coordinates. We have to do a little bit of math to
-			determine which direction(s) to move from the square number, and then we're there. Since this is a
-			single-step solution, it's hard to make a fun animation like the past two. Instead, I'll just try
-			to show off how fast this solution is.
+			Every 2nd edge of the spiral ends at a square number which is either diagonally North-West from
+			[0,0] or diagonally South-East from [1,0]
+			<Footnote num={7} /> If we find the closest square number less than or equal to <i>n</i>, we can
+			simply take the difference between that number and <i>n</i> to "skip" directly to our desired
+			coordinates. We have to do a little bit of math to determine which direction(s) to move from the
+			square number, and then we're there. Since this is a single-step solution, it's hard to make a fun
+			animation like the past two. Instead, I'll just try to show off how fast this solution is. The
+			block below will calculate a number of random spiral positions within a given range. It will
+			accept a quantity up to 1000 (each point is a DOM element so it might hit your performance) and a
+			range up to 1e29. Try it out!
 		</div>
 	);
 }
-function Text7() {
-	return <div className='textBlock'></div>;
+function Text7({ code }) {
+	return (
+		<div className='textBlock'>
+			Pretty cool! After a little bit of performance tuning
+			<Footnote num={8} extFootnote={code} punctuation={", "} /> this function can calculate the
+			coordinates of any given point in a square spiral up to 1e29 in 5ms-150ms depending on the
+			language
+			<Footnote num={9} /> This is where my exploration ended. There are many more avenues of inquiry
+			like quick coordinate-neighbor calculation
+			<Footnote num={5} punctuation={", "} /> deriving a square's number from coordinates, and many
+			other things which others have explored at length already
+			<Footnote num={10} />
+			<br />
+			<br />
+			You may be wondering if there is practicality to any of this. I would answer with "yes, barely".
+			<ul>
+				<li>
+					There is, of course, the minor performance gain I get from using the O(1) rather than O(n)
+					solution in my web app. If the app were to scale, this would be tangible.
+				</li>{" "}
+				<li>
+					For any infinite 2D grid, organizing data is difficult to do efficiently with usual tools.
+					In a NoSQL database, for example, a 2D array of indeterminate size is a nightmare to
+					organize. You have to make one of two sacrifices: either you check the size of the
+					subarrays on each read, or you seperately store and maintain the current size of each
+					subarray. Since negative numbers are not supported by arrays, you also have to maintain a
+					global offset for use on the frontend. Using a square spiral function is a fast way to
+					store the location of any positive or negative point in a single positive integer without
+					ever needing to update anything.
+				</li>
+				<li>
+					It allows for a faster generation and analysis of{" "}
+					<a href='https://en.wikipedia.org/wiki/Ulam_spiral' target='_blank' rel='noreferrer'>
+						Ulam Spirals
+					</a>{" "}
+					and similar patterns.
+				</li>
+			</ul>
+		</div>
+	);
 }
 function Text8() {
 	return <div className='textBlock'></div>;
@@ -293,8 +334,69 @@ function Footnote5() {
 function Footnote6() {
 	return <img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />;
 }
+function Footnote7() {
+	return (
+		<div>
+			{" "}
+			Here is a visualization of these points.
+			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} /> Every even number
+			squared is in the North-West radius, and every odd number squared is in the South-East radius.
+		</div>
+	);
+}
+function Footnote9() {
+	return (
+		<div>
+			I did benchmarks at n=144, n=1e6, and 1e29. I used a weird try/catch binary search to find each
+			language's maximum acceptable input. I'm sure someone smarter than me could structure the function
+			for any arbitarily large input, but since this is already well beyond the scope of practicality I
+			am all set.
+			{/* TODO: table */}
+		</div>
+	);
+}
 
-const Footnotes = [Footnote1, Footnote2, null, Footnote4, Footnote5, Footnote6];
+function Footnote10() {
+	return (
+		<div>
+			<ul type='I'>
+				<li>
+					Jon Seymour has a{" "}
+					<a
+						href='https://jonseymour.medium.com/investigating-the-properties-of-a-square-spiral-6aa635a4d803'
+						target='_blank'
+						rel='noreferrer'>
+						really excellent post
+					</a>{" "}
+					that cleverly uses circle geometry to only measure the edges of the spiral.
+				</li>{" "}
+				<li>
+					Sander Evers wrote{" "}
+					<a
+						href='https://observablehq.com/@sanderevers/square-spiral-function'
+						target='_blank'
+						rel='noreferrer'>
+						a post
+					</a>{" "}
+					which used a more functional approach to solve a similar problem.
+				</li>
+			</ul>
+		</div>
+	);
+}
+
+const Footnotes = [
+	Footnote1,
+	Footnote2,
+	null,
+	Footnote4,
+	Footnote5,
+	Footnote6,
+	Footnote7,
+	null,
+	Footnote9,
+	Footnote10,
+];
 function Footnote({ num, punctuation = ". ", extFootnote }) {
 	const [show, setShow] = useState(false);
 	return (

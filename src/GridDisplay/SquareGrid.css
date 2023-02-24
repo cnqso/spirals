@@ -34,11 +34,7 @@
     height: 400px;
   }
   .BigGrid {
-    display: inline;
-    float: center;
-    background-color: var(--blue);
-    text-align: center;  
-    width: 900px; 
+    width: min(100%, 90vh);
   }
   .BigSquareGrid {
     width: 100%;

@@ -72,18 +72,17 @@ function BigGrid({ type }) {
 	}, [index]);
 
 	return (
-		<div className='textBlock'>
-			<div className='BigSquareGrid'>
+		<div className="BigGrid">
 				<SquarePlot
 					squarrayLength={Math.ceil(Math.sqrt(boundary))}
 					plotData={plotData}
 					index={index}
 					origin={origin}
 					linear={1}
+					padding = {40}
 				/>
-			</div>
 
-			<hr />
+			
 			<div className='bigGridControl'>
 				<RangeInput newInput={mssInput} squares={squares} index={index} />
 			</div>

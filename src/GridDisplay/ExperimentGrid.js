@@ -19,6 +19,19 @@ const baseColor = red;
 const highlightColor = tan;
 
 
+function isPrime(num) {
+	if (num <= 1) return false;
+	if (num === 2) return true;
+  
+	// storing the calculated value would be much 
+	// better than calculating in each iteration
+	var sqrt = Math.sqrt(num);
+  
+	for (var i = 2; i <= sqrt; i++) 
+	  if (num % i === 0) return false;
+	return true;
+  }
+
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
 	let anchor = lowerRoot ** 2;
@@ -38,23 +51,15 @@ function mathSquareSpiral(n) {
 }
 
 function ExperimentGrid({ type }) {
-	const [squares, setSquares] = useState(10);
-	const [boundary, setBoundary] = useState(144);
+	const [squares, setSquares] = useState(25);
+	const [boundary, setBoundary] = useState(25);
 	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
 	const [locked, setLocked] = useState(true);
-	const [plotMode, setPlotMode] = useState(false);
+	const [plotMode, setPlotMode] = useState(0);
 	const wh = Math.ceil(Math.sqrt(boundary));
 	const origin = Math.floor((wh - 1) / 2);
 
-	const spiralFunctions = {
-		fss: { fn: iterateFastSquareSpiral, delay: 2000, range: [4, 144] },
-		lss: { fn: iterateLineSquareSpiral, delay: 7000, range: [4, 144] },
-	};
-	let drawDelay = Math.min(spiralFunctions[type].delay / squares, 100);
-	if (drawDelay < 10) {
-		drawDelay = 0;
-	}
 
 	function newInput(input) {
 		if (index !== -1) {
@@ -66,40 +71,51 @@ function ExperimentGrid({ type }) {
 		setIndex(0);
 	}
 
-	function togglePlot() {
-		if (index === -1) {
-			setPlotMode((plotMode + 1) % 3);
+	function customConditional(num) {
+		const exampleArray = [1, 1, 4];
+
+		let fullStatement = 0;
+		for (let i = 0; i < num; i++) {
+			for (let j = 0; j < exampleArray.length; j++) {
+
+				fullStatement += exampleArray[j] * (i ** j);
+			}
 		}
 	}
 
-	function iterateFastSquareSpiral(origin) {
-		const [ix, iy] = mathSquareSpiral(index);
-		const [x, y] = [ix + origin, origin + iy];
-		const tempPlotData = plotData;
-		tempPlotData.push({ n: index, x: ix, y: iy });
-		drawSquare(y, x);
-		setPlotData(tempPlotData);
-		setIndex(index + 1);
+	function iteratePrimeSquareSpiral(origin) {
+        let iterations = Math.ceil(squares/5);
+        if (squares < 5) {
+            iterations = squares;
+        }
+        if (squares - index <= iterations) {
+            iterations = squares - index;
+        }
+
+        for (let i = 0; i < iterations; i++) {
+			if (isPrime(index + i)) {
+            const [ix, iy] = mathSquareSpiral(index + i);
+			const [x, y] = [ix + origin, iy + origin];
+            drawSquare(y, x);
+			}
+        }
+		setIndex(index + iterations);
 	}
 
 	function iterateLineSquareSpiral(origin) {
-		let nextHighestSquare = Math.ceil(Math.sqrt(index + 1)) ** 2;
-		if (nextHighestSquare - index > Math.sqrt(nextHighestSquare)) {
-			nextHighestSquare = nextHighestSquare - Math.sqrt(nextHighestSquare);
-		}
-		if (nextHighestSquare + 1 > squares) {
-			nextHighestSquare = squares - 1;
-		}
-		const tempPlotData = plotData;
-		for (let i = index; i < nextHighestSquare + 1; i++) {
-			const [ix, iy] = mathSquareSpiral(i);
+		const exampleArray = [1, 1, 4];
+
+		let nextValue = 0;
+		// Figure this out tomorrow
+
+			
+            const [ix, iy] = mathSquareSpiral(index + i);
 			const [x, y] = [ix + origin, iy + origin];
-			tempPlotData.push({ n: i, x: ix, y: iy });
-			drawSquare(y, x);
-		}
-		setPlotData(tempPlotData);
-		setIndex(nextHighestSquare + 1);
+            drawSquare(y, x);
+
+		setIndex(index + );
 	}
+
 
 
 	useEffect(() => {
@@ -113,7 +129,7 @@ function ExperimentGrid({ type }) {
 			clearGrid();
 		}
 		if (index < squares && index >= 0) {
-			spiralFunctions[type].fn(origin);
+			iterateLineSquareSpiral(origin);
 		} else {
 			setIndex(-1);
 		}
@@ -152,7 +168,7 @@ function ExperimentGrid({ type }) {
 	}
 
 	return (
-		<div className='textBlock'>
+		<div >
 			{plotMode ? (
 				<div className='BigSquareGrid'>
 					<SquarePlot
@@ -167,7 +183,7 @@ function ExperimentGrid({ type }) {
 			) : (
 				<canvas className='BigSquareGrid' ref={canvas} width={1080} height={1080} />
 			)}
-			<hr />
+			<br/><br/>
 			<div className='bigGridControl'>
 				<ManualInput newInput={newInput} squares={squares} index={index} />
 			</div>

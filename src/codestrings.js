@@ -122,28 +122,26 @@ const mss = `function mathSquareSpiral(n) {
   const lowerRoot = Math.floor(Math.sqrt(n));
   let anchor = lowerRoot ** 2;
   let location = [0, 0];
-  //set location to the anchor point;
   if (lowerRoot % 2 === 0) {
-    //if the number is even
-    location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
-    location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
-    location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
+    location = [lowerRoot / -2, lowerRoot / 2];
+    location[1] -= Math.min(n - anchor, lowerRoot); 
+    location[0] += Math.max(n - anchor - lowerRoot, 0); 
   } else {
     location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
-    location[1] += Math.min(n - anchor, lowerRoot); //Move up
-    location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
+    location[1] += Math.min(n - anchor, lowerRoot); 
+    location[0] -= Math.max(n - anchor - lowerRoot, 0); 
   }
-
   return location;
 }`
 
-const rmss = `function readableMathSquareSpiral(n) {
+const rmss = `function mathSquareSpiral(n) {
   const lowerRoot = Math.floor(Math.sqrt(n));
   let anchor = lowerRoot ** 2;
   const distance = n - anchor;
   let location = [0, 0];
-  //set location to the anchor point;
+  // Different operations for even and odd numbers.
   if (lowerRoot % 2 === 0) {
+    //First, skip to the anchor point;
     location = [-lowerRoot / 2, lowerRoot / 2]; 
 
     if (distance < lowerRoot) {

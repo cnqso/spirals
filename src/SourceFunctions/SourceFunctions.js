@@ -127,7 +127,6 @@ function mathSquareSpiral(n) {
 		location[1] += Math.min(n - anchor, lowerRoot); //Move up
 		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
 	}
-
 	return location;
 }
 

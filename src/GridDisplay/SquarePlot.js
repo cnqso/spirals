@@ -27,7 +27,7 @@ function fastSquareSpiral(n) {
 
 
 
-function SquarePlot({ squarrayLength, plotData, origin, linear, index }) {
+function SquarePlot({ squarrayLength, plotData, origin, linear, index, padding = 0 }) {
 	const maxima = squarrayLength / 2 - 1;
 	const bounds = maxima + 2;
 	const pointSize = 3;
@@ -79,7 +79,7 @@ function SquarePlot({ squarrayLength, plotData, origin, linear, index }) {
 	return (
 		
 			<VictoryChart
-				padding={{ top: 0, bottom: 0, left: 0, right: 0 }}
+				padding={{ top: padding/2, bottom: padding/2, left: padding, right: padding}}
 				theme={VictoryTheme.material}
 				domain={{ x: [-bounds, bounds], y: [-bounds, bounds] }}>
 				<VictoryAxis gridComponent={<></>} />
@@ -98,7 +98,7 @@ function SquarePlot({ squarrayLength, plotData, origin, linear, index }) {
 					/>
 				) : (
 					<VictoryScatter
-						style={{ data: { fill: "#c43a31" } }}
+						style={{ data: { fill: "#c43a31" }, labels: {fontSize: 7}}}
 						size={pointSize}
 						data={plotData}
 						labels={() => null}
