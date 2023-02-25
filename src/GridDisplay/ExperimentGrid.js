@@ -8,6 +8,9 @@ import RangeInput from "./RangeInput";
 import IconButton from "@mui/material/IconButton";
 import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
+import { InlineMath, BlockMath } from "react-katex";
+import MathInput from "./MathInput";
+import { Parser } from "expr-eval";
 
 const blue = "#71C2A9";
 const brown = "#573B2A";
@@ -18,19 +21,17 @@ const red = "#75280f";
 const baseColor = red;
 const highlightColor = tan;
 
-
 function isPrime(num) {
 	if (num <= 1) return false;
 	if (num === 2) return true;
-  
-	// storing the calculated value would be much 
+
+	// storing the calculated value would be much
 	// better than calculating in each iteration
 	var sqrt = Math.sqrt(num);
-  
-	for (var i = 2; i <= sqrt; i++) 
-	  if (num % i === 0) return false;
+
+	for (var i = 2; i <= sqrt; i++) if (num % i === 0) return false;
 	return true;
-  }
+}
 
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
@@ -51,72 +52,71 @@ function mathSquareSpiral(n) {
 }
 
 function ExperimentGrid({ type }) {
-	const [squares, setSquares] = useState(25);
-	const [boundary, setBoundary] = useState(25);
+	const [squares, setSquares] = useState(250);
 	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
-	const [locked, setLocked] = useState(true);
+	const [conditionalIndex, setConditionalIndex] = useState(0);
+	const [showText, setShowText] = useState(true);
 	const [plotMode, setPlotMode] = useState(0);
-	const wh = Math.ceil(Math.sqrt(boundary));
+	const [formulaText, setFormulaText] = useState("4*n^2 - 4*n + 1");
+
+	const formulaRef = useRef("");
+	const wh = Math.ceil(Math.sqrt(squares));
 	const origin = Math.floor((wh - 1) / 2);
 
-
 	function newInput(input) {
-		if (index !== -1) {
-			return;
-		}
-		setBoundary(input);
-		setSquares(input);
-		setPlotData([]);
-		setIndex(0);
+		try {
+			const val = Parser.evaluate(formulaText, { n: 0 }) / 5;
+			setSquares(input);
+			setConditionalIndex(0);
+			setIndex(0);
+		} catch (e) {}
 	}
-
-	function customConditional(num) {
-		const exampleArray = [1, 1, 4];
-
-		let fullStatement = 0;
-		for (let i = 0; i < num; i++) {
-			for (let j = 0; j < exampleArray.length; j++) {
-
-				fullStatement += exampleArray[j] * (i ** j);
-			}
-		}
+	function updateFormula() {
+		const input = formulaRef.current.value;
+		try {
+			const value = Parser.evaluate(input, { n: 0 }) / 5;
+			setFormulaText(input);
+		} catch (e) {}
+		//setFormulaArray();
 	}
 
 	function iteratePrimeSquareSpiral(origin) {
-        let iterations = Math.ceil(squares/5);
-        if (squares < 5) {
-            iterations = squares;
-        }
-        if (squares - index <= iterations) {
-            iterations = squares - index;
-        }
+		let iterations = Math.ceil(squares / 5);
+		if (squares < 5) {
+			iterations = squares;
+		}
+		if (squares - index <= iterations) {
+			iterations = squares - index;
+		}
 
-        for (let i = 0; i < iterations; i++) {
-			if (isPrime(index + i)) {
-            const [ix, iy] = mathSquareSpiral(index + i);
+		for (let i = 0; i < iterations; i++) {
+			const [ix, iy] = mathSquareSpiral(index + i);
 			const [x, y] = [ix + origin, iy + origin];
-            drawSquare(y, x);
+			if (isPrime(index + i)) {
+				drawSquare(x, y, highlightColor, `${index + i}`);
+			} else {
+				drawSquare(x, y, blue, "");
 			}
-        }
+		}
 		setIndex(index + iterations);
 	}
-
-	function iterateLineSquareSpiral(origin) {
-		const exampleArray = [1, 1, 4];
-
-		let nextValue = 0;
-		// Figure this out tomorrow
-
+	//todo: ban operations like sqrt from the parser and determine if I want to set any harder limits
+	function iterateConditional(origin) {
+		let n = 0;
+		for (let i = 0; i < squares; i++) {
 			
-            const [ix, iy] = mathSquareSpiral(index + i);
+			const fullStatement = Parser.evaluate(formulaText, { n: n });
+			if (fullStatement > squares) {
+				setIndex(-1);
+				return;
+			}
+			const [ix, iy] = mathSquareSpiral(fullStatement);
 			const [x, y] = [ix + origin, iy + origin];
-            drawSquare(y, x);
-
-		setIndex(index + );
+			drawSquare(x, y, highlightColor, `${fullStatement}`);
+			n++;
+		}
 	}
-
-
 
 	useEffect(() => {
 		if (plotMode === 0) {
@@ -129,50 +129,60 @@ function ExperimentGrid({ type }) {
 			clearGrid();
 		}
 		if (index < squares && index >= 0) {
-			iterateLineSquareSpiral(origin);
+			iterateConditional(origin);
 		} else {
+			console.log("done");
 			setIndex(-1);
 		}
 	}, [index]);
 
 	const canvas = useRef(null);
-	function drawSquare(x, y, color = highlightColor) {
-        if (plotMode === 0) {
-		const wh = Math.ceil(Math.sqrt(boundary));
-		const squareSz = (1080 / wh) * 0.95;
-		const padding = (1080 / wh) * 0.05;
-		const yMirrorOffset = 1080 - squareSz; // Y is drawn top to bottom by default
-		const ctx = canvas.current.getContext("2d");
-		ctx.fillStyle = color;
-		ctx.fillRect(
-			yMirrorOffset - (y * (squareSz + padding) + padding / 2),
-			x * (squareSz + padding) + padding / 2,
-			squareSz,
-			squareSz
-		);
-        }
+	function drawSquare(x, y, color, text) {
+		if (plotMode === 0) {
+			const wh = Math.ceil(Math.sqrt(squares));
+			const squareSz = (1080 / wh) * 0.95;
+			const padding = (1080 / wh) * 0.05;
+			const yMirrorOffset = 1080 - squareSz;
+			const xCoord = x * (squareSz + padding) + padding / 2;
+			const yCoord = yMirrorOffset - (y * (squareSz + padding) + padding / 2);
+			const ctx = canvas.current.getContext("2d");
+			ctx.fillStyle = color;
+			const fontSize = squareSz - (squareSz * text.length) / 10;
+			const bottomOffset = (text.length + 1) * (squareSz / 15);
+			const leftOffset = Math.max(0, (3 - text.length) * (squareSz / 7));
+			ctx.font = `${fontSize}px serif`;
+
+			ctx.fillRect(
+				xCoord,
+				yCoord,
+
+				squareSz,
+				squareSz
+			);
+			if (showText && text.length > 0) ctx.fillStyle = "black";
+			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
+		}
 	}
 
 	function clearGrid() {
-        if (plotMode === 0) {
-		const wh = Math.ceil(Math.sqrt(boundary));
-		const ctx = canvas.current.getContext("2d");
-		ctx.clearRect(0, 0, 1080, 1080);
-		ctx.fillStyle = baseColor;
-		for (let i = 0; i < wh; i++) {
-			for (let j = 0; j < wh; j++) {
-				drawSquare(j, i, ctx.fillStyle);
+		if (plotMode === 0) {
+			const wh = Math.ceil(Math.sqrt(squares));
+			const ctx = canvas.current.getContext("2d");
+			ctx.clearRect(0, 0, 1080, 1080);
+			for (let i = 0; i < wh; i++) {
+				for (let j = 0; j < wh; j++) {
+					drawSquare(j, i, baseColor, "");
+				}
 			}
 		}
-    }
 	}
 
 	return (
-		<div >
+		<div>
 			{plotMode ? (
 				<div className='BigSquareGrid'>
 					<SquarePlot
-						squarrayLength={Math.ceil(Math.sqrt(boundary))}
+						squarrayLength={Math.ceil(Math.sqrt(squares))}
 						plotData={plotData}
 						index={index}
 						origin={origin}
@@ -183,9 +193,12 @@ function ExperimentGrid({ type }) {
 			) : (
 				<canvas className='BigSquareGrid' ref={canvas} width={1080} height={1080} />
 			)}
-			<br/><br/>
+			<br />
+			<br />
 			<div className='bigGridControl'>
 				<ManualInput newInput={newInput} squares={squares} index={index} />
+				<MathInput formulaRef={formulaRef} updateFormula={updateFormula} />
+				<BlockMath math={formulaText} />
 			</div>
 		</div>
 	);
