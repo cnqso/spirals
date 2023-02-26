@@ -1,0 +1,20 @@
+.BlockLetter {
+    width: calc(100% / 7);
+    margin: 0;
+}
+
+.HeaderRow {
+display: flex;
+flex-direction: row;
+justify-content: center;
+padding: 1%;
+}
+
+.Header {
+    margin-top: 15px;
+    display: grid;
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 100%;
+    max-width: min(1200px, 80vw);
+    background-color: var(--red);
+}

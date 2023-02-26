@@ -11,6 +11,7 @@ import Collapse from "@mui/material/Collapse";
 import SquarePlot from "./GridDisplay/SquarePlot";
 import BigGrid from "./GridDisplay/BigGrid";
 import ExperimentGrid from "./GridDisplay/ExperimentGrid";
+import Header from './Header/Header'
 
 
 
@@ -18,9 +19,6 @@ import ExperimentGrid from "./GridDisplay/ExperimentGrid";
 
 
 
-function Header() {
-	return <h1>Square Spirals</h1>;
-}
 
 
 

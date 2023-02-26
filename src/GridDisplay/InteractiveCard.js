@@ -9,42 +9,19 @@ import IconButton from "@mui/material/IconButton";
 import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
 
-function fastSquareSpiral(n) {
-	let dir = 1;
-	let loc = [0, 0];
-	let len = 1;
-	let runi = 1;
-	let i = 0;
-	while (true) {
-		for (let k = 0; k < 2; k++) {
-			runi = len + i;
-			while (i < runi) {
-				if (n < i) {
-					return loc;
-				}
-				loc[k] += dir;
-				i++;
-			}
-		}
-		len++;
-		dir = ~dir + 1;
-	}
-}
 
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
 	let anchor = lowerRoot ** 2;
 	let location = [0, 0];
-	//set location to the anchor point;
 	if (lowerRoot % 2 === 0) {
-		//if the number is even
-		location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
-		location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
-		location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
+		location = [lowerRoot / -2, lowerRoot / 2];
+		location[1] -= Math.min(n - anchor, lowerRoot);
+		location[0] += Math.max(n - anchor - lowerRoot, 0);
 	} else {
 		location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
-		location[1] += Math.min(n - anchor, lowerRoot); //Move up
-		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
+		location[1] += Math.min(n - anchor, lowerRoot);
+		location[0] -= Math.max(n - anchor - lowerRoot, 0);
 	}
 	return location;
 }
@@ -121,6 +98,7 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		for (let i = index; i < nextHighestSquare + 1; i++) {
 			const [ix, iy] = mathSquareSpiral(i);
 			const [x, y] = [ix + origin, iy + origin];
+			
 			tempPlotData.push({ n:i, x: ix, y: iy });
 			tempSquarray[y][x] = 1;
 		}
