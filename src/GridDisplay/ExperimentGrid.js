@@ -59,6 +59,7 @@ function ExperimentGrid({ type }) {
 	const [showText, setShowText] = useState(true);
 	const [plotMode, setPlotMode] = useState(0);
 	const [formulaText, setFormulaText] = useState("4*n^2 - 4*n + 1");
+	const [katexText, setKatexText] = useState("4n^2 - 4n + 1");
 
 	const formulaRef = useRef("");
 	const wh = Math.ceil(Math.sqrt(squares));
@@ -70,14 +71,26 @@ function ExperimentGrid({ type }) {
 			setSquares(input);
 			setConditionalIndex(0);
 			setIndex(0);
-		} catch (e) {}
+		} catch (e) {setIndex(-1)}
 	}
 	function updateFormula() {
 		const input = formulaRef.current.value;
 		try {
-			const value = Parser.evaluate(input, { n: 0 }) / 5;
+			const val = Parser.evaluate(input, { n: 0 }) / 5;
 			setFormulaText(input);
-		} catch (e) {}
+
+			let katexified = "";
+			for (let i = 0; i < input.length; i++) {
+				if (input[i] === "*") {
+					if (input[i + 1] === "n") {
+						i++;
+					}
+				}
+					katexified += input[i];
+			}
+			setKatexText(katexified);
+
+		} catch (e) {setIndex(-1)}
 		//setFormulaArray();
 	}
 
@@ -116,6 +129,7 @@ function ExperimentGrid({ type }) {
 			drawSquare(x, y, highlightColor, `${fullStatement}`);
 			n++;
 		}
+		setIndex(-1);
 	}
 
 	useEffect(() => {
@@ -196,9 +210,9 @@ function ExperimentGrid({ type }) {
 			<br />
 			<br />
 			<div className='bigGridControl'>
-				<ManualInput newInput={newInput} squares={squares} index={index} />
+				<ManualInput newInput={newInput} squares={squares} index={index} start={250} />
 				<MathInput formulaRef={formulaRef} updateFormula={updateFormula} />
-				<BlockMath math={formulaText} />
+				<BlockMath math={katexText} />
 			</div>
 		</div>
 	);

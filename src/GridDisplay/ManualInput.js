@@ -7,7 +7,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import {LogOutIcon, SendIcon, QuestionIcon, SunMoonIcon, GithubIcon, WebsiteIcon, ResidentialIcon, IndustrialIcon, CommercialIcon} from "./icons";
 
-export default function ManualInput({ newInput }) {
+export default function ManualInput({ newInput, start = 25 }) {
 	const matches = useMediaQuery("(min-width:600px)");
 	const numberRef = useRef(25);
 	const buttonRef = useRef();
@@ -31,7 +31,7 @@ export default function ManualInput({ newInput }) {
 			id="SquaresInput"
 			label="Squares"
 			type="number"
-			defaultValue={25}
+			defaultValue={start}
 			inputRef={numberRef}
 			onKeyDown={(ev) => {
 				if (ev.key === 'Enter') {

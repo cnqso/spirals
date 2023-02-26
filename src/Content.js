@@ -9,6 +9,12 @@ import codestrings from "./codestrings";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
 
+const MathTalics = ({m}) => {
+	return (
+	<span style={{fontSize: "0.8em"}}> <InlineMath math={m}/> </span>
+	);
+}
+
 function Text1() {
 	return (
 		<div className='textBlock'>
@@ -93,7 +99,7 @@ function Text4() {
 			short at 23 lines and it fit for multiple uses. You can put load bearing functions at every step
 			(in the above example I put "drawSquare(location) to draw the spiral on a canvas"), or you can
 			call it once to receive the coordinates of the square at position <i>n</i>. It is also very fast.
-			The time complexity is O(n), and the space complexity is O(1). The code can accept up to ~1
+			The time complexity is <MathTalics m="O(n)"/> and the space complexity is <MathTalics m="O(1)"/>. The code can accept up to ~1
 			billion squares until it starts to choke up
 			<Footnote num={4} />
 			<br />
@@ -112,14 +118,10 @@ function Text5() {
 	return (
 		<div className='textBlock'>
 			Very few changes needed to be made to the original function to make this work. We replaced the
-			bottom loop with a single pass, and modified our end check from "if i is greater than n, return"
-			to "if i + len is greater than n, do a partial pass then return". Now the time to reach out square
+			bottom loop with a single pass, and modified our end check from "if <i>i</i> is greater than n, return"
+			to "if <i>i</i> + <i>len</i> is greater than <i>n</i>, do a partial pass then return". Now the time to reach out square
 			is dependent on the number of sides we have to draw instead of the number of squares. This brings
-			it to{" "}
-			<span style={{ fontSize: "0.8em" }}>
-				<InlineMath math={"O\\sqrt{n}"} />
-			</span>{" "}
-			time complexity. You can actually visualize this pretty well if you set <i>n</i> to a high value:
+			it to <MathTalics m="O\sqrt{n}"/> time complexity. You can actually visualize this pretty well if you set <i>n</i> to a high value:
 			it linearly approaches the edges of the spiral from the center. Cool!
 			<br />
 			If we want to draw a spiral this is a pretty solid solution, but we can't be stop here, right? For{" "}
@@ -163,7 +165,7 @@ function Text7({ code }) {
 			You may be wondering if there is practicality to any of this. I would answer with "yes, barely".
 			<ul>
 				<li>
-					There is, of course, the minor performance gain I get from using the O(1) rather than O(n)
+					There is, of course, the minor performance gain I get from using the <MathTalics m="O(1)"/> rather than <MathTalics m="O(n)"/>
 					solution in my web app. If the app were to scale, this would be tangible.
 				</li>{" "}
 				<li>
@@ -252,7 +254,7 @@ function Footnote5() {
 			<ol type='1'>
 				<li>
 					0, 4, 16, 36, 64... = 4n^2 <br /> Every even integer squared. One of the primary "anchors"
-					I use for the O(1) solution below
+					I use for the <MathTalics m="O(1)"/> solution below
 				</li>
 				<li>0, 3, 14, 33, 60... = 4n^2 - n</li>
 				<li>0, 2, 12, 30, 56... = 4n^2 - 2n</li>
@@ -385,6 +387,8 @@ function Footnote10() {
 	);
 }
 
+
+
 const Footnotes = [
 	Footnote1,
 	Footnote2,
@@ -432,63 +436,21 @@ const Content = [Text1, Text2, Text3, Text4, Text5, Text6, Text7, Text8];
 
 export default Content;
 
-//Simple introduction to problem
-// Code block
-// Visual representation next to code block
-
-// But what if bla bla bla
-
-// Code block
-// Visual representation next to code block
-
-/*
-
-<Square Spirals> Maybe this is made of blocks. Soft fade in otherwise
-<Site, github> in top right corner
-<Big header image of a bunch of squares doing cool patterns>
-This is useful for operations for which n is small or for which you need to do
-an operation on each square (as is the case in these visualizations)
 
 
+//Remaining todos:
+// Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
+// Impressive header
+// Add button to ulan spiral to make prime + any other desired features (text on/off etc)
+// Many pictures (wait until I'm done with the ulan component)
+// Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer. 
+// MUI "css" (remember to use the github theme creator)
+// General CSS simplification + determinations
+
+// Replace benchmark promise with try catch binary search code
+// Cut down content or move to footnotes
+// Add table of first 50 values
+// Set min and max value for all inputs (also make the unlock button force grid view)
+// Set limits to katex parset (log, sqrt, etc)
 
 
-
-<Runs/Laps>
-
-This approach is one I saw on my first google search -- 
-it didn't apply to my immediate problem but got me thinking.
-https://jonseymour.medium.com/investigating-the-properties-of-a-square-spiral-6aa635a4d803
-Here, instead of iterating through a spiral of points we iterate through a spiral of lines.
-This is much faster at drawing a square spiral, though it lacks some of the practicality.
-We could, however, combine the two approaches to get a function which arrives at individual 
-coordinates very quickly. Here is the basic structure: run through entire laps to start, adding the
-length of the laps to a tally each time. If the square n you are looking for is in the next lap,
-calculate how many squares away it is and only do the portion of the lap it takes you to
-get to that square. You now have your coordinate.
-<code and example>
-
-But now that I've tried a multi-phase algorithm, I can't help but wonder if we could do more.
-"Skip ahead until you're close, then walk over" is a good idea, it increased our capacity from
-1 billion 10 billion (or whatever). But what if we could skip faster?
-
-You may not have noticed yet, but if we label the squares with numbers you might notice a pattern with the corners
-
-(square numbers)
-
-
-(binary search square numbers?)
-
-
-
-Header - Image, text, personal icons, etc
-Text - can be in box or not. Full width
-Image - can be in box or not. 3/4 - full width
-Solo Code - 3/4 width
-Code with squares - full width
-    Discrete square mode, linear mode, coordinate mode
-	1. Finished!
-	2. Same as before, but try rendering the "runs" (better version of run)
-	3. Coordinate mode -- could show on scatter plot?
-
-
-*/

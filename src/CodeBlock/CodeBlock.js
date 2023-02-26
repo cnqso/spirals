@@ -4,17 +4,35 @@ import { React, useState } from "react";
 import "./CodeBlock.css";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import syntaxStyle from "./syntaxStyle";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 function CodeBlock({ codeString, language, setLanguage }) {
+	const handleChange = (event) => {
+		setLanguage(event.target.value);
+	};
 
-
-    const capitalLanguage = language[0].toUpperCase() + language.slice(1);
+	const capitalLanguage = language[0].toUpperCase() + language.slice(1);
 	//Will probably need to recreate solo
 	return (
-		<div className='codeBlock' style={{maxHeight: 750}}>
-			<div className='codeBlockTitle' onClick={()=>{setLanguage("go")}}>
+		<div className='codeBlock' style={{ maxHeight: 750 }}>
+			<div className='codeBlockTitle'>
 				<div>{"Title"}</div>{" "}
-				<div style={{ marginLeft: "auto" }}> {capitalLanguage} </div>
+				<div style={{ marginLeft: "auto" }}>
+					<FormControl size="small">
+						<Select
+							value={language}
+							onChange={handleChange}
+							displayEmpty
+							inputProps={{ "aria-label": "Without label" }}>
+							<MenuItem value={"javascript"}>Javascript</MenuItem>
+							<MenuItem value={"go"}>Go</MenuItem>
+						</Select>
+					</FormControl>
+				</div>
 			</div>
 
 			<SyntaxHighlighter className='codeBlockCode' language={language} style={syntaxStyle}>
