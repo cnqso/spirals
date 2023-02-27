@@ -6,6 +6,7 @@ import SquarePlot from "./SquarePlot";
 import ManualInput from "./ManualInput";
 import RangeInput from "./RangeInput";
 import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
 import { InlineMath, BlockMath } from "react-katex";
@@ -53,17 +54,20 @@ function mathSquareSpiral(n) {
 
 function ExperimentGrid({ type }) {
 	const [squares, setSquares] = useState(250);
-	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
 	const [conditionalIndex, setConditionalIndex] = useState(0);
 	const [showText, setShowText] = useState(true);
-	const [plotMode, setPlotMode] = useState(0);
 	const [formulaText, setFormulaText] = useState("4*n^2 - 4*n + 1");
 	const [katexText, setKatexText] = useState("4n^2 - 4n + 1");
+	const [primeMode, setPrimeMode] = useState(true);
 
 	const formulaRef = useRef("");
 	const wh = Math.ceil(Math.sqrt(squares));
 	const origin = Math.floor((wh - 1) / 2);
+
+	function togglePrime() {
+		setPrimeMode(!primeMode);
+	}
 
 	function newInput(input) {
 		try {
@@ -71,8 +75,11 @@ function ExperimentGrid({ type }) {
 			setSquares(input);
 			setConditionalIndex(0);
 			setIndex(0);
-		} catch (e) {setIndex(-1)}
+		} catch (e) {
+			setIndex(-1);
+		}
 	}
+
 	function updateFormula() {
 		const input = formulaRef.current.value;
 		try {
@@ -86,11 +93,12 @@ function ExperimentGrid({ type }) {
 						i++;
 					}
 				}
-					katexified += input[i];
+				katexified += input[i];
 			}
 			setKatexText(katexified);
-
-		} catch (e) {setIndex(-1)}
+		} catch (e) {
+			setIndex(-1);
+		}
 		//setFormulaArray();
 	}
 
@@ -109,16 +117,15 @@ function ExperimentGrid({ type }) {
 			if (isPrime(index + i)) {
 				drawSquare(x, y, highlightColor, `${index + i}`);
 			} else {
-				drawSquare(x, y, blue, "");
+				drawSquare(x, y, baseColor, "");
 			}
 		}
 		setIndex(index + iterations);
 	}
-	//todo: ban operations like sqrt from the parser and determine if I want to set any harder limits
+
 	function iterateConditional(origin) {
 		let n = 0;
 		for (let i = 0; i < squares; i++) {
-			
 			const fullStatement = Parser.evaluate(formulaText, { n: n });
 			if (fullStatement > squares) {
 				setIndex(-1);
@@ -133,17 +140,15 @@ function ExperimentGrid({ type }) {
 	}
 
 	useEffect(() => {
-		if (plotMode === 0) {
-			clearGrid();
-		}
-	}, [plotMode]);
-
-	useEffect(() => {
 		if (index === 0) {
 			clearGrid();
 		}
 		if (index < squares && index >= 0) {
-			iterateConditional(origin);
+			if (primeMode) {
+				iteratePrimeSquareSpiral(origin);
+			} else {
+				iterateConditional(origin);
+			}
 		} else {
 			console.log("done");
 			setIndex(-1);
@@ -152,67 +157,66 @@ function ExperimentGrid({ type }) {
 
 	const canvas = useRef(null);
 	function drawSquare(x, y, color, text) {
-		if (plotMode === 0) {
-			const wh = Math.ceil(Math.sqrt(squares));
-			const squareSz = (1080 / wh) * 0.95;
-			const padding = (1080 / wh) * 0.05;
-			const yMirrorOffset = 1080 - squareSz;
-			const xCoord = x * (squareSz + padding) + padding / 2;
-			const yCoord = yMirrorOffset - (y * (squareSz + padding) + padding / 2);
-			const ctx = canvas.current.getContext("2d");
-			ctx.fillStyle = color;
-			const fontSize = squareSz - (squareSz * text.length) / 10;
-			const bottomOffset = (text.length + 1) * (squareSz / 15);
-			const leftOffset = Math.max(0, (3 - text.length) * (squareSz / 7));
-			ctx.font = `${fontSize}px serif`;
+		const wh = Math.ceil(Math.sqrt(squares));
+		const squareSz = (1080 / wh) * 0.95;
+		const padding = (1080 / wh) * 0.05;
+		const yMirrorOffset = 1080 - squareSz;
+		const xCoord = x * (squareSz + padding) + padding / 2;
+		const yCoord = yMirrorOffset - (y * (squareSz + padding) + padding / 2);
+		const ctx = canvas.current.getContext("2d");
+		ctx.fillStyle = color;
+		const fontSize = squareSz - (squareSz * text.length) / 10;
+		const bottomOffset = (text.length + 1) * (squareSz / 15);
+		const leftOffset = Math.max(0, (3 - text.length) * (squareSz / 7));
+		ctx.font = `${fontSize}px serif`;
 
-			ctx.fillRect(
-				xCoord,
-				yCoord,
+		ctx.fillRect(
+			xCoord,
+			yCoord,
 
-				squareSz,
-				squareSz
-			);
-			if (showText && text.length > 0) ctx.fillStyle = "black";
+			squareSz,
+			squareSz
+		);
+		if (showText && text.length > 0 && squares < 15000) {
+			ctx.fillStyle = "black";
 			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
 		}
 	}
 
 	function clearGrid() {
-		if (plotMode === 0) {
-			const wh = Math.ceil(Math.sqrt(squares));
-			const ctx = canvas.current.getContext("2d");
-			ctx.clearRect(0, 0, 1080, 1080);
-			for (let i = 0; i < wh; i++) {
-				for (let j = 0; j < wh; j++) {
-					drawSquare(j, i, baseColor, "");
-				}
+		const wh = Math.ceil(Math.sqrt(squares));
+		const ctx = canvas.current.getContext("2d");
+		ctx.clearRect(0, 0, 1080, 1080);
+		ctx.fillStyle = baseColor;
+		if (squares > 20000) {
+			ctx.fillRect(0, 0, 1080, 1080);
+		}
+		for (let i = 0; i < wh; i++) {
+			for (let j = 0; j < wh; j++) {
+				drawSquare(j, i, baseColor, "");
 			}
 		}
 	}
 
 	return (
 		<div>
-			{plotMode ? (
-				<div className='BigSquareGrid'>
-					<SquarePlot
-						squarrayLength={Math.ceil(Math.sqrt(squares))}
-						plotData={plotData}
-						index={index}
-						origin={origin}
-						linear={plotMode}
-					/>
-					<canvas ref={canvas} width={0} height={0} />
-				</div>
-			) : (
-				<canvas className='BigSquareGrid' ref={canvas} width={1080} height={1080} />
-			)}
+			<canvas className='BigSquareGrid' ref={canvas} width={1080} height={1080} />
 			<br />
 			<br />
 			<div className='bigGridControl'>
+				<Button onClick={togglePrime}>{primeMode ? "Ulan Spiral" : "Custom Pattern"}</Button>
+				{primeMode ? null : <MathInput formulaRef={formulaRef} updateFormula={updateFormula} />}
 				<ManualInput newInput={newInput} squares={squares} index={index} start={250} />
-				<MathInput formulaRef={formulaRef} updateFormula={updateFormula} />
-				<BlockMath math={katexText} />
+				<div style={{ fontSize: "2em" }}>
+					{primeMode ? (
+						<>
+							<br />
+							<br />
+						</>
+					) : (
+						<BlockMath math={katexText} />
+					)}
+				</div>
 			</div>
 		</div>
 	);

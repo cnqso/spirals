@@ -64,6 +64,11 @@
     width: auto;
   }
 
+  .linkIcon {
+
+    color: var(--tan);
+  }
+
   @media (max-width: 900px) {
     .DisplayCard {
       width: 100%;

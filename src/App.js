@@ -95,7 +95,6 @@ function App() {
 			{Content[6]({code: codeBlockFootnote2})}
 			<br/><br/>
 			<ExperimentGrid />
-			<br/><br/><br/><br/>
 			
 
 		</div>

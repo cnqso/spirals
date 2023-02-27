@@ -9,7 +9,6 @@ import IconButton from "@mui/material/IconButton";
 import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
 
-
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
 	let anchor = lowerRoot ** 2;
@@ -79,7 +78,7 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		const tempSquarray = squarray;
 		tempSquarray[y][x] = 1;
 		const tempPlotData = plotData;
-		tempPlotData.push({ n:index, x: ix, y: iy });
+		tempPlotData.push({ n: index, x: ix, y: iy });
 		setPlotData(tempPlotData);
 		setSquarray(tempSquarray);
 		setIndex(index + 1);
@@ -98,16 +97,14 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		for (let i = index; i < nextHighestSquare + 1; i++) {
 			const [ix, iy] = mathSquareSpiral(i);
 			const [x, y] = [ix + origin, iy + origin];
-			
-			tempPlotData.push({ n:i, x: ix, y: iy });
+
+			tempPlotData.push({ n: i, x: ix, y: iy });
 			tempSquarray[y][x] = 1;
 		}
 		setPlotData(tempPlotData);
 		setSquarray(tempSquarray);
 		setIndex(nextHighestSquare + 1);
 	}
-
-	
 
 	useEffect(() => {
 		if (inViewport) {
@@ -121,12 +118,18 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 		}
 	}, [index, inViewport]);
 
-	
-
 	return (
 		<div className={"DisplayCard"} ref={forwardedRef}>
 			{plotMode ? (
-				<div className='SquareGrid'><SquarePlot squarrayLength={squarray.length} plotData={plotData} index={index} origin={origin} linear={plotMode} /></div>
+				<div className='SquareGrid'>
+					<SquarePlot
+						squarrayLength={squarray.length}
+						plotData={plotData}
+						index={index}
+						origin={origin}
+						linear={plotMode}
+					/>
+				</div>
 			) : (
 				<SquareGrid squares={squarray} index={index} />
 			)}

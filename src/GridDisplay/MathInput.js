@@ -20,7 +20,7 @@ export default function MathInput({ formulaRef, newMathInput, updateFormula }) {
 
 	
 	return (
-		<div>
+		<span>
 		<TextField
 			id="FormulaInput"
 			label="Pattern"
@@ -29,6 +29,6 @@ export default function MathInput({ formulaRef, newMathInput, updateFormula }) {
 			inputRef={formulaRef}
 			onChange={updateFormula}
 	  />
-	  </div>
+	  </span>
 	);
 }

@@ -9,11 +9,14 @@ import codestrings from "./codestrings";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
 
-const MathTalics = ({m}) => {
+const MathTalics = ({ m }) => {
 	return (
-	<span style={{fontSize: "0.8em"}}> <InlineMath math={m}/> </span>
+		<span style={{ fontSize: "0.8em" }}>
+			{" "}
+			<InlineMath math={m} />{" "}
+		</span>
 	);
-}
+};
 
 function Text1() {
 	return (
@@ -99,8 +102,8 @@ function Text4() {
 			short at 23 lines and it fit for multiple uses. You can put load bearing functions at every step
 			(in the above example I put "drawSquare(location) to draw the spiral on a canvas"), or you can
 			call it once to receive the coordinates of the square at position <i>n</i>. It is also very fast.
-			The time complexity is <MathTalics m="O(n)"/> and the space complexity is <MathTalics m="O(1)"/>. The code can accept up to ~1
-			billion squares until it starts to choke up
+			The time complexity is <MathTalics m='O(n)' /> and the space complexity is <MathTalics m='O(1)' />
+			. The code can accept up to ~1 billion squares until it starts to choke up
 			<Footnote num={4} />
 			<br />
 			But what if you want to draw a square spiral but don't care about the individual squares? If you
@@ -118,11 +121,12 @@ function Text5() {
 	return (
 		<div className='textBlock'>
 			Very few changes needed to be made to the original function to make this work. We replaced the
-			bottom loop with a single pass, and modified our end check from "if <i>i</i> is greater than n, return"
-			to "if <i>i</i> + <i>len</i> is greater than <i>n</i>, do a partial pass then return". Now the time to reach out square
-			is dependent on the number of sides we have to draw instead of the number of squares. This brings
-			it to <MathTalics m="O\sqrt{n}"/> time complexity. You can actually visualize this pretty well if you set <i>n</i> to a high value:
-			it linearly approaches the edges of the spiral from the center. Cool!
+			bottom loop with a single pass, and modified our end check from "if <i>i</i> is greater than n,
+			return" to "if <i>i</i> + <i>len</i> is greater than <i>n</i>, do a partial pass then return". Now
+			the time to reach out square is dependent on the number of sides we have to draw instead of the
+			number of squares. This brings it to <MathTalics m='O\sqrt{n}' /> time complexity. You can
+			actually visualize this pretty well if you set <i>n</i> to a high value: it linearly approaches
+			the edges of the spiral from the center. Cool!
 			<br />
 			If we want to draw a spiral this is a pretty solid solution, but we can't be stop here, right? For{" "}
 			<i>finding the coordinates</i> of some given square this is still overkill. It would be great if
@@ -165,7 +169,8 @@ function Text7({ code }) {
 			You may be wondering if there is practicality to any of this. I would answer with "yes, barely".
 			<ul>
 				<li>
-					There is, of course, the minor performance gain I get from using the <MathTalics m="O(1)"/> rather than <MathTalics m="O(n)"/>
+					There is, of course, the minor performance gain I get from using the{" "}
+					<MathTalics m='O(1)' /> rather than <MathTalics m='O(n)' />
 					solution in my web app. If the app were to scale, this would be tangible.
 				</li>{" "}
 				<li>
@@ -240,12 +245,19 @@ function Footnote4() {
 function Footnote5() {
 	return (
 		<div>
-			So when I talk about "patterns" I am specifically referring to the relationship between a square's
-			location and its placement <i>n</i> along the spiral. There is some weird, cool stuff in here.
-			Some of it makes clear sense, like the pattern of square numbers I talk about below. Some of it,
-			on the other hand, is completely foreign to me. You can check out the codepen
-			<Footnote num={4} punctuation={" "} />
-			for a visual representation of this. Maybe you can find some patterns I missed!
+			When we draw a square spiral, we are drawing a sequence of squares. Each square's coordinates is
+			tied to its position in the sequence. For example, the first square (<i>n</i> = 0) will always be
+			at (0, 0), the second will always be at (1, 0), the 64th will always be at (-4, 4), etc. But so
+			far we have only tried one type of sequence: calculating the coordinates for every single square,
+			every value of <i>n</i>. We don't have to do that if we don't want to. For example, what if you
+			skipped every odd square? The new sequence would be <i>2n</i>, and it would look like this.
+			<br />
+			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />
+			<br />
+			You end up with a checkerboard pattern! This is obvious once you think about it but I was shocked
+			when I realized. When I talk about "patterns" I am specifically referring to the relationship
+			between a given sequence and the geometry it creates in its output. There is some weird, cool
+			stuff in here.
 			<br />
 			If you follow the radii of the spiral coming straight and diagonally from the origin, you find a
 			symetrical pattern that starts at <i>n</i> = 4.
@@ -254,7 +266,7 @@ function Footnote5() {
 			<ol type='1'>
 				<li>
 					0, 4, 16, 36, 64... = 4n^2 <br /> Every even integer squared. One of the primary "anchors"
-					I use for the <MathTalics m="O(1)"/> solution below
+					I use for the <MathTalics m='O(1)' /> solution below
 				</li>
 				<li>0, 3, 14, 33, 60... = 4n^2 - n</li>
 				<li>0, 2, 12, 30, 56... = 4n^2 - 2n</li>
@@ -319,11 +331,6 @@ function Footnote5() {
 			Last few observations in this novel of a footnote:
 			<ol>
 				<li>
-					If you display with a checkerboard pattern, every odd number is one color and every even
-					number is the other. This is obvious once you think about it but I was shocked when I
-					realized.
-				</li>
-				<li>
 					All diagonals off of the origin are a product of each even square number. Top left is
 					(2n)^2 (every even square), top right is (2n)^2 - 2n, bottom left is (2n)^2 + 2n, bottom
 					right is (2n)^2 +/- 4n
@@ -387,8 +394,6 @@ function Footnote10() {
 	);
 }
 
-
-
 const Footnotes = [
 	Footnote1,
 	Footnote2,
@@ -436,14 +441,12 @@ const Content = [Text1, Text2, Text3, Text4, Text5, Text6, Text7, Text8];
 
 export default Content;
 
-
-
 //Remaining todos:
 // Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
-// Impressive header
-// Add button to ulan spiral to make prime + any other desired features (text on/off etc)
+// X   Impressive header
+// X    Add button to ulan spiral to make prime + any other desired features (text on/off etc)
 // Many pictures (wait until I'm done with the ulan component)
-// Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer. 
+// Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
 // General CSS simplification + determinations
 
@@ -452,5 +455,3 @@ export default Content;
 // Add table of first 50 values
 // Set min and max value for all inputs (also make the unlock button force grid view)
 // Set limits to katex parset (log, sqrt, etc)
-
-

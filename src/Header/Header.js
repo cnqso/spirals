@@ -3,6 +3,8 @@
 import { React, useState, useRef, useEffect } from "react";
 import BlockLetter from "./BlockLetter";
 import "./Header.css";
+import {LogOutIcon, SendIcon, QuestionIcon, SunMoonIcon, GithubIcon, WebsiteIcon, ResidentialIcon, IndustrialIcon, CommercialIcon} from "../GridDisplay/icons";
+
 
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
@@ -127,7 +129,7 @@ function Header() {
 		if (index < 25 && index >= 0) {
 			setTimeout(() => {
 				iterateFastSquareSpiral(origin);
-			}, 150);
+			}, 110);
 		} else {
 			setIndex(-1);
 		}
@@ -142,6 +144,7 @@ function Header() {
 				<BlockLetter index={index} squares={squarray} letter={letterA} />
 				<BlockLetter index={index} squares={squarray} letter={letterR} />
 				<BlockLetter index={index} squares={squarray} letter={letterE} />
+
 			</div>
 			<div className='HeaderRow'>
 				<BlockLetter index={index} squares={squarray} letter={letterS} first={true}/>
@@ -152,6 +155,10 @@ function Header() {
 				<BlockLetter index={index} squares={squarray} letter={letterL} />
 				<BlockLetter index={index} squares={squarray} letter={letterS} />
 			</div>
+            <div className='links'>
+                <GithubIcon ic="linkIcon" />
+                <WebsiteIcon ic="linkIcon"/>
+                </div>
 		</div>
 	);
 }
