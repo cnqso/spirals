@@ -27,7 +27,8 @@ function CodeBlock({ codeString, language, setLanguage }) {
 							displayEmpty
 							inputProps={{ "aria-label": "Without label" }}>
 							<MenuItem value={"javascript"}>Javascript</MenuItem>
-							<MenuItem value={"go"}>Go</MenuItem>
+							<MenuItem value={"python"}>Python</MenuItem>
+							<MenuItem value={"c"}>C</MenuItem>
 						</Select>
 					</FormControl>
 				</div>

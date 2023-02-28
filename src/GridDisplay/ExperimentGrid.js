@@ -35,19 +35,17 @@ function isPrime(num) {
 }
 
 function mathSquareSpiral(n) {
+	// Perfect squares are located sqrt(n) steps from the origin
 	const lowerRoot = Math.floor(Math.sqrt(n));
-	let anchor = lowerRoot ** 2;
-	let location = [0, 0];
-	//set location to the anchor point;
-	if (lowerRoot % 2 === 0) {
-		//if the number is even
-		location = [lowerRoot / -2, lowerRoot / 2]; //set location to the anchor point
-		location[1] -= Math.min(n - anchor, lowerRoot); //Move down for all remaining numbers up to the current side length
-		location[0] += Math.max(n - anchor - lowerRoot, 0); //If there are squares remaining, move right
-	} else {
-		location = [(lowerRoot - 1) / 2 + 1, (lowerRoot - 1) / -2];
-		location[1] += Math.min(n - anchor, lowerRoot); //Move up
-		location[0] -= Math.max(n - anchor - lowerRoot, 0); //If there ar
+	const anchor = lowerRoot ** 2;
+	const location = [Math.floor( -lowerRoot / 2 ), Math.floor( lowerRoot / 2 )];
+	// If n is not a perfect square, adjust the y location by remaining steps
+	// If remaining steps > current line length, continue on the x axis
+	location[1] -= Math.min(n - anchor, lowerRoot); 
+	location[0] += Math.max(n - anchor - lowerRoot, 0);
+	// If the lower-bound root length is odd, mirror the location
+	if (lowerRoot % 2 !== 0) {
+		return location.map((x) => -x);
 	}
 	return location;
 }
