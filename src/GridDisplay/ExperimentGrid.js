@@ -179,6 +179,9 @@ function ExperimentGrid({ type }) {
 			ctx.fillStyle = "black";
 			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
 		}
+		ctx.fillStyle = "black";
+		ctx.font = `${55}px serif`;
+		ctx.fillText("4n^2 + 4n", 130, 65);
 	}
 
 	function clearGrid() {

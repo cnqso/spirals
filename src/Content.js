@@ -442,7 +442,7 @@ const Content = [Text1, Text2, Text3, Text4, Text5, Text6, Text7, Text8];
 export default Content;
 
 //Remaining todos:
-// Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
+// X Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
 // X   Impressive header
 // X    Add button to ulan spiral to make prime + any other desired features (text on/off etc)
 // Many pictures (wait until I'm done with the ulan component)
