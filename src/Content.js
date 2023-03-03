@@ -1,13 +1,11 @@
 /** @format */
 
 import { React, useState } from "react";
-import AIImage from "./AI.png";
-import CodepenScreenshot from "./CodepenScreenshot.png";
 import Collapse from "@mui/material/Collapse";
-import CodeBlock from "./CodeBlock/CodeBlock";
-import codestrings from "./codestrings";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import cityPlots from "./Images/cityPlots.png";
+import drawnSquares from "./Images/drawnSquares.png";
 import img2n from "./Images/2n.png";
 import imgn2 from "./Images/n2.png";
 import img4n2 from "./Images/4n2.png";
@@ -25,60 +23,63 @@ const MathTalics = ({ m }) => {
 
 function Text1() {
 	return (
-		<div className='textBlock'>
-			I recently ran into a problem which seemed simple: I have a web app where many users build cities
-			next to each other on an infinite grid of square plots. I wanted to make sure that users were
-			often connected to many other players, and I also wanted to make sure that players who joined
-			earlier would be closer to the center, while players who joined later would be further away.
-			Lastly, I wanted a way that I could record user location data with a single positive integer
-			<Footnote num={1} /> I decided that the best way to accomplish this was to have players "spiral"
-			around a central plot.
-			<br />
-			<br />
-			<img src={AIImage} />
-		</div>
+		<>
+			<div className='textBlock'>
+				Recently I've been working on a web app where users build cities next to each other on an
+				infinite grid of square plots. I wanted to make sure that users were often connected to many
+				other players, and I also wanted to make sure that players who joined earlier would be closer
+				to the center, while players who joined later would be further away. Lastly, I wanted a way
+				that I could record user location data with a single positive integer
+				<Footnote num={1} /> I decided that the best way to accomplish this was to have players
+				"spiral" around a central plot.
+			</div>
+			<img src={cityPlots} />
+		</>
 	);
 }
 
 function Text2() {
 	return (
-		<div className='textBlock'>
-			To accomplish this, I needed a function that can acces the coordinates of any square <i>n</i> on a
-			spiral. I assumed that there would be a well-known answer to this problem, but my search found a
-			massive range of different approaches
-			<Footnote num={2} />I wasn't able to find anything that I was happy with, so I decided to take a
-			shot at it myself. I started by just drawing a bunch of spirals and seeing what I noticed.
-			<br />
-			<br />
-			<img src={AIImage} />
-			<br />
-			<br />
-			The first thing you might notice is that we have a constant four-phase movement pattern. Lets
-			think of <i>len</i> as the length of each "side" of the spiral, starting at <i>len</i> = 1. The
-			pattern looks like this:
-			<ol type='1'>
-				<li>
-					Increment <i>x</i> by <i>len</i>
-				</li>
-				<li>
-					Increment <i>y</i> by <i>len</i>
-				</li>
-				<li>
-					Increment <i>len</i> by 1
-				</li>
-				<li>
-					Decrement <i>x</i> by <i>len</i>
-				</li>
-				<li>
-					Decrement <i>y</i> by <i>len</i>
-				</li>
-				<li>
-					Increment <i>len</i> by 1
-				</li>
-			</ol>
-			This pattern continues forever. The order is a bit novel, but other than that it seems like a
-			pretty simple loop. If I try to write this in javascript, it looks like this:
-		</div>
+		<>
+			<div className='textBlock'>
+				To accomplish this, I needed a function that can access the coordinates of any square <i>n</i>{" "}
+				on a spiral. Square spirals are not a new concept -- some of you probably recognize the
+				concept from the Ulan Spiral, a square spiral which hides all squares for which <i>n</i> is
+				not prime. Since square spirals had already reached pop mathematics, I assumed that there
+				would be a well-known method to add and retrieve data from them, but my search found a wide
+				range of different approaches
+				<Footnote num={2} />I wasn't able to find anything that I was happy with, so I decided to take
+				a shot at it myself. I started by drawing a spiral manually and seeing what I noticed.
+			</div>
+			<img src={drawnSquares} />
+			<div className='textBlock'>
+				The first thing you might notice is that we have a constant four-phase movement pattern. Lets
+				think of <i>len</i> as the length of each "side" of the spiral, starting at <i>len</i> = 1.
+				The pattern, starting at the origin (0,0), looks like this:
+				<ol type='1'>
+					<li>
+						Increment <i>x</i> by <i>len</i>
+					</li>
+					<li>
+						Increment <i>y</i> by <i>len</i>
+					</li>
+					<li>
+						Increment <i>len</i> by 1
+					</li>
+					<li>
+						Decrement <i>x</i> by <i>len</i>
+					</li>
+					<li>
+						Decrement <i>y</i> by <i>len</i>
+					</li>
+					<li>
+						Increment <i>len</i> by 1
+					</li>
+				</ol>
+				This pattern continues forever. The order is a bit novel, but other than that it seems like a
+				pretty simple loop. Translated to code it would look like this:
+			</div>
+		</>
 	);
 }
 
@@ -87,7 +88,7 @@ function Text3({ code }) {
 		<div className='textBlock'>
 			This approach gets us there. The function moves one square at a time and updates the location
 			variable at each new square, forever. To make it practical we need to add bounds and output, but
-			the function is already repetitive and verbose, and adding these things would make it even worse
+			the function is already repetitive, and adding these things would make it much worse
 			<Footnote num={3} extFootnote={code} /> We can make the function much more concise at the cost of
 			some readability. The 4-step pattern is simple to keep track of: every step we change the axis
 			we're moving along (x or y), and every two steps we increase the length <i>len</i> and change the
@@ -96,7 +97,7 @@ function Text3({ code }) {
 			bottom level which iterates the spiral for <i>len</i> steps. Since the desired number of squares{" "}
 			<i>n</i> is not guaranteed to be divisible by <i>len</i>, we will have to check if we've reached
 			the end of the spiral at each bottom level loop. Below is my implementation of this function. Use
-			the slider on the right to text different values of <i>n</i>.
+			the slider on the right to test different values of <i>n</i>.
 		</div>
 	);
 }
@@ -146,7 +147,7 @@ function Text6() {
 		<div className='textBlock'>
 			Every 2nd edge of the spiral ends at a square number which is either diagonally North-West from
 			[0,0] or diagonally South-East from [1,0]
-			<Footnote num={7} /> If we find the closest square number less than or equal to <i>n</i>, we can
+			<Footnote num={6} /> If we find the closest square number less than or equal to <i>n</i>, we can
 			simply take the difference between that number and <i>n</i> to "skip" directly to our desired
 			coordinates. We have to do a little bit of math to determine which direction(s) to move from the
 			square number, and then we're there. Since this is a single-step solution, it's hard to make a fun
@@ -161,14 +162,14 @@ function Text7({ code }) {
 	return (
 		<div className='textBlock'>
 			Pretty cool! After a little bit of performance tuning
-			<Footnote num={8} extFootnote={code} punctuation={", "} /> this function can calculate the
+			<Footnote num={7} extFootnote={code} punctuation={", "} /> this function can calculate the
 			coordinates of any given point in a square spiral up to 1e29 in 5ms-150ms depending on the
 			language
-			<Footnote num={9} /> This is where my exploration ended. There are many more avenues of inquiry
+			<Footnote num={6} /> This is where my exploration ended. There are many more avenues of inquiry
 			like quick coordinate-neighbor calculation
 			<Footnote num={5} punctuation={", "} /> deriving a square's number from coordinates, and many
 			other things which others have explored at length already
-			<Footnote num={10} />
+			<Footnote num={9} />
 			<br />
 			<br />
 			You may be wondering if there is practicality to any of this. I would answer with "yes, barely".
@@ -212,7 +213,7 @@ function Footnote1() {
 			offsetting all users' x and y coordinates whenever needed, but this would require many error-prone
 			changes to user data and, for reasons specific to my backend, would greatly increase the database
 			load per-user. We could also just put everyone at some arbitrarily large X and Y offset, but this
-			1. would be very hacky and 2. would increase unecessary database usage by a small but ugly amount.
+			would be too ugly of a solution for a hobby project.
 		</div>
 	);
 }
@@ -264,11 +265,16 @@ function Footnote5() {
 			between a given sequence and the geometry it creates in its output. There is some weird, cool
 			stuff in here.
 			<br />
-			The most common pattern that you can see on the grid is based around the series 4n<sup>2</sup>.
+			The most common pattern that you can see on the grid is based around the series n<sup>2</sup>.
 			That sequence looks like this.
 			<br />
-			<img src={img4n2} style={{ display: "block", margin: "auto" }} />
+			<img src={imgn2} style={{ display: "block", margin: "auto" }} />
+			You end up with every perfect square on the grid. You might notice that every even square is on a
+			diagonal NorthWest of the origin, and every odd square is on a diagonal SouthEast from (1,0). We
+			can isolate these sides to interesting effect. For even numbers, this would look like (2n)
+			<sup>2</sup>, which evaluates to 4n<sup>2</sup> That sequence looks like this.
 			<br />
+			<img src={img4n2} style={{ display: "block", margin: "auto" }} />
 			The thing that makes this sequence so interesting is that you can use it to create a similar radii
 			in any of the 8 possible directions. By adding or subtracting <i>n</i> from the sequence, you can
 			get the same sequence but rotated clockwise or counterclockwise by 45 degrees. Here's a
@@ -306,7 +312,7 @@ function Footnote5() {
 			These strong patterns are present outside of the origin as well. For example, our second anchor
 			point in the mathematically derived solution below is the pattern of every odd square that we find
 			diagonally downward from [1,0]. This particular pattern is the same as pattern 7 above but shifted
-			by 1. We can actually find patterns in 5 of the 8 of this square's radii.
+			by 1. 5 out of 8 of this square's radii can be drawn with a similar sequence.
 			<br />
 			<img src={gif4n21} style={{ display: "block", margin: "auto" }} />
 			<ul type='1'>
@@ -328,18 +334,17 @@ function Footnote5() {
 				</li>
 			</ul>
 			In all 8 squares bordering the origin, you see the same pattern with 5 different calculable radius
-			patterns. I spent an afternoon trying to find a generalizable formula for this to no avail. Here's
-			what I can tell you:
+			sequences. I spent an afternoon trying to find a generalizable formula for this to no avail.
+			Here's what I can tell you:
 			<br />
-			The 5 common radial patterns above can be <i>almost</i> be generalized for all squares. The path
-			which moves directly away from the origin is 4n<sup>2</sup> + the value of the starting square + a
-			value dependent on the number of sides/edges which have been visited so far. Taking <i>m</i> to be
-			the starting square, and <i>s</i> to be the number of sides/edges visited so far, this would be
-			written as 4n<sup>2</sup> + (4+s)n + m. Without a means of deriving <i>s</i> in terms of <i>m</i>,
-			I cannot generalize any of the radial formulas. This could be solved programattically, but this
-			trivializes the problem either way. If you can generalize <i>s</i> in terms of <i>m</i> without
-			any conditional statements or floor/ceiling operations, I'll send you $200. Here's a table of the
-			first 50 values <Footnote num={6} />
+			The 5 common radial patterns above can <i>almost</i> be generalized for all squares. The path
+			which moves directly away from the origin is 4n<sup>2</sup> + the value of the starting square +
+			the number of sides/edges which have been visited so far. Taking <i>m</i> to be the starting
+			square, and <i>s</i> to be the number of sides/edges visited so far, this would be written as 4n
+			<sup>2</sup> + (4+s)n + m. Without a means of deriving <i>s</i> in terms of <i>m</i>, I cannot
+			generalize any of the radial formulas. This could be solved programattically, but this trivializes
+			the problem either way. If you can generalize <i>s</i> in terms of <i>m</i> without conditional
+			statements or floor/ceiling operations, I'll send you $100.
 			<br />
 			<br />
 			Last few observations in this novel of a footnote:
@@ -349,25 +354,26 @@ function Footnote5() {
 					<sup>2</sup> (every even square), top right is (2n)<sup>2</sup> - 2n, bottom left is (2n)
 					<sup>2</sup> + 2n, bottom right is (2n)<sup>2</sup> +/- 4n
 				</li>
+				<li>
+					n<sup>2</sup> has more interesting patterns to look at. n<sup>2</sup> - n and n
+					<sup>2</sup> + n draw a SouthWest-NorthEast diagonal centered around the origin.
+				</li>
 			</ul>
 		</div>
 	);
 }
 
 function Footnote6() {
-	return <img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />;
-}
-function Footnote7() {
 	return (
 		<div>
 			{" "}
-			Here is a visualization of these points.
-			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} /> Every even number
-			squared is in the North-West radius, and every odd number squared is in the South-East radius.
+			Here is a visualization of these points:
+			<img src={imgn2} style={{ display: "block", margin: "auto" }} /> Every even number squared is in
+			the North-West radius, and every odd number squared is in the South-East radius.
 		</div>
 	);
 }
-function Footnote9() {
+function Footnote8() {
 	return (
 		<div>
 			I did benchmarks at n=144, n=1e6, and 1e29. I used a weird try/catch binary search to find each
@@ -379,7 +385,7 @@ function Footnote9() {
 	);
 }
 
-function Footnote10() {
+function Footnote9() {
 	return (
 		<div>
 			<ul type='I'>
@@ -408,18 +414,7 @@ function Footnote10() {
 	);
 }
 
-const Footnotes = [
-	Footnote1,
-	Footnote2,
-	null,
-	Footnote4,
-	Footnote5,
-	Footnote6,
-	Footnote7,
-	null,
-	Footnote9,
-	Footnote10,
-];
+const Footnotes = [Footnote1, Footnote2, null, Footnote4, Footnote5, Footnote6, null, Footnote8, Footnote9];
 function Footnote({ num, punctuation = ". ", extFootnote }) {
 	const [show, setShow] = useState(false);
 	return (
@@ -459,7 +454,7 @@ export default Content;
 // X Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
 // X   Impressive header
 // X    Add button to ulan spiral to make prime + any other desired features (text on/off etc)
-// Many pictures (wait until I'm done with the ulan component)
+// X Many pictures (wait until I'm done with the ulan component)
 // Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
 // General CSS simplification + determinations
