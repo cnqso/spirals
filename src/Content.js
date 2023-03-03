@@ -8,6 +8,11 @@ import CodeBlock from "./CodeBlock/CodeBlock";
 import codestrings from "./codestrings";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
+import img2n from "./Images/2n.png";
+import imgn2 from "./Images/n2.png";
+import img4n2 from "./Images/4n2.png";
+import gif4n2 from "./Images/4n2.gif";
+import gif4n21 from "./Images/4n2+1.gif";
 
 const MathTalics = ({ m }) => {
 	return (
@@ -252,26 +257,27 @@ function Footnote5() {
 			every value of <i>n</i>. We don't have to do that if we don't want to. For example, what if you
 			skipped every odd square? The new sequence would be <i>2n</i>, and it would look like this.
 			<br />
-			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />
+			<img src={img2n} style={{ display: "block", margin: "auto" }} />
 			<br />
 			You end up with a checkerboard pattern! This is obvious once you think about it but I was shocked
 			when I realized. When I talk about "patterns" I am specifically referring to the relationship
 			between a given sequence and the geometry it creates in its output. There is some weird, cool
 			stuff in here.
 			<br />
-			If you follow the radii of the spiral coming straight and diagonally from the origin, you find a
-			symetrical pattern that starts at <i>n</i> = 4.
+			The most common pattern that you can see on the grid is based around the series 4n<sup>2</sup>.
+			That sequence looks like this.
 			<br />
-			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />
-			<ol type='1'>
+			<img src={img4n2} style={{ display: "block", margin: "auto" }} />
+			<br />
+			The thing that makes this sequence so interesting is that you can use it to create a similar radii
+			in any of the 8 possible directions. By adding or subtracting <i>n</i> from the sequence, you can
+			get the same sequence but rotated clockwise or counterclockwise by 45 degrees. Here's a
+			visualization of all 8 (technically 9) possible sequences.
+			<br />
+			<img src={gif4n2} style={{ display: "block", margin: "auto" }} />
+			<ul type='1'>
 				<li>
-					0, 4, 16, 36, 64... = 4n^2 <br /> Every even integer squared. One of the primary "anchors"
-					I use for the <MathTalics m='O(1)' /> solution below
-				</li>
-				<li>0, 3, 14, 33, 60... = 4n^2 - n</li>
-				<li>0, 2, 12, 30, 56... = 4n^2 - 2n</li>
-				<li>
-					0, 1, 10, 27, 52... = 4n2 - 3n
+					4n<sup>2</sup> - 3n
 					<br />
 					Every{" "}
 					<a
@@ -282,60 +288,68 @@ function Footnote5() {
 					</a>
 				</li>
 				<li>
-					0, 8, 24, 48, 80... = 4n^2 + 4n
-					<br />
-					The mirror to pattern 1. 4n^2 - 4n generates the same pattern.
+					4n<sup>2</sup> <br /> One of the primary "anchors" I use for the <MathTalics m='O(1)' />{" "}
+					solution below
 				</li>
-				<li>0, 7, 22, 45, 76... = 4n^2 + 3n</li>
 				<li>
-					0, 6, 20, 42, 72... = 4n^2 + 2n
+					4n<sup>2</sup> + 2n
 					<br />
-					Every even integer squared plus that integer. You can think of it as (2n)^2 + 2n or 2n *
-					(n+1)
+					Every even integer squared plus that integer. Think of it like (2n)<sup>2</sup> + 2n or
+					2n*(n+1)
 				</li>
-				<li>5, 18, 39, 68... = 4n^2 + n</li>
-			</ol>
+				<li>
+					4n<sup>2</sup> + 4n
+					<br />
+					The mirror to pattern 1. 4n<sup>2</sup> - 4n generates the same pattern.
+				</li>
+			</ul>
 			These strong patterns are present outside of the origin as well. For example, our second anchor
 			point in the mathematically derived solution below is the pattern of every odd square that we find
 			diagonally downward from [1,0]. This particular pattern is the same as pattern 7 above but shifted
 			by 1. We can actually find patterns in 5 of the 8 of this square's radii.
 			<br />
-			<img src={CodepenScreenshot} style={{ display: "block", margin: "auto" }} />
-			<ol type='1'>
+			<img src={gif4n21} style={{ display: "block", margin: "auto" }} />
+			<ul type='1'>
 				<li>
-					1, 3, 15, 35, 63 = No pattern unless we begin at 3<br />{" "}
+					{" "}
+					4n<sup>2</sup> + n + 1 No pattern until 5
 				</li>
-				<li> 1, 2, 13, 32, 59... = No pattern unless we begin at 2</li>
-				<li> 1, 11, 29, 55... = 4n2 + 6n + 1</li>
-				<li> 1, 10, 27, 52... = 4n2 + 5n + 1</li>
-				<li> 1, 9, 25, 49... = 4n2 + 4n + 1</li>
-				<li> 1, 8, 23, 46... = 4n2 + 3n + 1</li>
-				<li> 1, 7, 21, 43... = 4n2 + 2n + 1</li>
-				<li> 1, 0, 5, 18... = No pattern. </li>
-			</ol>
+				<li>
+					{" "}
+					4n<sup>2</sup> + 1 No pattern until 6{" "}
+				</li>
+				<li>
+					{" "}
+					4n<sup>2</sup> + 7n + 1 No pattern until 12
+				</li>
+				<li>
+					4n<sup>2</sup> + 8n + 1 No pattern until 13
+					<br />{" "}
+				</li>
+			</ul>
 			In all 8 squares bordering the origin, you see the same pattern with 5 different calculable radius
 			patterns. I spent an afternoon trying to find a generalizable formula for this to no avail. Here's
 			what I can tell you:
 			<br />
 			The 5 common radial patterns above can be <i>almost</i> be generalized for all squares. The path
-			which moves directly away from the origin is 4n^2 + the value of the starting square + a value
-			dependent on the number of sides/edges which have been visited so far. Taking <i>m</i> to be the
-			starting square, and <i>s</i> to be the number of sides/edges visited so far, this would be
-			written as 4n^2 + (4+s)n + m. Without a means of deriving <i>s</i> in terms of <i>m</i>, I cannot
-			generalize any of the radial formulas. This could be solved programattically, but this trivializes
-			the problem either way. If you can generalize <i>s</i> in terms of <i>m</i> without any
-			conditional statements or floor/ceiling operations, I'll send you $200. Here's a table of the
+			which moves directly away from the origin is 4n<sup>2</sup> + the value of the starting square + a
+			value dependent on the number of sides/edges which have been visited so far. Taking <i>m</i> to be
+			the starting square, and <i>s</i> to be the number of sides/edges visited so far, this would be
+			written as 4n<sup>2</sup> + (4+s)n + m. Without a means of deriving <i>s</i> in terms of <i>m</i>,
+			I cannot generalize any of the radial formulas. This could be solved programattically, but this
+			trivializes the problem either way. If you can generalize <i>s</i> in terms of <i>m</i> without
+			any conditional statements or floor/ceiling operations, I'll send you $200. Here's a table of the
 			first 50 values <Footnote num={6} />
 			<br />
 			<br />
 			Last few observations in this novel of a footnote:
-			<ol>
+			<ul>
 				<li>
-					All diagonals off of the origin are a product of each even square number. Top left is
-					(2n)^2 (every even square), top right is (2n)^2 - 2n, bottom left is (2n)^2 + 2n, bottom
-					right is (2n)^2 +/- 4n
+					All diagonals off of the origin are a product of each even square number. Top left is (2n)
+					<sup>2</sup> (every even square), top right is (2n)<sup>2</sup> - 2n, bottom left is (2n)
+					<sup>2</sup> + 2n, bottom right is (2n)<sup>2</sup> +/- 4n
 				</li>
-			</ol>
+			</ul>
 		</div>
 	);
 }

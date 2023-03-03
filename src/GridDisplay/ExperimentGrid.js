@@ -179,9 +179,18 @@ function ExperimentGrid({ type }) {
 			ctx.fillStyle = "black";
 			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
 		}
+		ctx.fillStyle = red;
+		ctx.fillRect(
+			(squareSz + padding) + padding / 2,
+			padding * 0.59,
+
+			squareSz * 4.15,
+			squareSz - padding * 0.3
+		);
 		ctx.fillStyle = "black";
 		ctx.font = `${55}px serif`;
-		ctx.fillText("4n^2 + 4n", 130, 65);
+		const canvasKatex = "4n²" + katexText.substring(4)
+		ctx.fillText("2n", 75+115, 55);
 	}
 
 	function clearGrid() {
