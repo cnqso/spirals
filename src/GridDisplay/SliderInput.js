@@ -10,23 +10,49 @@ function valuetext(value) {
 	return `${value}°C`;
 }
 
-export default function SliderInput({ newInput }) {
-	const matches = useMediaQuery("(min-width:600px)");
-
-	function mediaQueryCss() {
-		if (matches) {
-			return ['off'];
-		}
-		return ['on'];
-	}
+export default function SliderInput({ newInput, matches }) {
 
 	function onSelect(value) {
 		newInput(value);
 	}
 
+	const valueMarks = [
+		{
+			value: 4,
+		},
+		{
+			value: 9,
+		},
+		{
+			value: 16,
+		},
+		{
+			value: 25,
+		},
+		{
+			value: 36,
+		},
+		{
+			value: 49,
+		},
+		{
+			value: 64,
+		},
+		{
+			value: 81,
+		},
+		{
+			value: 100,
+		},
+		{
+			value: 121,
+		},
+		{
+			value: 144,
+		},
+	];
 
-
-	const marks = [
+	const valuelessMarks = [
 		{
 			value: 4,
 			label: "4",
@@ -72,20 +98,20 @@ export default function SliderInput({ newInput }) {
 			label: "144",
 		},
 	];
-
 	return (
-	<Slider
-	className={"Slider"}
-					onChangeCommitted={(e, value) => onSelect(value)}
-					aria-label='Squares'
-					orientation='vertical'
-					getAriaValueText={valuetext}
-					step={null}
-					valueLabelDisplay={mediaQueryCss()[0]}
-					defaultValue={25}
-					min={1}
-					max={144}
-					marks={marks}
-				/>
+		<Slider
+			className={"Slider"}
+			color='error'
+			onChangeCommitted={(e, value) => onSelect(value)}
+			aria-label='Squares'
+			orientation='vertical'
+			getAriaValueText={valuetext}
+			step={null}
+			valueLabelDisplay={matches ? "off" : "on"}
+			defaultValue={25}
+			min={1}
+			max={144}
+			marks={matches ? valuelessMarks : valueMarks}
+		/>
 	);
 }

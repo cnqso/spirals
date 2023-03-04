@@ -7,6 +7,9 @@ import SliderInput from "./SliderInput";
 import ManualInput from "./ManualInput";
 import IconButton from "@mui/material/IconButton";
 import { Locked, Unlocked, Plot, Grid } from "./icons";
+import themeOptions from "../themeOptions";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import "./SquareGrid.css";
 
 function mathSquareSpiral(n) {
@@ -25,7 +28,10 @@ function mathSquareSpiral(n) {
 	return location;
 }
 
+const theme = createTheme(themeOptions);
+
 function InteractiveCard({ inViewport, forwardedRef, type }) {
+	const matches = useMediaQuery("(min-width:500px)");
 	const [squares, setSquares] = useState(25);
 	const [squarray, setSquarray] = useState([
 		//Probably useRef
@@ -41,6 +47,7 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 	const [plotMode, setPlotMode] = useState(false);
 	const wh = Math.ceil(Math.sqrt(squares));
 	const origin = Math.floor((wh - 1) / 2);
+	const iconSize = matches ? "0.9em" : "0.8em";
 
 	const spiralFunctions = {
 		fss: { fn: iterateFastSquareSpiral, delay: 2000, range: [4, 144] },
@@ -134,19 +141,45 @@ function InteractiveCard({ inViewport, forwardedRef, type }) {
 				<SquareGrid squares={squarray} index={index} />
 			)}
 			<div className='gridControl'>
-				<div className='sliderBox'>
-					{locked ? (
-						<SliderInput newInput={newInput} squares={squares} index={index} />
-					) : (
-						<ManualInput newInput={newInput} squares={squares} index={index} />
-					)}
-				</div>
-				<IconButton aria-label='lock' size='small' onClick={toggleLock} className='lockButton'>
-					{locked ? <Locked fontSize='inherit' /> : <Unlocked fontSize='inherit' />}
-				</IconButton>
-				<IconButton aria-label='lock' size='small' onClick={togglePlot} className='lockButton'>
-					{plotMode ? <Plot fontSize='inherit' linear={plotMode} /> : <Grid fontSize='inherit' />}
-				</IconButton>
+				<ThemeProvider theme={theme}>
+					<div className='sliderBox'>
+						{locked ? (
+							<SliderInput
+								newInput={newInput}
+								matches={matches}
+								squares={squares}
+								index={index}
+							/>
+						) : (
+							<ManualInput
+								newInput={newInput}
+								matches={matches}
+								squares={squares}
+								index={index}
+							/>
+						)}
+					</div>
+					<div className='gridButtons'>
+						<IconButton
+							aria-label='lock'
+							onClick={toggleLock}
+							size='small'
+							style={{ fontSize: iconSize }}>
+							{locked ? <Locked fontSize='inherit' /> : <Unlocked fontSize='inherit' />}
+						</IconButton>
+						<IconButton
+							aria-label='lock'
+							onClick={togglePlot}
+							size='small'
+							style={{ fontSize: iconSize }}>
+							{plotMode ? (
+								<Plot fontSize='inherit' linear={plotMode} />
+							) : (
+								<Grid fontSize='inherit' />
+							)}
+						</IconButton>
+					</div>
+				</ThemeProvider>
 			</div>
 		</div>
 	);

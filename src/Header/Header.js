@@ -3,8 +3,17 @@
 import { React, useState, useRef, useEffect } from "react";
 import BlockLetter from "./BlockLetter";
 import "./Header.css";
-import {LogOutIcon, SendIcon, QuestionIcon, SunMoonIcon, GithubIcon, WebsiteIcon, ResidentialIcon, IndustrialIcon, CommercialIcon} from "../GridDisplay/icons";
-
+import {
+	LogOutIcon,
+	SendIcon,
+	QuestionIcon,
+	SunMoonIcon,
+	GithubIcon,
+	WebsiteIcon,
+	ResidentialIcon,
+	IndustrialIcon,
+	CommercialIcon,
+} from "../GridDisplay/icons";
 
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
@@ -61,9 +70,9 @@ const letterR = [
 ];
 const letterE = [
 	[1, 1, 1, 1, 1],
-	[1, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0],
 	[1, 1, 1, 0, 0],
-	[1, 0, 0, 0, 1],
+	[1, 0, 0, 0, 0],
 	[1, 1, 1, 1, 1],
 ];
 const letterP = [
@@ -144,10 +153,9 @@ function Header() {
 				<BlockLetter index={index} squares={squarray} letter={letterA} />
 				<BlockLetter index={index} squares={squarray} letter={letterR} />
 				<BlockLetter index={index} squares={squarray} letter={letterE} />
-
 			</div>
 			<div className='HeaderRow'>
-				<BlockLetter index={index} squares={squarray} letter={letterS} first={true}/>
+				<BlockLetter index={index} squares={squarray} letter={letterS} first={true} />
 				<BlockLetter index={index} squares={squarray} letter={letterP} />
 				<BlockLetter index={index} squares={squarray} letter={letterI} />
 				<BlockLetter index={index} squares={squarray} letter={letterR} />
@@ -155,10 +163,10 @@ function Header() {
 				<BlockLetter index={index} squares={squarray} letter={letterL} />
 				<BlockLetter index={index} squares={squarray} letter={letterS} />
 			</div>
-            <div className='links'>
-                <GithubIcon ic="linkIcon" />
-                <WebsiteIcon ic="linkIcon"/>
-                </div>
+			<div className='links'>
+				<GithubIcon ic='linkIcon' />
+				<WebsiteIcon ic='linkIcon' />
+			</div>
 		</div>
 	);
 }

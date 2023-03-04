@@ -3,6 +3,7 @@
 
 
 .codeBlock {
+	position: relative;
 	border: 1px solid var(--blue);
 	background-color: var(--brown);
 	color: var(--blue);
@@ -39,13 +40,10 @@
 	text-align: left;
 	font-size: 2em;
 	overflow-x: visible !important;
-	height: 100%;
+	margin-top: 0px;
 }
 
 .codeBlockTitle {
-  position: -webkit-sticky;
-  position: sticky;
-  top: -3px;
   background-color: var(--brown);
 	display: flex;
 	justify-content: space-around;

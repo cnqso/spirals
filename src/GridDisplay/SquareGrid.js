@@ -2,7 +2,6 @@
 
 import { React, useState, useEffect, useRef } from "react";
 import "./SquareGrid.css";
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 
 const blue = "#71C2A9";

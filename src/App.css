@@ -10,11 +10,9 @@
 	color: var(--blue);
 }
 
-
-
 img {
-  max-width: 100%;
-  max-height: 100%;
+	max-width: 100%;
+	max-height: 100%;
 }
 
 .codeAndDisplay {
@@ -28,25 +26,26 @@ img {
 }
 
 .textBlock {
-  color: #000000;
-  background-color: var(--cream);
+	color: #000000;
+	background-color: var(--cream);
+	padding: 5px;
 	font-size: 1.4em;
 	text-align: justify;
 	width: 900px;
 	height: auto;
-  border: var(--brown) 1px solid;
+	border: var(--brown) 1px solid;
 }
 .footnote {
-  font-size: 0.9em;
-  text-align: justify;
-  padding-left: 5%;
-  padding-right: 5%;
-  color: var(--brown);
-  max-width: 100%;
-  max-height: 100%;
+	font-size: 0.9em;
+	text-align: justify;
+	padding-left: 5%;
+	padding-right: 5%;
+	color: var(--brown);
+	max-width: 100%;
+	max-height: 100%;
 }
 .footnoteButton {
-  cursor: pointer;
+	cursor: pointer;
 }
 @media (max-width: 900px) {
 	.codeAndDisplay {
@@ -62,8 +61,7 @@ img {
 @media (max-width: 500px) {
 	.textBlock {
 		text-align: left;
-    font-size: 1.1em;
-
+		font-size: 1.1em;
 	}
 }
 
@@ -73,10 +71,10 @@ img {
 }
 
 :root {
-  --blue: #71C2A9;
-  --brown: #573B2A;
-  --cream: #F7E5AE;
-  --orange: #DE731D;
-  --tan: #EC9C26;
-  --red: #75280f;
+	--blue: #71c2a9;
+	--brown: #573b2a;
+	--cream: #f7e5ae;
+	--orange: #de731d;
+	--tan: #ec9c26;
+	--red: #75280f;
 }

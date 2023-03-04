@@ -111,7 +111,7 @@ function Text3({ code }) {
 function Text4() {
 	return (
 		<div className='textBlock'>
-			This functions works great for me, and is what I ended up using to generate the spiral. It is very
+			This function works great for me, and is what I ended up using to generate the spiral. It is very
 			short at 23 lines and it fit for multiple uses. You can put load bearing functions at every step
 			(in the above example I put "drawSquare(location) to draw the spiral on a canvas"), or you can
 			call it once to receive the coordinates of the square at position <i>n</i>. It is also very fast.
@@ -270,7 +270,6 @@ function Footnote2() {
 			This is the shortest answer you are likely to find anywhere. The fact that the x and y
 			formulas are identical except for the swap betwen sine and cosine is pretty cool! However, this is
 			even slower than the naive approach so we can safely rule it out.
-			<Footnote num={1} />
 		</div>
 	);
 }
@@ -495,13 +494,19 @@ export default Content;
 // X   Impressive header
 // X    Add button to ulan spiral to make prime + any other desired features (text on/off etc)
 // X Many pictures (wait until I'm done with the ulan component)
-// Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
+// X Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
+	// Slider
+	// Code dropdown
+	// Ulam button
+	// Icon Buttons
+	// Cabinet (maybe add a closer at the bottom too)
+	// Many input boxes (+ button combo)
 // General CSS simplification + determinations
 // Section on stackoverflow solutions
 
-// Replace benchmark promise with try catch binary search code
-// Cut down content or move to footnotes
+// X Cut down content or move to footnotes
 // Add table of first 50 values
 // Set min and max value for all inputs (also make the unlock button force grid view)
 // Set limits to katex parset (log, sqrt, etc)
+// Make codepen presentable

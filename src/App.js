@@ -51,17 +51,18 @@ function App() {
 		);
 	}
 
+
 	return (
 		<div className='App'>
 			<Header />
 
+			
+
 			{Content[0]()}
 			{Content[1]()}
-
+			
 			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} />
-
 			{Content[2]({ code: codeBlockFootnote1 })}
-
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].fss}

@@ -9,19 +9,32 @@ import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import themeOptions from "../themeOptions";
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+const masterTheme = createTheme(themeOptions)
+const theme = createTheme(masterTheme, {})
+
+
 
 function CodeBlock({ codeString, language, setLanguage }) {
 	const handleChange = (event) => {
 		setLanguage(event.target.value);
 	};
 
+	
+
 	return (
 		<div className='codeBlock' style={{ maxHeight: 750 }}>
-			<div className='codeBlockTitle'>
-				<div>{"Title"}</div>{" "}
-				<div style={{ marginLeft: "auto" }}>
-					<FormControl size="small">
+			<ThemeProvider theme={theme} >
+
+			
+			<SyntaxHighlighter className='codeBlockCode' language={language} style={syntaxStyle}>
+				{codeString}
+			</SyntaxHighlighter>
+			<div style={{position: 'absolute',  top: 2, right: 2 }}>
+					<FormControl size="small" color="primary">
 						<Select
+							style={{backgroundColor: '#f7e5ae', opacity: '90%', color: '#573b2a' }}
 							value={language}
 							onChange={handleChange}
 							displayEmpty
@@ -31,12 +44,8 @@ function CodeBlock({ codeString, language, setLanguage }) {
 							<MenuItem value={"c"}>C</MenuItem>
 						</Select>
 					</FormControl>
-				</div>
 			</div>
-
-			<SyntaxHighlighter className='codeBlockCode' language={language} style={syntaxStyle}>
-				{codeString}
-			</SyntaxHighlighter>
+			</ThemeProvider>
 		</div>
 	);
 }

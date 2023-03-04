@@ -29,7 +29,7 @@ const fss = `function squareSpiral(n) {
   for (let i = 0; i < n;) {
     for (let j = 0; j < len; j++) {
       drawSquare(location);
-      // Check for the end on every iteration
+      // Check if we're done
       if (i >= n) { 
         return location;
       }
@@ -191,7 +191,7 @@ const pvss = `def verboseSquareSpiral(n):
   while i < n:
     for j in range(length):
       print(location)
-      # Check for the end on every iteration
+      # Check if we're done
       if i >= n:
         return location
       location[axis] += direction
@@ -284,7 +284,7 @@ const cfss = `int squareSpiral(int n, int location[])
     for (int j = 0; j < length; j++)
     {
       printf("%d,%d \n", location[0], location[1]);
-      // Check for the end on every iteration
+      // Check if we're done
       if (i >= n)
       {
         return *location;

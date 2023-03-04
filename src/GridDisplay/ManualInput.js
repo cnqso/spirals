@@ -6,11 +6,11 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import {SendIcon} from "./icons";
 
-export default function ManualInput({ newInput, start = 25 }) {
+export default function ManualInput({ newInput, matches, start = 25 }) {
 	const numberRef = useRef(25);
 	const buttonRef = useRef();
 
-
+	const label = matches ? "Squares": null;
 
 	function onEnter() {
 		newInput(numberRef.current.value);
@@ -22,7 +22,7 @@ export default function ManualInput({ newInput, start = 25 }) {
 		<span>
 		<TextField
 			id="SquaresInput"
-			label="Squares"
+			label= {label}
 			type="number"
 			defaultValue={start}
 			inputRef={numberRef}
@@ -33,7 +33,7 @@ export default function ManualInput({ newInput, start = 25 }) {
 				}
 			  }}
 	  />
-	  <IconButton aria-label="input" size="small" ref={buttonRef} onClick={onEnter}>
+	  <IconButton aria-label="input" ref={buttonRef} onClick={onEnter}>
   		<SendIcon fontSize="inherit" />
 		</IconButton>
 	  </span>
