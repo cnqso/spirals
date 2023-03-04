@@ -44,10 +44,13 @@ function Text2() {
 			<div className='textBlock'>
 				To accomplish this, I needed a function that can access the coordinates of any square <i>n</i>{" "}
 				on a spiral. Square spirals are not a new concept -- some of you probably recognize the
-				concept from the Ulan Spiral, a square spiral which hides all squares for which <i>n</i> is
-				not prime. Since square spirals had already reached pop mathematics, I assumed that there
-				would be a well-known method to add and retrieve data from them, but my search found a wide
-				range of different approaches
+				concept from the{" "}
+				<a href='https://en.wikipedia.org/wiki/Ulam_spiral' target='_blank' rel='noreferrer'>
+					Ulam Spiral
+				</a>
+				, a square spiral which hides all squares for which <i>n</i> is not prime. Since square
+				spirals had already reached pop mathematics, I assumed that there would be a well-known method
+				to add and retrieve data from them, but my search found a wide range of different approaches
 				<Footnote num={2} />I wasn't able to find anything that I was happy with, so I decided to take
 				a shot at it myself. I started by drawing a spiral manually and seeing what I noticed.
 			</div>
@@ -161,10 +164,8 @@ function Text6() {
 function Text7({ code }) {
 	return (
 		<div className='textBlock'>
-			Pretty cool! After a little bit of performance tuning
-			<Footnote num={7} extFootnote={code} punctuation={", "} /> this function can calculate the
-			coordinates of any given point in a square spiral up to 1e29 in 5ms-150ms depending on the
-			language
+			Pretty cool! After a little bit of performance tuning this function can calculate the coordinates
+			of any given point in a square spiral up to 1e29 in a few milliseconds.
 			<Footnote num={6} /> This is where my exploration ended. There are many more avenues of inquiry
 			like quick coordinate-neighbor calculation
 			<Footnote num={5} punctuation={", "} /> deriving a square's number from coordinates, and many
@@ -172,7 +173,7 @@ function Text7({ code }) {
 			<Footnote num={9} />
 			<br />
 			<br />
-			You may be wondering if there is practicality to any of this. I would answer with "yes, barely".
+			What's the practicality of any of this?
 			<ul>
 				<li>
 					There is, of course, the minor performance gain I get from using the{" "}
@@ -180,23 +181,18 @@ function Text7({ code }) {
 					solution in my web app. If the app were to scale, this would be tangible.
 				</li>{" "}
 				<li>
-					For any infinite 2D grid, organizing data is difficult to do efficiently with usual tools.
-					In a NoSQL database, for example, a 2D array of indeterminate size is a nightmare to
-					organize. You have to make one of two sacrifices: either you check the size of the
-					subarrays on each read, or you seperately store and maintain the current size of each
-					subarray. Since negative numbers are not supported by arrays, you also have to maintain a
-					global offset for use on the frontend. Using a square spiral function is a fast way to
-					store the location of any positive or negative point in a single positive integer without
-					ever needing to update anything.
+					It's a novel and decently efficient way to store 2D location data in a single integer.
+					There are some (relatively niche) cases where this method is probably the most
+					bandwidth-efficient way to store location data in a NoSQL database.
 				</li>
 				<li>
-					It allows for a faster generation and analysis of{" "}
-					<a href='https://en.wikipedia.org/wiki/Ulam_spiral' target='_blank' rel='noreferrer'>
-						Ulam Spirals
-					</a>{" "}
-					and similar patterns.
+					It allows for noticeably faster generation and analysis of Ulam Spirals and similar
+					patterns.
 				</li>
 			</ul>
+			<br />
+			Thanks for reading. To close, here's a tool you can use to explore some of the spiral patterns
+			yourself. Let me know if you find anything interesting.
 		</div>
 	);
 }
@@ -221,14 +217,15 @@ function Footnote1() {
 function Footnote2() {
 	return (
 		<div>
-			The first was very theoretical: trying to find a single formula for a point on a spiral given n.
-			This was very promising and exactly what I was looking for, but the solutions were incredibly
-			complex, both in terms of understanding and computation. The second was practical and what I will
-			brazenly call the "naive" approach. This approach was to record every visited square and try to
-			turn right whenever possible. This was more programmatic, sure, but the amount of time needed for
-			each step and the balooning memory complexity of the operation was untenable to me. My solution
-			didn't need to be efficient, but I was frustrated that what I saw as a simple problem had no
-			simple and fast solution.
+			The first is the naive approach: try to turn left then move one square forward. It's simple and
+			intuitive, the way you might program a square-spiral drawing robot. However, it requires that you
+			keep track of every square you visit, which will eventually be quite a bit. Even if you add some
+			restriction like "only store coordinates that are similarly far away from the origin as the
+			current coordinate", you are still operating at <MathTalics m='O\sqrt{n}' /> memory complexity
+			along with the <MathTalics m='O(n)' /> average-case time complexity.
+			<br />
+			The second was more complex: trying to find a single formula for a point on a spiral given n.
+			These solutions were very interesting.
 			<br />
 			<Footnote num={1} />
 		</div>
@@ -458,6 +455,7 @@ export default Content;
 // Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
 // General CSS simplification + determinations
+// Section on stackoverflow solutions
 
 // Replace benchmark promise with try catch binary search code
 // Cut down content or move to footnotes
