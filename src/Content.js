@@ -6,6 +6,10 @@ import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
 import cityPlots from "./Images/cityPlots.png";
 import drawnSquares from "./Images/drawnSquares.png";
+import ConditionalAnswer from "./Images/ConditionalAnswer.png";
+import CosineAnswer1 from "./Images/CosineAnswer1.png";
+import CosineAnswer2 from "./Images/CosineAnswer2.png";
+import Summation from "./Images/Summation.png";
 import img2n from "./Images/2n.png";
 import imgn2 from "./Images/n2.png";
 import img4n2 from "./Images/4n2.png";
@@ -217,16 +221,55 @@ function Footnote1() {
 function Footnote2() {
 	return (
 		<div>
-			The first is the naive approach: try to turn left then move one square forward. It's simple and
-			intuitive, the way you might program a square-spiral drawing robot. However, it requires that you
-			keep track of every square you visit, which will eventually be quite a bit. Even if you add some
-			restriction like "only store coordinates that are similarly far away from the origin as the
-			current coordinate", you are still operating at <MathTalics m='O\sqrt{n}' /> memory complexity
-			along with the <MathTalics m='O(n)' /> average-case time complexity.
+			The first is the naive approach: try to turn left, move one square forward, and draw a
+			square/point. It's simple and intuitive, the way you might program a square-spiral drawing robot.
+			However, it requires that you keep track of every square you visit, which will eventually be quite
+			a bit. Even if you add some restriction like "only store coordinates that are similarly far away
+			from the origin as the current coordinate", you are still operating at{" "}
+			<MathTalics m='O\sqrt{n}' /> memory complexity along with the <MathTalics m='O(n)' /> average-case
+			time complexity.
 			<br />
 			The second was more complex: trying to find a single formula for a point on a spiral given n.
-			These solutions were very interesting.
+			These solutions were very interesting. Most sources I was able to find all pointed back to the
+			same thread on Mathematics Stack Exchange called{" "}
+			<a
+				href='https://math.stackexchange.com/questions/3157030/parametrizing-the-square-spiral'
+				target='_blank'
+				rel='noopener noreferrer'>
+				"Parametrizing the square spiral"
+			</a>
+			. These solutions were all attempted with equations rather than algorithms. The most commonly
+			cited solution, also the top response in the thread, looks like this.
 			<br />
+			<img src={ConditionalAnswer} style={{ display: "block", margin: "auto" }} />I really like this
+			solution despite its flaws. It was the most elegant expression of this problem in equative terms
+			that I was able to find. My issue with this approach is that the marriage of algorithm and
+			equation gives you the worst of both worlds. You would hope that the equative solution would
+			remove the need for iterations and conditional logic, like applying math to a combinatorics
+			problem. However, this solution hides logic in the variables (<MathTalics m='\^{n}' /> contains
+			both a conditional and a floor operation) and then performs conditional logic using that variable.
+			Since I'm trying to apply this solution to a program, I either want the full benefits of an
+			equative approach (reduced complexity and easy copy-paste-ability) or the full benefits of an
+			algorithmic approach (readability and iterability ). Speaking of hiding logic in the variables,
+			check out this solution from the same thread.
+			<br />
+			<img src={CosineAnswer1} style={{ display: "block", margin: "auto" }} />
+			This solution is fun. At first I was very excited: it opens with removing the conditional logic
+			used in the above solution to determine what "side" of the spiral you're currently on. It does
+			this using sine and cosine functions, approaching the square spiral like a traditional Archimedean
+			spiral. Unfortunately, conditional logic comes in at the very last second.
+			<br />
+			<img src={CosineAnswer2} style={{ display: "block", margin: "auto" }} />
+			Right at the finish line we get a new variable defined as the "greatest odd perfect square smaller
+			than k". This requires not only a floor operation (<MathTalics m='\lfloor{\sqrt{k}}\rfloor^2' />
+			), but also a conditional statement which may lead to another floor operation. We traded in 4
+			conditionals for another floor operation. Not necessarily a bad deal, but it retains all the same
+			problems as the first solution for my use case. The last solution looked like this:
+			<br />
+			<img src={Summation} style={{ display: "block", margin: "auto" }} />
+			This is the shortest answer you are likely to find anywhere. The fact that the x and y
+			formulas are identical except for the swap betwen sine and cosine is pretty cool! However, this is
+			even slower than the naive approach so we can safely rule it out.
 			<Footnote num={1} />
 		</div>
 	);
