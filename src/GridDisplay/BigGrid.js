@@ -5,7 +5,6 @@ import SquarePlot from "./SquarePlot";
 import RangeInput from "./RangeInput";
 import "./SquareGrid.css";
 
-
 function mathSquareSpiral(n) {
 	const lowerRoot = Math.floor(Math.sqrt(n));
 	let anchor = lowerRoot ** 2;
@@ -24,7 +23,7 @@ function mathSquareSpiral(n) {
 	return location;
 }
 
-function BigGrid({ type }) {
+function BigGrid() {
 	const [boundary, setBoundary] = useState(144);
 	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
@@ -41,22 +40,20 @@ function BigGrid({ type }) {
 	}
 
 	function iterateMathSquareSpiral() {
-        let iterations = squares/3;
-        if (squares < 3) {
-            iterations = squares;
-        }
-        if (squares - index <= iterations) {
-            iterations = squares - index;
-        }
-        const tempPlotData = plotData;
-        for (let i = 0; i < iterations; i++) {
-            const randomN = Math.ceil(Math.random() * boundary);
-            const [x, y] = mathSquareSpiral(randomN);
-            tempPlotData.push({ n: randomN, x: x, y: y });
-        }
-		
-		
-		
+		let iterations = squares / 3;
+		if (squares < 3) {
+			iterations = squares;
+		}
+		if (squares - index <= iterations) {
+			iterations = squares - index;
+		}
+		const tempPlotData = plotData;
+		for (let i = 0; i < iterations; i++) {
+			const randomN = Math.ceil(Math.random() * boundary);
+			const [x, y] = mathSquareSpiral(randomN);
+			tempPlotData.push({ n: randomN, x: x, y: y });
+		}
+
 		setPlotData(tempPlotData);
 		setIndex(index + iterations);
 	}
@@ -70,17 +67,16 @@ function BigGrid({ type }) {
 	}, [index]);
 
 	return (
-		<div className="BigGrid">
-				<SquarePlot
-					squarrayLength={Math.ceil(Math.sqrt(boundary))}
-					plotData={plotData}
-					index={index}
-					origin={origin}
-					linear={1}
-					padding = {40}
-				/>
+		<div className='BigGrid'>
+			<SquarePlot
+				squarrayLength={Math.ceil(Math.sqrt(boundary))}
+				plotData={plotData}
+				index={index}
+				origin={origin}
+				linear={1}
+				padding={40}
+			/>
 
-			
 			<div className='bigGridControl'>
 				<RangeInput newInput={mssInput} squares={squares} index={index} />
 			</div>
@@ -89,4 +85,3 @@ function BigGrid({ type }) {
 }
 
 export default BigGrid;
-// "basis", "bundle", "cardinal", "catmullRom", "linear", "monotoneX", "monotoneY", "natural", "step", "stepAfter", "stepBefore"

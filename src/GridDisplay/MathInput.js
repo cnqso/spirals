@@ -1,23 +1,12 @@
 /** @format */
 
 import { React, useRef } from "react";
-import { useMediaQuery } from "@mui/material";
 import "./SquareGrid.css";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import {
-	LogOutIcon,
-	SendIcon,
-	QuestionIcon,
-	SunMoonIcon,
-	GithubIcon,
-	WebsiteIcon,
-	ResidentialIcon,
-	IndustrialIcon,
-	CommercialIcon,
-} from "./icons";
+import {SendIcon} from "./icons";
 
-export default function MathInput({ formulaRef, newMathInput, newInput, updateFormula }) {
+export default function MathInput({ formulaRef, newInput, updateFormula }) {
 	const buttonRef = useRef();
 
 	const numberRef = useRef(25);

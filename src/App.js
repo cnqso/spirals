@@ -1,14 +1,12 @@
 /** @format */
 
-import { React, useState, useRef } from "react";
+import { React, useState } from "react";
 import "./App.css";
 import InteractiveCard from "./GridDisplay/InteractiveCard";
 import handleViewport from "react-in-viewport";
 import CodeBlock from "./CodeBlock/CodeBlock";
 import codestrings from "./codestrings";
 import Content from "./Content";
-import Collapse from "@mui/material/Collapse";
-import SquarePlot from "./GridDisplay/SquarePlot";
 import BigGrid from "./GridDisplay/BigGrid";
 import ExperimentGrid from "./GridDisplay/ExperimentGrid";
 import Header from "./Header/Header";

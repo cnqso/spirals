@@ -1,28 +1,17 @@
 /** @format */
 
 import { React, useState, useEffect, useRef } from "react";
-import SquareGrid from "./SquareGrid";
-import SquarePlot from "./SquarePlot";
 import ManualInput from "./ManualInput";
-import RangeInput from "./RangeInput";
-import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import { Locked, Unlocked, Plot, Grid } from "./icons";
 import "./SquareGrid.css";
-import { InlineMath, BlockMath } from "react-katex";
+import { BlockMath } from "react-katex";
 import MathInput from "./MathInput";
 import { Parser } from "expr-eval";
-import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import themeOptions from "../themeOptions";
 
-const blue = "#71C2A9";
-const brown = "#573B2A";
-const cream = "#F7E5AE";
-const orange = "#DE731D";
-const tan = "#EC9C26";
-const red = "#75280f";
-const baseColor = red;
-const highlightColor = tan;
+const baseColor = "#75280f";
+const highlightColor = "#EC9C26";
 
 const theme = createTheme(themeOptions);
 
@@ -54,11 +43,9 @@ function mathSquareSpiral(n) {
 	return location;
 }
 
-function ExperimentGrid({ type }) {
+function ExperimentGrid() {
 	const [squares, setSquares] = useState(250);
 	const [index, setIndex] = useState(0);
-	const [conditionalIndex, setConditionalIndex] = useState(0);
-	const [showText, setShowText] = useState(true);
 	const [formulaText, setFormulaText] = useState("4*n^2 - 4*n + 1");
 	const [katexText, setKatexText] = useState("4n^2 - 4n + 1");
 	const [primeMode, setPrimeMode] = useState(true);
@@ -73,11 +60,12 @@ function ExperimentGrid({ type }) {
 
 	function newInput(input) {
 		try {
+			// Hacky way of avoiding common bugs with this library
 			const val = Parser.evaluate(formulaText, { n: 0 }) / 5;
 			setSquares(input);
-			setConditionalIndex(0);
 			setIndex(0);
 		} catch (e) {
+			// If we get a Parser bug, reset
 			setIndex(-1);
 		}
 	}
@@ -85,6 +73,7 @@ function ExperimentGrid({ type }) {
 	function updateFormula() {
 		const input = formulaRef.current.value;
 		try {
+			// Hacky way of avoiding common bugs with this library
 			const val = Parser.evaluate(input, { n: 0 }) / 5;
 			setFormulaText(input);
 
@@ -99,9 +88,9 @@ function ExperimentGrid({ type }) {
 			}
 			setKatexText(katexified);
 		} catch (e) {
+			// If we get a Parser bug, reset
 			setIndex(-1);
 		}
-		//setFormulaArray();
 	}
 
 	function iteratePrimeSquareSpiral(origin) {
@@ -159,7 +148,6 @@ function ExperimentGrid({ type }) {
 
 	const canvas = useRef(null);
 	function drawSquare(x, y, color, text) {
-		const wh = Math.ceil(Math.sqrt(squares));
 		const squareSz = (1080 / wh) * 0.95;
 		const padding = (1080 / wh) * 0.05;
 		const yMirrorOffset = 1080 - squareSz;
@@ -179,26 +167,13 @@ function ExperimentGrid({ type }) {
 			squareSz,
 			squareSz
 		);
-		if (showText && text.length > 0 && squares < 15000) {
+		if (text.length > 0 && squares < 15000) {
 			ctx.fillStyle = "black";
 			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
 		}
-		// ctx.fillStyle = red;
-		// ctx.fillRect(
-		// 	squareSz + padding + padding / 2,
-		// 	padding * 0.59,
-
-		// 	squareSz * 4.15,
-		// 	squareSz - padding * 0.3
-		// );
-		// ctx.fillStyle = "black";
-		// ctx.font = `${55}px serif`;
-		// const canvasKatex = "4n²" + katexText.substring(4);
-		// ctx.fillText("2n", 75 + 115, 55);
 	}
 
 	function clearGrid() {
-		const wh = Math.ceil(Math.sqrt(squares));
 		const ctx = canvas.current.getContext("2d");
 		ctx.clearRect(0, 0, 1080, 1080);
 		ctx.fillStyle = baseColor;
@@ -223,7 +198,13 @@ function ExperimentGrid({ type }) {
 						{primeMode ? "Ulan Spiral" : "Custom Pattern"}
 					</Button>
 					{primeMode ? (
-						<ManualInput label="Squares" newInput={newInput} squares={squares} index={index} start={250} />
+						<ManualInput
+							label='Squares'
+							newInput={newInput}
+							squares={squares}
+							index={index}
+							start={250}
+						/>
 					) : (
 						<MathInput
 							newInput={newInput}
@@ -237,11 +218,10 @@ function ExperimentGrid({ type }) {
 							<>
 								<br />
 								<br />
-								<br />	
+								<br />
 							</>
 						) : (
 							<BlockMath math={katexText} />
-
 						)}
 					</div>
 				</ThemeProvider>

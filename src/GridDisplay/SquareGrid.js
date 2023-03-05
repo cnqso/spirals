@@ -1,17 +1,9 @@
-/** @format */
-
-import { React, useState, useEffect, useRef } from "react";
+import { React, useEffect, useRef } from "react";
 import "./SquareGrid.css";
 
 
-const blue = "#71C2A9";
-const brown = "#573B2A";
-const cream = "#F7E5AE";
-const orange = "#DE731D";
-const tan = "#EC9C26";
-const red = "#75280f";
-const baseColor = red;
-const highlightColor = tan;
+const baseColor = "#75280f";
+const highlightColor = "#EC9C26";
 
 function SquareGrid({squares, index}) {
 

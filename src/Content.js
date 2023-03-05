@@ -3,7 +3,7 @@
 import { React, useState, useRef } from "react";
 import Collapse from "@mui/material/Collapse";
 import "katex/dist/katex.min.css";
-import { InlineMath, BlockMath } from "react-katex";
+import { InlineMath } from "react-katex";
 import cityPlots from "./Images/cityPlots.png";
 import drawnSquares from "./Images/drawnSquares.png";
 import ConditionalAnswer from "./Images/ConditionalAnswer.png";
@@ -38,7 +38,7 @@ function Text1() {
 				"spiral" around an origin.
 			</div>
 			<br />
-			<img src={cityPlots} />
+			<img src={cityPlots} alt="A drawing of 3 city plots with the 4th being places in a spiraling pattern"/>
 			<br />
 		</>
 	);
@@ -62,7 +62,7 @@ function Text2() {
 				started by drawing one manually and seeing what I noticed.
 			</div>
 			<br />
-			<img src={drawnSquares} />
+			<img src={drawnSquares} alt="A drawing of 47 squares, numbered and arranged in a spiral pattern" />
 			<br />
 			<div className='textBlock'>
 				The first thing you might notice is that we have a constant four-phase movement pattern. Lets
@@ -146,8 +146,9 @@ function Text5() {
 			<br />
 			If we want to draw a spiral this is a pretty solid solution, but we can't be stop here, right?
 			This is still overkill if our goal is to find the coordinates of any given square. Even with the
-			faster solution, the iterative approach limits the practicality of the function. I took a look at the patterns that show up in the spiral{" "}
-			<Footnote num={5} /> and I found a potential solution that I think is pretty cool.
+			faster solution, the iterative approach limits the practicality of the function. I took a look at
+			the patterns that show up in the spiral <Footnote num={5} punctuation=',' /> and I found a
+			solution that I think is pretty cool.
 		</div>
 	);
 }
@@ -158,38 +159,37 @@ function Text6() {
 			[0,0] or diagonally Southeast from [1,0]
 			<Footnote num={6} /> If we find the closest square number less than or equal to{" "}
 			<MathTalics m='n,' /> we can simply take the difference between that number and{" "}
-			<MathTalics m='n' /> to "skip" directly to our desired coordinates. We just have to do a little bit of
-			math to determine how far and in which direction(s) to move. Since
-			this is a single-step solution, it's hard to make a fun animation like the previous two. Instead, I'll
-			just try to show off how fast this solution is. The block below will calculate a number of random
-			spiral positions within a given range. It will accept a quantity up to 1000 (each point is a DOM
-			element so it might hit your performance) and a range up to 1e29. Try it out!
+			<MathTalics m='n' /> to "skip" directly to our desired coordinates. We just have to do a little
+			bit of math to determine how far and in which direction to move. Since this is a single-step
+			solution, it's hard to make a fun animation like the previous two. Instead, I'll just try to show
+			off how fast this solution is. The block below will calculate a number of random spiral positions
+			within a given range. It will accept a range up to 1e29. Try it out!
 		</div>
 	);
 }
 function Text7({ code }) {
 	return (
 		<div className='textBlock'>
-			Pretty cool! After a little bit of performance tuning this function can calculate the coordinates
-			of any given point in a square spiral up to 1e29 in a few milliseconds.
-			<Footnote num={6} /> This is where my exploration ended. There are many more avenues of inquiry
+			Pretty cool! This function can calculate the coordinates of any given point in a square spiral in
+			a few milliseconds. This is decided to end my exploration. There are many more avenues of inquiry
 			like quick coordinate-neighbor calculation
 			<Footnote num={5} punctuation={", "} /> deriving a square's number from coordinates, and many
-			other things which others have explored at length already
-			<Footnote num={9} />
+			other things which others have explored at length by others
+			<Footnote num={7} />
 			<br />
 			<br />
 			What's the practicality of any of this?
 			<ul>
 				<li>
-					There is, of course, the minor performance gain I get from using the{" "}
-					<MathTalics m='O(1)' /> rather than <MathTalics m='O(n)' />
-					solution in my web app. If the app were to scale, this would be tangible.
+					There is, of course, a minor performance gain I get from using the <MathTalics m='O(1)' />{" "}
+					rather than <MathTalics m='O(n)' />
+					solution in my web app. This doesn't matter much now, but would be a noticeable
+					improvement at scale.
 				</li>{" "}
 				<li>
 					It's a novel and decently efficient way to store 2D location data in a single integer.
 					There are some (relatively niche) cases where this method is probably the most
-					bandwidth-efficient way to store location data in a NoSQL database.
+					bandwidth-efficient way to store location information in a database.
 				</li>
 				<li>
 					It allows for noticeably faster generation and analysis of Ulam Spirals and similar
@@ -198,7 +198,7 @@ function Text7({ code }) {
 			</ul>
 			<br />
 			Thanks for reading. To close, here's a tool you can use to explore some of the spiral patterns
-			yourself. Let me know if you find anything interesting.
+			yourself. Let me know if you find anything interesting!
 		</div>
 	);
 }
@@ -225,17 +225,16 @@ function Footnote1() {
 function Footnote2() {
 	return (
 		<div>
-			The first is the naive approach: try to turn left, move one square forward, and draw a
+			The first is the naive approach: move one square forward, try to turn left and draw a
 			square/point. It's simple and intuitive, the way you might program a square-spiral drawing robot.
 			However, it requires that you keep track of every square you visit, which will eventually be quite
-			a bit. Even if you add some restriction like "only store coordinates that are similarly far away
+			a bit. Even if you add some restriction like "only store coordinates that are similarly distant
 			from the origin as the current coordinate", you are still operating at{" "}
-			<MathTalics m='O\sqrt{n}' /> memory complexity along with the <MathTalics m='O(n)' /> average-case
-			time complexity.
+			<MathTalics m='O\sqrt{n}' /> space complexity along with the <MathTalics m='O(n)' /> time complexity.
 			<br />
 			The second was more complex: trying to find a single formula for a point on a spiral given{" "}
-			<MathTalics m='n' />. These solutions were very interesting. Most sources I was able to find all
-			pointed back to the same thread on Mathematics Stack Exchange called{" "}
+			<MathTalics m='n.' /> These solutions were very interesting. Most sources I was able to find all
+			pointed back to the same thread on Mathematics Stack Exchange called {" "}
 			<a
 				href='https://math.stackexchange.com/questions/3157030/parametrizing-the-square-spiral'
 				target='_blank'
@@ -245,32 +244,32 @@ function Footnote2() {
 			. These solutions were all attempted with equations rather than algorithms. The most commonly
 			cited solution, also the top response in the thread, looks like this.
 			<br />
-			<img src={ConditionalAnswer} style={{ display: "block", margin: "auto" }} />I really like this
-			solution despite its flaws. It was the most elegant expression of this problem in equative terms
+			<img src={ConditionalAnswer} alt="A screenshot of the first stackexchange answer" style={{ display: "block", margin: "auto" }} />I really like this
+			solution. It was the most elegant expression of this problem in equative terms
 			that I was able to find. My issue with this approach is that the marriage of algorithm and
 			equation gives you the worst of both worlds. You would hope that the equative solution would
-			remove the need for iterations and conditional logic, like applying math to a combinatorics
-			problem. However, this solution hides logic in the variables (<MathTalics m='{\^n}' /> contains
-			both a conditional and a floor operation) and then performs conditional logic using that variable.
+			remove the need for iterations and conditional logic, as they do for combinatorics
+			problems. However, this solution hides logic in the variables (<MathTalics m='{\^n}' /> contains
+			both a conditional and a floor operation) and then performs conditional logic using those variables.
 			Since I'm trying to apply this solution to a program, I either want the full benefits of an
 			equative approach (reduced complexity and easy copy-paste-ability) or the full benefits of an
-			algorithmic approach (readability and iterability ). Speaking of hiding logic in the variables,
+			algorithmic approach (readability and modularity). Speaking of hiding logic in the variables,
 			check out this solution from the same thread.
 			<br />
-			<img src={CosineAnswer1} style={{ display: "block", margin: "auto" }} />
+			<img src={CosineAnswer1} alt="A screenshot of the second stackexchange answer" style={{ display: "block", margin: "auto" }} />
 			This solution is fun. At first I was very excited: it opens with removing the conditional logic
 			used in the above solution to determine what "side" of the spiral you're currently on. It does
 			this using sine and cosine functions, approaching the square spiral like a traditional Archimedean
 			spiral. Unfortunately, conditional logic comes in at the very last second.
 			<br />
-			<img src={CosineAnswer2} style={{ display: "block", margin: "auto" }} />
+			<img src={CosineAnswer2} alt="A screenshot of the end of the second stackexchange answer" style={{ display: "block", margin: "auto" }} />
 			Right at the finish line we get a new variable defined as the "greatest odd perfect square smaller
 			than k". This requires not only a floor operation (<MathTalics m='\lfloor{\sqrt{k}}\rfloor^2' />
 			), but also a conditional statement which may lead to another floor operation. We traded in 4
 			conditionals for another floor operation. Not necessarily a bad deal, but it retains all the same
 			problems as the first solution for my use case. The last solution looked like this:
 			<br />
-			<img src={Summation} style={{ display: "block", margin: "auto" }} />
+			<img src={Summation} alt="A screenshot of the final stackexchange answer" style={{ display: "block", margin: "auto" }} />
 			This is the shortest answer you are likely to find anywhere. The fact that the x and y formulas
 			are identical except for the swap betwen sine and cosine is pretty cool! However, this is even
 			slower than the naive approach so we can safely rule it out.
@@ -302,7 +301,7 @@ function Footnote5() {
 			example, what if you skipped every odd square? The new sequence would be <MathTalics m='2n' />,
 			and it would look like this.
 			<br />
-			<img src={img2n} style={{ display: "block", margin: "auto" }} />
+			<img src={img2n} alt="A visualization of a grid of a 2n square spiral" style={{ display: "block", margin: "auto" }} />
 			<br />
 			You end up with a checkerboard pattern! This is obvious once you think about it but I was shocked
 			when I realized. When I talk about "patterns" I am specifically referring to the relationship
@@ -313,20 +312,20 @@ function Footnote5() {
 			<MathTalics m='n^2' />. That sequence looks like this.
 			<br />
 			<br />
-			<img src={imgn2} style={{ display: "block", margin: "auto" }} />
+			<img src={imgn2} alt="A visualization of a grid of a n^2 square spiral" style={{ display: "block", margin: "auto" }} />
 			You end up with every perfect square on the grid. You might notice that every even square is on a
 			diagonal Northwest of the origin, and every odd square is on a diagonal Southeast from (1,0). We
 			can isolate these sides to interesting effect. For even numbers, this would look like{" "}
 			<MathTalics m='(2n)^2' />, which evaluates to <MathTalics m='4n^2' /> That sequence looks like
 			this.
 			<br />
-			<img src={img4n2} style={{ display: "block", margin: "auto" }} />
+			<img src={img4n2} alt="A visualization of a grid of a 4n^2 square spiral" style={{ display: "block", margin: "auto" }} />
 			The thing that makes this sequence so interesting is that you can use it to create a similar radii
 			in any of the 8 possible directions. By adding or subtracting <MathTalics m='n' /> from the
 			sequence, you can get the same sequence but rotated clockwise or counterclockwise by 45 degrees.
 			Here's a visualization of all 8 (technically 9) possible sequences.
 			<br />
-			<img src={gif4n2} style={{ display: "block", margin: "auto" }} />
+			<img src={gif4n2} alt="A gif of a grid cycling through square spirals from 4n^2-4n to 4n^2+4n" style={{ display: "block", margin: "auto" }} />
 			<br />
 			Some notable sequences:
 			<ul type='1'>
@@ -363,7 +362,7 @@ function Footnote5() {
 			diagonally downward from [1,0]. This particular pattern is the same as pattern 7 above but shifted
 			by 1. 5 out of 8 of this square's radii can be drawn with a similar sequence.
 			<br />
-			<img src={gif4n21} style={{ display: "block", margin: "auto" }} />
+			<img src={gif4n21} alt="A gif of a grid cycling through square spirals from 4n^2+1 to 4n^2+8n+1"style={{ display: "block", margin: "auto" }} />
 			<br />
 			These 4 sequences do not cast a radii directly from the source:
 			<ul type='1'>
@@ -422,24 +421,14 @@ function Footnote6() {
 		<div>
 			{" "}
 			Here is a visualization of these points:
-			<img src={imgn2} style={{ display: "block", margin: "auto" }} /> Every even number squared is in
+			<img src={imgn2} alt="A visualization of a grid of a n^2 square spiral" style={{ display: "block", margin: "auto" }} /> Every even number squared is in
 			the North-West radius, and every odd number squared is in the Southeast radius.
 		</div>
 	);
 }
-function Footnote8() {
-	return (
-		<div>
-			I did benchmarks at n=144, n=1e6, and 1e29. I used a weird try/catch binary search to find each
-			language's maximum acceptable input. I'm sure someone smarter than me could structure the function
-			for any arbitarily large input, but since this is already well beyond the scope of practicality I
-			am all set.
-			{/* TODO: table */}
-		</div>
-	);
-}
 
-function Footnote9() {
+
+function Footnote7() {
 	return (
 		<div>
 			<ul type='I'>
@@ -468,7 +457,7 @@ function Footnote9() {
 	);
 }
 
-const Footnotes = [Footnote1, Footnote2, null, Footnote4, Footnote5, Footnote6, null, Footnote8, Footnote9];
+const Footnotes = [Footnote1, Footnote2, null, Footnote4, Footnote5, Footnote6, Footnote7];
 function Footnote({ num, punctuation = ". ", extFootnote }) {
 	const scrollRef = useRef(null);
 	const [show, setShow] = useState(false);
@@ -514,26 +503,3 @@ function Footnote({ num, punctuation = ". ", extFootnote }) {
 const Content = [Text1, Text2, Text3, Text4, Text5, Text6, Text7, Text8];
 
 export default Content;
-
-//Remaining todos:
-// X Convert all functions to other languages (Js, go?, python, rust? c?, haskell???)
-// X   Impressive header
-// X    Add button to ulan spiral to make prime + any other desired features (text on/off etc)
-// X Many pictures (wait until I'm done with the ulan component)
-// X Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
-// MUI "css" (remember to use the github theme creator)
-// X Slider
-// X Code dropdown
-// X Ulam button
-// X Icon Buttons
-// Cabinet (maybe add a closer at the bottom too)
-// Many input boxes (+ button combo)
-// X General CSS simplification + determinations
-// X Section on stackoverflow solutions
-// Clean up footnotes
-
-// X Cut down content or move to footnotes
-// Add table of first 50 values
-// Set min and max value for all inputs (also make the unlock button force grid view)
-// Set limits to katex parset (log, sqrt, etc)
-// Make codepen presentable

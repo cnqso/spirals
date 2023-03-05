@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import { SendIcon } from "./icons";
 
-export default function ManualInput({ newInput, matches, start = 25, label = matches ? "Squares" : null }) {
+export default function ManualInput({ maxSquares = 9999, newInput, matches, start = 25, label = matches ? "Squares" : null }) {
 	const numberRef = useRef(25);
 	const buttonRef = useRef();
 
@@ -19,7 +19,13 @@ export default function ManualInput({ newInput, matches, start = 25, label = mat
 			<TextField
 			sx={{maxWidth: '90%'}}
 				variant='standard'
+				color="error"
 				id='SquaresInput'
+				InputProps={{
+					inputProps: { 
+						max: maxSquares, min: 0
+					}
+				}}
 				label={label}
 				type='number'
 				defaultValue={start}

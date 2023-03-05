@@ -32,6 +32,7 @@
     width: min(100%, 90vh);
     margin-top: 50px;
     margin-bottom: 75px;
+    font-size: 1.5em;
   }
   .BigSquareGrid {
     width: 100%;
