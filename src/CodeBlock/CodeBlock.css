@@ -16,6 +16,18 @@
 	height: 100%;
 	max-width: 900px;
 	max-height: 750px;
+	padding: 20px;
+
+}
+
+#solo {
+	width:auto !important;
+	height: auto !important;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#mss-solo {
 
 }
 

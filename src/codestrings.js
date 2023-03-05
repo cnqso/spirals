@@ -1,19 +1,19 @@
 const sss = `function simpleSquareSpiral() {
-  let location = [0,0]; // x,y
+  let loc = [0,0]; // x,y
   let length = 1;
   while (true) {
     for (let i = 0; i < length; i++) {
-      location[0]++
+      loc[0]++
     }
     for (let i = 0; i < length; i++) {
-      location[1]++
+      loc[1]++
     }
     length++;
     for (let i = 0; i < length; i++) {
-      location[0]--
+      loc[0]--
     }
     for (let i = 0; i < length; i++) {
-      location[1]--
+      loc[1]--
     }
     length++;
   }
@@ -22,18 +22,18 @@ const sss = `function simpleSquareSpiral() {
 
 
 const fss = `function squareSpiral(n) {
-  let location = [0, 0];
+  let loc = [0, 0];
   let len = 1;
   let direction = 1;
   let axis = 0;
   for (let i = 0; i < n;) {
     for (let j = 0; j < len; j++) {
-      drawSquare(location);
+      drawSquare(loc);
       // Check if we're done
       if (i >= n) { 
-        return location;
+        return loc;
       }
-      location[axis] += direction; 
+      loc[axis] += direction; 
       i++; 
     }
 
@@ -46,20 +46,20 @@ const fss = `function squareSpiral(n) {
     // Flip between 0 and 1 (x and y)
     axis ^= 1; 
   }
-  return location;
+  return loc;
 }`;
 
-const lss = `function lineSquareSpiral(n) {
-  let location = [0, 0];
+const lss = `function linearSpiral(n) {
+  let loc = [0, 0];
   let len = 1;
   let direction = 1;
   let axis = 0;
   for (let i = 0; i < n; ) {
     if (i + len > n) {
-      location[axis] += direction * (n - i);
-      return location;
+      loc[axis] += direction * (n - i);
+      return loc;
     }
-    location[axis] += direction * len;
+    loc[axis] += direction * len;
     i += len;
 
     // Every other time
@@ -71,11 +71,11 @@ const lss = `function lineSquareSpiral(n) {
     // Flip between 0 and 1 (x and y)
     axis ^= 1;
   }
-  return location;
+  return loc;
 }`;
 
 const vss = `function verboseSquareSpiral(n) {
-  let location = [0, 0];
+  let loc = [0, 0];
   let len = 1;
   let i = 0;
   while (i < n) {
@@ -84,7 +84,7 @@ const vss = `function verboseSquareSpiral(n) {
       if (i === n) {
         break;
       }
-      location[0]++;
+      loc[0]++;
       i++;
     }
     for (let j = 0; j < len; j++) {
@@ -92,7 +92,7 @@ const vss = `function verboseSquareSpiral(n) {
       if (i === n) {
         break;
       }
-      location[1]++;
+      loc[1]++;
       i++;
     }
     len++;
@@ -101,7 +101,7 @@ const vss = `function verboseSquareSpiral(n) {
       if (i === n) {
         break;
       }
-      location[0]--;
+      loc[0]--;
       i++;
     }
     for (let j = 0; j < len; j++) {
@@ -109,48 +109,48 @@ const vss = `function verboseSquareSpiral(n) {
       if (i === n) {
         break;
       }
-      location[1]--;
+      loc[1]--;
       i++;
     }
     len++;
   }
-  return location;
+  return loc;
 }`
 
 const mss = `function mathSquareSpiral(n) {
   // Perfect squares are located sqrt(n) steps from the origin
   const lowerRoot = Math.floor(Math.sqrt(n));
   const anchor = lowerRoot ** 2;
-  const location = [Math.floor( -lowerRoot / 2 ), Math.floor( lowerRoot / 2 )];
-  // If n is not a perfect square, adjust the y location by remaining steps
+  const loc = [Math.floor( -lowerRoot / 2 ), Math.floor( lowerRoot / 2 )];
+  // If n is not a perfect square, adjust the y loc by remaining steps
   // If remaining steps > current line length, continue on the x axis
-  location[1] -= Math.min(n - anchor, lowerRoot); 
-  location[0] += Math.max(n - anchor - lowerRoot, 0);
-  // If the lower-bound root length is odd, mirror the location
+  loc[1] -= Math.min(n - anchor, lowerRoot); 
+  loc[0] += Math.max(n - anchor - lowerRoot, 0);
+  // If the lower-bound root length is odd, mirror the loc
   if (lowerRoot % 2 !== 0) {
-    return location.map((x) => -x);
+    return loc.map((x) => -x);
   }
-  return location;
+  return loc;
 }`
 
 
-const psss = `def simpleSquareSpiral():
-location = [0, 0]
+const psss = `def simpleSquareSpiral():       
+loc = [0, 0] # x,y  
 length = 1
 while True:
   for _ in range(length):
-    location[0] += 1
+    loc[0] += 1
   for _ in range(length):
-    location[1] += 1
+    loc[1] += 1
   length += 1
   for _ in range(length):
-    location[0] -= 1
+    loc[0] -= 1
   for _ in range(length):
-    location[1] -= 1
+    loc[1] -= 1
   length += 1`
 
 const pvss = `def verboseSquareSpiral(n):
-  location = [0, 0]
+  loc = [0, 0]
   length = 1
   i = 0
   while i < n:
@@ -158,43 +158,43 @@ const pvss = `def verboseSquareSpiral(n):
       # Right
       if i >= n:
         break
-      location[0] += 1
+      loc[0] += 1
       i += 1
     for _ in range(length):
       # Up
       if i >= n:
         break
-      location[1] += 1
+      loc[1] += 1
       i += 1
     length += 1
     for _ in range(length):
       # Left
       if i >= n:
         break
-      location[0] -= 1
+      loc[0] -= 1
       i += 1
     for _ in range(length):
       # Down
       if i >= n:
         break
-      location[1] -= 1
+      loc[1] -= 1
       i += 1
     length += 1
-  return location`
+  return loc`
 
   const pfss = `def squareSpiral(n):
-  location = [0, 0]
+  loc = [0, 0]
   length = 1
   direction = 1
   axis = 0
   i = 0
   while i < n:
     for j in range(length):
-      print(location)
+      print(loc)
       # Check if we're done
       if i >= n:
-        return location
-      location[axis] += direction
+        return loc
+      loc[axis] += direction
       i += 1
 
     # Every other time
@@ -205,19 +205,19 @@ const pvss = `def verboseSquareSpiral(n):
 
     # Flip between 0 and 1 (x and y)
     axis ^= 1
-  return location`
+  return loc`
 
-const plss = `def lineSquareSpiral(n):
-  location = [0, 0]
+const plss = `def linearSpiral(n):
+  loc = [0, 0]
   length = 1
   direction = 1
   axis = 0
   i = 0
   while i < n:
     if i + length > n:
-      location[axis] += direction * (n - i)
-      return location
-    location[axis] += direction * length
+      loc[axis] += direction * (n - i)
+      return loc
+    loc[axis] += direction * length
     i += length
 
     # Every other time
@@ -228,52 +228,52 @@ const plss = `def lineSquareSpiral(n):
 
     # Flip between 0 and 1 (x and y)
     axis ^= 1
-  return location`
+  return loc`
 
 const pmss = `def mathSquareSpiral(n):
   # Perfect squares are located sqrt(n) steps from the origin
   lowerRoot = math.floor(math.sqrt(n))
   anchor = lowerRoot ** 2
-  location = [-lowerRoot // 2, lowerRoot // 2]
-  # If n is not a perfect square, adjust the y location by remaining steps
+  loc = [-lowerRoot // 2, lowerRoot // 2]
+  # If n is not a perfect square, adjust the y loc by remaining steps
   # If remaining steps > current line length, continue on the x axis
-  location[1] -= min(n - anchor, lowerRoot)
-  location[0] += max(n - anchor - lowerRoot, 0)
+  loc[1] -= min(n - anchor, lowerRoot)
+  loc[0] += max(n - anchor - lowerRoot, 0)
 
-  # If the lower-bound root length is odd, mirror the location
+  # If the lower-bound root length is odd, mirror the loc
   if (lowerRoot % 2) != 0:
-    location = [-location[0], -location[1]]
+    loc = [-loc[0], -loc[1]]
   
-  return location`
+  return loc`
 
 const csss = `int simpleSquareSpiral()
 {
-  int location[2] = {0, 0};
+  int loc[2] = {0, 0}; // x,y
   int length = 1;
   while (1)
   {
     for (int i = 0; i < length; i++)
     {
-      location[0] += 1;
+      loc[0] += 1;
     }
     for (int i = 0; i < length; i++)
     {
-      location[1] += 1;
+      loc[1] += 1;
     }
     length++;
     for (int i = 0; i < length; i++)
     {
-      location[0] -= 1;
+      loc[0] -= 1;
     }
     for (int i = 0; i < length; i++)
     {
-      location[1] -= 1;
+      loc[1] -= 1;
     }
     length++;
   }
 }`
 
-const cfss = `int squareSpiral(int n, int location[])
+const cfss = `int squareSpiral(int n, int loc[])
 {
   int length = 1;
   int direction = 1;
@@ -283,13 +283,13 @@ const cfss = `int squareSpiral(int n, int location[])
   {
     for (int j = 0; j < length; j++)
     {
-      printf("%d,%d \n", location[0], location[1]);
+      printf("%d,%d \n", loc[0], loc[1]);
       // Check if we're done
       if (i >= n)
       {
-        return *location;
+        return *loc;
       }
-      location[axis] += direction;
+      loc[axis] += direction;
       i++;
     }
     if (axis == 1)
@@ -301,10 +301,10 @@ const cfss = `int squareSpiral(int n, int location[])
     // Flip between 0 and 1 (x and y)
     axis ^= 1;
   }
-  return *location;
+  return *loc;
 }`
 
-const clss = `int lineSquareSpiral(int n, int location[])
+const clss = `int linearSpiral(int n, int loc[])
 {
   int length = 1;
   int direction = 1;
@@ -312,13 +312,13 @@ const clss = `int lineSquareSpiral(int n, int location[])
   int i = 0;
   while (i < n)
   {
-    printf("%d,%d \n", location[0], location[1]);
+    printf("%d,%d", loc[0], loc[1]);
     if (i + length > n)
     {
-      location[axis] += direction * (n - i);
+      loc[axis] += direction * (n - i);
       i += length;
     }
-    location[axis] += direction * length;
+    loc[axis] += direction * length;
     i += length;
 
     // Every other time
@@ -331,10 +331,10 @@ const clss = `int lineSquareSpiral(int n, int location[])
     // Flip between 0 and 1 (x and y)
     axis ^= 1;
   }
-  return *location;
+  return *loc;
 }`
 
-const cvss = `int verboseSquareSpiral(int n, int location[])
+const cvss = `int verboseSquareSpiral(int n, int loc[])
 {
   int length = 1;
   int i = 0;
@@ -345,9 +345,9 @@ const cvss = `int verboseSquareSpiral(int n, int location[])
       // Right
       if (i >= n)
       {
-        return *location;
+        return *loc;
       }
-      location[0] += 1;
+      loc[0] += 1;
       i++;
     }
     for (int j = 0; j < length; j++)
@@ -355,9 +355,9 @@ const cvss = `int verboseSquareSpiral(int n, int location[])
       // Up
       if (i >= n)
       {
-        return *location;
+        return *loc;
       }
-      location[1] += 1;
+      loc[1] += 1;
       i++;
     }
     length++;
@@ -366,9 +366,9 @@ const cvss = `int verboseSquareSpiral(int n, int location[])
       // Left
       if (i >= n)
       {
-        return *location;
+        return *loc;
       }
-      location[0] -= 1;
+      loc[0] -= 1;
       i++;
     }
     for (int j = 0; j < length; j++)
@@ -376,35 +376,35 @@ const cvss = `int verboseSquareSpiral(int n, int location[])
       // Down
       if (i >= n)
       {
-        return *location;
+        return *loc;
       }
-      location[1] -= 1;
+      loc[1] -= 1;
       i++;
     }
     length++;
   }
-  return *location;
+  return *loc;
 }
 `
 
-const cmss = `int mathSquareSpiral(int n, int *location)
+const cmss = `int mathSquareSpiral(int n, int *loc)
 {
   int lowerRoot = sqrt(n);
   // C uses true integer division, which changes many cases
-  // In Python for example, -1 // 2 == -1, but in C it is 0
+  // In Python and JS, -1 // 2 == -1, but in C -1 // 2 == 0
   // We can adjust by subtracting 1 from x and y if the root is odd
   int isOdd = lowerRoot % 2 != 0;
   int anchor = pow((int) lowerRoot, 2);
-  location[0] = (-lowerRoot-isOdd)/2;
-  location[1] = (lowerRoot-isOdd)/2;
+  loc[0] = (-lowerRoot-isOdd)/2;
+  loc[1] = (lowerRoot-isOdd)/2;
 
-  location[1] -= fmin(n - anchor, lowerRoot);
-  location[0] += fmax(n - anchor - lowerRoot, 0);
+  loc[1] -= fmin(n - anchor, lowerRoot);
+  loc[0] += fmax(n - anchor - lowerRoot, 0);
 
   if (isOdd)
   {
-    location[0] = -location[0];
-    location[1] = -location[1];
+    loc[0] = -loc[0];
+    loc[1] = -loc[1];
   }
 }`
 

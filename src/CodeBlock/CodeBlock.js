@@ -16,7 +16,7 @@ const theme = createTheme(masterTheme, {})
 
 
 
-function CodeBlock({ codeString, language, setLanguage }) {
+function CodeBlock({ codeString, language, setLanguage, id='' }) {
 	const handleChange = (event) => {
 		setLanguage(event.target.value);
 	};
@@ -24,7 +24,7 @@ function CodeBlock({ codeString, language, setLanguage }) {
 	
 
 	return (
-		<div className='codeBlock' style={{ maxHeight: 750 }}>
+		<div className='codeBlock' id={id} style={{ maxHeight: 750 }}>
 			<ThemeProvider theme={theme} >
 
 			
@@ -34,12 +34,14 @@ function CodeBlock({ codeString, language, setLanguage }) {
 			<div style={{position: 'absolute',  top: 2, right: 2 }}>
 					<FormControl size="small" color="primary">
 						<Select
-							style={{backgroundColor: '#f7e5ae', opacity: '90%', color: '#573b2a' }}
+							sx={{paddingLeft: 0.7, paddingTop: 0.2}}
+							variant="standard"
+							style={{backgroundColor: 'rgba(247,229,174, 0.9)', color: '#573b2a' }}
 							value={language}
 							onChange={handleChange}
 							displayEmpty
 							inputProps={{ "aria-label": "Without label" }}>
-							<MenuItem value={"javascript"}>Javascript</MenuItem>
+							<MenuItem variant value={"javascript"}>Javascript</MenuItem>
 							<MenuItem value={"python"}>Python</MenuItem>
 							<MenuItem value={"c"}>C</MenuItem>
 						</Select>

@@ -11,18 +11,7 @@ import Collapse from "@mui/material/Collapse";
 import SquarePlot from "./GridDisplay/SquarePlot";
 import BigGrid from "./GridDisplay/BigGrid";
 import ExperimentGrid from "./GridDisplay/ExperimentGrid";
-import Header from './Header/Header'
-
-
-
-
-
-
-
-
-
-
-
+import Header from "./Header/Header";
 
 function App() {
 	const ViewportIntCard = handleViewport(InteractiveCard /** options: {}, config: {} **/);
@@ -51,17 +40,12 @@ function App() {
 		);
 	}
 
-
 	return (
 		<div className='App'>
 			<Header />
-
-			
-
 			{Content[0]()}
 			{Content[1]()}
-			
-			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} />
+			<CodeBlock codeString={codestrings[language].iss} language={language} setLanguage={setLanguage} id='solo' />
 			{Content[2]({ code: codeBlockFootnote1 })}
 			<div className='codeAndDisplay'>
 				<CodeBlock
@@ -72,7 +56,6 @@ function App() {
 				<ViewportIntCard type='fss' />
 			</div>
 			{Content[3]()}
-
 			<div className='codeAndDisplay'>
 				<CodeBlock
 					codeString={codestrings[language].lss}
@@ -81,23 +64,23 @@ function App() {
 				/>
 				<ViewportIntCard type='lss' />
 			</div>
-			{Content[4]()}
+			{Content[4]()}{" "}
 			<CodeBlock
 				codeString={codestrings[language].rmss}
 				language={language}
 				setLanguage={setLanguage}
+				id='solo'
 			/>
 			{Content[5]()}
-
-
-			<br/><br/>
-				<BigGrid type='mss' />
-			<br/><br/>
-			{Content[6]({code: codeBlockFootnote2})}
-			<br/><br/>
+			<br />
+			<br />
+			<BigGrid type='mss' />
+			<br />
+			<br />
+			{Content[6]({ code: codeBlockFootnote2 })}
+			<br />
+			<br />
 			<ExperimentGrid />
-			
-
 		</div>
 	);
 }

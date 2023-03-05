@@ -5,7 +5,9 @@
     display: flex;
     justify-content: space-between;
     border: 1px solid var(--brown);
-    padding: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
     background-color: var(--blue);
     color: var(--blue);
     font-size: 1.5em;
@@ -28,9 +30,13 @@
   }
   .BigGrid {
     width: min(100%, 90vh);
+    margin-top: 50px;
+    margin-bottom: 75px;
   }
   .BigSquareGrid {
     width: 100%;
+    margin-top: 30px;
+    
   }
   .lockButton {
     display:inline-block;
@@ -68,6 +74,7 @@
   @media (max-width: 900px) {
     .DisplayCard {
       width: 100%;
+      padding: 20px;
     }
     .SquareGrid {
       width: 80%;
@@ -76,8 +83,7 @@
     .gridControl {
       height: 60vw;
       width: 20%;
-      margin-left: 0;
-      margin-right: auto;
+      margin-right: -3vw;
     }
     .sliderBox{
       height: 70vw;

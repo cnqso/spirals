@@ -37,7 +37,9 @@ function Text1() {
 				<Footnote num={1} /> I decided that the best way to accomplish this was to have players
 				"spiral" around a central plot.
 			</div>
+			<br/>
 			<img src={cityPlots} />
+			<br/>
 		</>
 	);
 }
@@ -58,7 +60,9 @@ function Text2() {
 				<Footnote num={2} />I wasn't able to find anything that I was happy with, so I decided to take
 				a shot at it myself. I started by drawing a spiral manually and seeing what I noticed.
 			</div>
+			<br/>
 			<img src={drawnSquares} />
+			<br/>
 			<div className='textBlock'>
 				The first thing you might notice is that we have a constant four-phase movement pattern. Lets
 				think of <i>len</i> as the length of each "side" of the spiral, starting at <i>len</i> = 1.
@@ -118,12 +122,10 @@ function Text4() {
 			The time complexity is <MathTalics m='O(n)' /> and the space complexity is <MathTalics m='O(1)' />
 			. The code can accept up to ~1 billion squares until it starts to choke up
 			<Footnote num={4} />
-			<br />
+			<br /><br />
 			But what if you want to draw a square spiral but don't care about the individual squares? If you
 			wanted to draw a square spiral in a game for example, stopping at each pixel to iterate and run
-			checks is time wasted.
-			<br />
-			One easy way we could improve this is to stop moving one square at a time. Since we know the
+			checks is time wasted. One easy way we could improve this is to stop moving one square at a time. Since we know the
 			length of each side of the spiral ahead of time, we can 'skip' to the end instead of moving one
 			square at a time. The only problem here is that we could end up skipping over the square we want,
 			so we will have to check for the target square at each step.
@@ -496,10 +498,10 @@ export default Content;
 // X Many pictures (wait until I'm done with the ulan component)
 // X Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
-	// Slider
-	// Code dropdown
+	// X Slider
+	// X Code dropdown
 	// Ulam button
-	// Icon Buttons
+	// X Icon Buttons
 	// Cabinet (maybe add a closer at the bottom too)
 	// Many input boxes (+ button combo)
 // General CSS simplification + determinations

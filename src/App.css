@@ -8,6 +8,7 @@
 	align-items: center;
 	justify-content: center;
 	color: var(--blue);
+	overflow-x: hidden;
 }
 
 img {
@@ -23,17 +24,24 @@ img {
 	/* margin-bottom: 200px; */
 	height: 417px;
 	width: 900px;
+	margin-top: 125px;
+	margin-bottom: 125px;
+}
+
+.soloCodeBlock {
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
 
 .textBlock {
 	color: #000000;
 	background-color: var(--cream);
-	padding: 5px;
+	padding: 10px;
 	font-size: 1.4em;
 	text-align: justify;
 	width: 900px;
 	height: auto;
-	border: var(--brown) 1px solid;
+	/* border: var(--brown) 1px solid; */
 }
 .footnote {
 	font-size: 0.9em;

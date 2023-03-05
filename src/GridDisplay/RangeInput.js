@@ -35,11 +35,11 @@ export default function ManualInput({ newInput }) {
 
 	return (
 		<div>
-			<span>Generate </span>
+			<span>Generate   </span>
 			<TextField
+			variant="standard"
 			sx={{ width: '10ch' }}
 				id='RandomQuantity'
-				label='Quantity'
 				type='number'
 				defaultValue={10}
 				inputRef={quantityRef}
@@ -54,9 +54,9 @@ export default function ManualInput({ newInput }) {
 				random points between <i>n</i>=1 and <i>n</i>=
 			</span>
 			<TextField
+			variant="standard"
 			sx={{ width: '10ch' }}
 				id='RandomRange'
-				label='Maximum'
 				type='number'
 				defaultValue={144}
 				inputRef={maximumRef}

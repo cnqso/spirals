@@ -20,6 +20,7 @@ padding: 1%;
     grid-template-columns: 100%;
     max-width: min(1200px, 80vw);
     background-color: var(--red);
+    margin-bottom: 75px;
     
 }
 

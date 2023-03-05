@@ -12,6 +12,8 @@ import "./SquareGrid.css";
 import { InlineMath, BlockMath } from "react-katex";
 import MathInput from "./MathInput";
 import { Parser } from "expr-eval";
+import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
+import themeOptions from "../themeOptions";
 
 const blue = "#71C2A9";
 const brown = "#573B2A";
@@ -21,6 +23,8 @@ const tan = "#EC9C26";
 const red = "#75280f";
 const baseColor = red;
 const highlightColor = tan;
+
+const theme = createTheme(themeOptions);
 
 function isPrime(num) {
 	if (num <= 1) return false;
@@ -38,10 +42,10 @@ function mathSquareSpiral(n) {
 	// Perfect squares are located sqrt(n) steps from the origin
 	const lowerRoot = Math.floor(Math.sqrt(n));
 	const anchor = lowerRoot ** 2;
-	const location = [Math.floor( -lowerRoot / 2 ), Math.floor( lowerRoot / 2 )];
+	const location = [Math.floor(-lowerRoot / 2), Math.floor(lowerRoot / 2)];
 	// If n is not a perfect square, adjust the y location by remaining steps
 	// If remaining steps > current line length, continue on the x axis
-	location[1] -= Math.min(n - anchor, lowerRoot); 
+	location[1] -= Math.min(n - anchor, lowerRoot);
 	location[0] += Math.max(n - anchor - lowerRoot, 0);
 	// If the lower-bound root length is odd, mirror the location
 	if (lowerRoot % 2 !== 0) {
@@ -179,18 +183,18 @@ function ExperimentGrid({ type }) {
 			ctx.fillStyle = "black";
 			ctx.fillText(text, xCoord + leftOffset, yCoord + squareSz - bottomOffset, squareSz);
 		}
-		ctx.fillStyle = red;
-		ctx.fillRect(
-			(squareSz + padding) + padding / 2,
-			padding * 0.59,
+		// ctx.fillStyle = red;
+		// ctx.fillRect(
+		// 	squareSz + padding + padding / 2,
+		// 	padding * 0.59,
 
-			squareSz * 4.15,
-			squareSz - padding * 0.3
-		);
-		ctx.fillStyle = "black";
-		ctx.font = `${55}px serif`;
-		const canvasKatex = "4n²" + katexText.substring(4)
-		ctx.fillText("2n", 75+115, 55);
+		// 	squareSz * 4.15,
+		// 	squareSz - padding * 0.3
+		// );
+		// ctx.fillStyle = "black";
+		// ctx.font = `${55}px serif`;
+		// const canvasKatex = "4n²" + katexText.substring(4);
+		// ctx.fillText("2n", 75 + 115, 55);
 	}
 
 	function clearGrid() {
@@ -214,19 +218,31 @@ function ExperimentGrid({ type }) {
 			<br />
 			<br />
 			<div className='bigGridControl'>
-				<Button onClick={togglePrime}>{primeMode ? "Ulan Spiral" : "Custom Pattern"}</Button>
-				{primeMode ? null : <MathInput formulaRef={formulaRef} updateFormula={updateFormula} />}
-				<ManualInput newInput={newInput} squares={squares} index={index} start={250} />
-				<div style={{ fontSize: "2em" }}>
+				<ThemeProvider theme={theme}>
+					<Button variant='outlined' onClick={togglePrime} sx={{ margin: 1 }}>
+						{primeMode ? "Ulan Spiral" : "Custom Pattern"}
+					</Button>
 					{primeMode ? (
-						<>
-							<br />
-							<br />
-						</>
+						<ManualInput label="Squares" newInput={newInput} squares={squares} index={index} start={250} />
 					) : (
-						<BlockMath math={katexText} />
+						<MathInput
+							newInput={newInput}
+							formulaRef={formulaRef}
+							updateFormula={updateFormula}
+						/>
 					)}
-				</div>
+
+					<div style={{ fontSize: "2em" }}>
+						{primeMode ? (
+							<>
+								<br />
+								<br />
+							</>
+						) : (
+							<BlockMath math={katexText} />
+						)}
+					</div>
+				</ThemeProvider>
 			</div>
 		</div>
 	);
