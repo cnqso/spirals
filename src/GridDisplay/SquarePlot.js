@@ -82,8 +82,8 @@ function SquarePlot({ squarrayLength, plotData, origin, linear, index, padding =
 				padding={{ top: padding/2, bottom: padding/2, left: padding, right: padding}}
 				theme={VictoryTheme.material}
 				domain={{ x: [-bounds, bounds], y: [-bounds, bounds] }}>
-				<VictoryAxis gridComponent={<></>} />
-				<VictoryAxis dependentAxis gridComponent={<></>} />
+				<VictoryAxis gridComponent={<></>} tickFormat={(t) => Math.abs(bounds) > 1e6 ? t.toExponential() : t}/>
+				<VictoryAxis dependentAxis gridComponent={<></>} tickFormat={(t) => Math.abs(bounds) > 1e6 ? t.toExponential() : t}/>
 				{linear - 1 ? (
 					<VictoryLine
 						style={{
@@ -98,6 +98,7 @@ function SquarePlot({ squarrayLength, plotData, origin, linear, index, padding =
 					/>
 				) : (
 					<VictoryScatter
+						
 						style={{ data: { fill: "#c43a31" }, labels: {fontSize: 7}}}
 						size={pointSize}
 						data={plotData}

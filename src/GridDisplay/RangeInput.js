@@ -19,7 +19,6 @@ import {
 
 export default function ManualInput({ newInput }) {
 	const matches = useMediaQuery("(min-width:600px)");
-	const quantityRef = useRef(10);
 	const maximumRef = useRef(144);
 	const buttonRef = useRef();
 	function mediaQueryCss() {
@@ -30,32 +29,16 @@ export default function ManualInput({ newInput }) {
 	}
 
 	function onEnter() {
-		newInput(quantityRef.current.value, maximumRef.current.value);
+		newInput(maximumRef.current.value);
 	}
 
 	return (
 		<div>
-			<span>Generate   </span>
-			<TextField
-			variant="standard"
-			sx={{ width: '10ch' }}
-				id='RandomQuantity'
-				type='number'
-				defaultValue={10}
-				inputRef={quantityRef}
-				onKeyDown={(ev) => {
-					if (ev.key === "Enter") {
-						buttonRef.current.click();
-						ev.preventDefault();
-					}
-				}}
-			/>
-			<span>
-				random points between <i>n</i>=1 and <i>n</i>=
+			<span>Generate 100 random points between <i>n</i>=1 and <i>n</i>=
 			</span>
 			<TextField
 			variant="standard"
-			sx={{ width: '10ch' }}
+			sx={{ width: '9ch', ml:0.5 }}
 				id='RandomRange'
 				type='number'
 				defaultValue={144}

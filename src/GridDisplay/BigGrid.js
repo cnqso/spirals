@@ -25,24 +25,22 @@ function mathSquareSpiral(n) {
 }
 
 function BigGrid({ type }) {
-	const [squares, setSquares] = useState(10);
 	const [boundary, setBoundary] = useState(144);
 	const [plotData, setPlotData] = useState([]);
 	const [index, setIndex] = useState(0);
 	const wh = Math.ceil(Math.sqrt(boundary));
 	const origin = Math.floor((wh - 1) / 2);
-
-	function mssInput(quantity, maximum) {
-		if (index !== -1 || quantity > 5000 || maximum > 10e28) {
+	const squares = 100;
+	function mssInput(maximum) {
+		if (index !== -1 || maximum > 10e28) {
 			return;
 		}
 		setBoundary(maximum);
-		setSquares(quantity);
 		setPlotData([]);
 		setIndex(0);
 	}
 
-	function iterateMathSquareSpiral(origin) {
+	function iterateMathSquareSpiral() {
         let iterations = squares/3;
         if (squares < 3) {
             iterations = squares;

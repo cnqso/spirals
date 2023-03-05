@@ -1,5 +1,7 @@
 /** @format */
-
+html {
+    scroll-behavior: smooth;
+}
 .App {
 	text-align: center;
 	background-color: var(--cream);

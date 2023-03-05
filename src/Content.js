@@ -1,6 +1,6 @@
 /** @format */
 
-import { React, useState } from "react";
+import { React, useState, useRef } from "react";
 import Collapse from "@mui/material/Collapse";
 import "katex/dist/katex.min.css";
 import { InlineMath, BlockMath } from "react-katex";
@@ -18,7 +18,7 @@ import gif4n21 from "./Images/4n2+1.gif";
 
 const MathTalics = ({ m }) => {
 	return (
-		<span style={{ fontSize: "0.8em" }}>
+		<span style={{ fontSize: "0.95em" }}>
 			{" "}
 			<InlineMath math={m} />{" "}
 		</span>
@@ -29,17 +29,17 @@ function Text1() {
 	return (
 		<>
 			<div className='textBlock'>
-				Recently I've been working on a web app where users build cities next to each other on an
-				infinite grid of square plots. I wanted to make sure that users were often connected to many
-				other players, and I also wanted to make sure that players who joined earlier would be closer
-				to the center, while players who joined later would be further away. Lastly, I wanted a way
-				that I could record user location data with a single positive integer
-				<Footnote num={1} /> I decided that the best way to accomplish this was to have players
-				"spiral" around a central plot.
+				Recently I've been working on a web app where users build cities on an infinite grid of square
+				plots. I wanted to make sure that users were often close to many other users, and I also
+				wanted to make sure that users who joined earlier would be closer to the center, while users
+				who joined later would be further away. Lastly, I wanted a way that I could record user
+				location data with a single positive integer
+				<Footnote num={1} /> I decided that the best way to accomplish this was to have new plots
+				"spiral" around an origin.
 			</div>
-			<br/>
+			<br />
 			<img src={cityPlots} />
-			<br/>
+			<br />
 		</>
 	);
 }
@@ -48,43 +48,44 @@ function Text2() {
 	return (
 		<>
 			<div className='textBlock'>
-				To accomplish this, I needed a function that can access the coordinates of any square <i>n</i>{" "}
-				on a spiral. Square spirals are not a new concept -- some of you probably recognize the
-				concept from the{" "}
+				To accomplish this, I needed a function that can access the coordinates of any square{" "}
+				<MathTalics m='n' /> on a spiral. Square spirals are not a new concept ⁠— some of you probably
+				recognize the concept from the{" "}
 				<a href='https://en.wikipedia.org/wiki/Ulam_spiral' target='_blank' rel='noreferrer'>
 					Ulam Spiral
 				</a>
-				, a square spiral which hides all squares for which <i>n</i> is not prime. Since square
-				spirals had already reached pop mathematics, I assumed that there would be a well-known method
-				to add and retrieve data from them, but my search found a wide range of different approaches
-				<Footnote num={2} />I wasn't able to find anything that I was happy with, so I decided to take
-				a shot at it myself. I started by drawing a spiral manually and seeing what I noticed.
+				, a square spiral which only shows the points for which <MathTalics m='n' /> is prime. I
+				assumed that there would be a well-known method to calculate the coordinates of points on a
+				square spiral, but my search found a wide range of different approaches
+				<Footnote num={2} />
+				None of these were a great fit for my use case, so I decided to take a shot at it myself. I
+				started by drawing one manually and seeing what I noticed.
 			</div>
-			<br/>
+			<br />
 			<img src={drawnSquares} />
-			<br/>
+			<br />
 			<div className='textBlock'>
 				The first thing you might notice is that we have a constant four-phase movement pattern. Lets
-				think of <i>len</i> as the length of each "side" of the spiral, starting at <i>len</i> = 1.
-				The pattern, starting at the origin (0,0), looks like this:
+				think of <i>length</i> as the number of squares on each continuous "side" of the spiral,
+				starting at <i>length</i> = 1. The pattern, starting at the origin (0,0), looks like this:
 				<ol type='1'>
 					<li>
-						Increment <i>x</i> by <i>len</i>
+						Increment <i>x</i> by <i>length</i>
 					</li>
 					<li>
-						Increment <i>y</i> by <i>len</i>
+						Increment <i>y</i> by <i>length</i>
 					</li>
 					<li>
-						Increment <i>len</i> by 1
+						Increment <i>length</i> by 1
 					</li>
 					<li>
-						Decrement <i>x</i> by <i>len</i>
+						Decrement <i>x</i> by <i>length</i>
 					</li>
 					<li>
-						Decrement <i>y</i> by <i>len</i>
+						Decrement <i>y</i> by <i>length</i>
 					</li>
 					<li>
-						Increment <i>len</i> by 1
+						Increment <i>length</i> by 1
 					</li>
 				</ol>
 				This pattern continues forever. The order is a bit novel, but other than that it seems like a
@@ -99,71 +100,70 @@ function Text3({ code }) {
 		<div className='textBlock'>
 			This approach gets us there. The function moves one square at a time and updates the location
 			variable at each new square, forever. To make it practical we need to add bounds and output, but
-			the function is already repetitive, and adding these things would make it much worse
+			this would make the function unbearably repetitive
 			<Footnote num={3} extFootnote={code} /> We can make the function much more concise at the cost of
-			some readability. The 4-step pattern is simple to keep track of: every step we change the axis
-			we're moving along (x or y), and every two steps we increase the length <i>len</i> and change the
-			direction we're moving in (positive or negative). We will end up a nested loop: a top level which
-			flips the axis, flips the direction, and increases <i>len</i> at the appropriate time, and a
-			bottom level which iterates the spiral for <i>len</i> steps. Since the desired number of squares{" "}
-			<i>n</i> is not guaranteed to be divisible by <i>len</i>, we will have to check if we've reached
-			the end of the spiral at each bottom level loop. Below is my implementation of this function. Use
-			the slider on the right to test different values of <i>n</i>.
+			some readability. The 4-step pattern is simple to keep track of: we change the axis we're moving
+			along (x or y) on every step, and we increase the <i>length</i> and change our direction (positive
+			or negative) on every second step. We will end up a nested loop: a top level which flips the axis,
+			flips the direction, and increases <i>length</i>, and a bottom level which iterates the spiral for{" "}
+			<i>length</i> steps. Since we could reach our final iteration in the middle of the lower loop, we
+			will have to check for the end at every step. Below is my implementation of this function ⁠— Use
+			the slider on the right to test different values of <MathTalics m='n.' />
 		</div>
 	);
 }
 function Text4() {
 	return (
 		<div className='textBlock'>
-			This function works great for me, and is what I ended up using to generate the spiral. It is very
-			short at 23 lines and it fit for multiple uses. You can put load bearing functions at every step
-			(in the above example I put "drawSquare(location) to draw the spiral on a canvas"), or you can
-			call it once to receive the coordinates of the square at position <i>n</i>. It is also very fast.
-			The time complexity is <MathTalics m='O(n)' /> and the space complexity is <MathTalics m='O(1)' />
-			. The code can accept up to ~1 billion squares until it starts to choke up
+			This function works pretty well and might be all you every need. It is very short at 23 lines and
+			it fit for multiple uses. You can put load bearing functions at every step (in the above example I
+			put "drawSquare(loc) to draw the spiral on the canvas), or you can call it once to receive the
+			coordinates of square <MathTalics m='n.' /> The time complexity is <MathTalics m='O(n)' /> and the
+			space complexity is <MathTalics m='O(1).' />
+			If you remove the drawing function, it can generate up to ~1 billion squares without choking up
 			<Footnote num={4} />
-			<br /><br />
+			<br />
+			<br />
 			But what if you want to draw a square spiral but don't care about the individual squares? If you
 			wanted to draw a square spiral in a game for example, stopping at each pixel to iterate and run
-			checks is time wasted. One easy way we could improve this is to stop moving one square at a time. Since we know the
-			length of each side of the spiral ahead of time, we can 'skip' to the end instead of moving one
-			square at a time. The only problem here is that we could end up skipping over the square we want,
-			so we will have to check for the target square at each step.
+			checks is time wasted. One easy way we could improve this is to stop moving one square at a time.
+			Since we know the length of each side of the spiral ahead of time, we can 'skip' to the end
+			instead of moving one square at a time. The only problem here is that we could end up skipping
+			over the square we want, so we will have to check for the target square at each step.
 		</div>
 	);
 }
 function Text5() {
 	return (
 		<div className='textBlock'>
-			Very few changes needed to be made to the original function to make this work. We replaced the
-			bottom loop with a single pass, and modified our end check from "if <i>i</i> is greater than n,
-			return" to "if <i>i</i> + <i>len</i> is greater than <i>n</i>, do a partial pass then return". Now
-			the time to reach out square is dependent on the number of sides we have to draw instead of the
-			number of squares. This brings it to <MathTalics m='O\sqrt{n}' /> time complexity. You can
-			actually visualize this pretty well if you set <i>n</i> to a high value: it linearly approaches
-			the edges of the spiral from the center. Cool!
+			As you can see, all we had to do was replace the length-iteration loop with a check and add some
+			math before we return the location. Now the time to reach out square is dependent on the number of
+			sides we have to draw rather than the number of squares. This brings it to{" "}
+			<MathTalics m='O\sqrt{n}' /> time complexity. You can actually visualize this pretty well if you
+			set <MathTalics m='n' /> to a high value: it linearly approaches the edges of the spiral from the
+			center. Cool!
 			<br />
-			If we want to draw a spiral this is a pretty solid solution, but we can't be stop here, right? For{" "}
-			<i>finding the coordinates</i> of some given square this is still overkill. It would be great if
-			we could find a way to calculate the coordinates of a given square <i>n</i> without having to draw
-			the whole spiral - a non-iterative solution. I took a look at the patterns that show up in the
-			spiral <Footnote num={5} /> and I found a potential solution that I think is pretty cool.
+			<br />
+			If we want to draw a spiral this is a pretty solid solution, but we can't be stop here, right?
+			This is still overkill if our goal is to find the coordinates of any given square. Even with the
+			faster solution, the iterative approach limits the practicality of the function. I took a look at the patterns that show up in the spiral{" "}
+			<Footnote num={5} /> and I found a potential solution that I think is pretty cool.
 		</div>
 	);
 }
 function Text6() {
 	return (
 		<div className='textBlock'>
-			Every 2nd edge of the spiral ends at a square number which is either diagonally North-West from
-			[0,0] or diagonally South-East from [1,0]
-			<Footnote num={6} /> If we find the closest square number less than or equal to <i>n</i>, we can
-			simply take the difference between that number and <i>n</i> to "skip" directly to our desired
-			coordinates. We have to do a little bit of math to determine which direction(s) to move from the
-			square number, and then we're there. Since this is a single-step solution, it's hard to make a fun
-			animation like the past two. Instead, I'll just try to show off how fast this solution is. The
-			block below will calculate a number of random spiral positions within a given range. It will
-			accept a quantity up to 1000 (each point is a DOM element so it might hit your performance) and a
-			range up to 1e29. Try it out!
+			Every other edge of the spiral ends at a square number which is either diagonally Northwest from
+			[0,0] or diagonally Southeast from [1,0]
+			<Footnote num={6} /> If we find the closest square number less than or equal to{" "}
+			<MathTalics m='n,' /> we can simply take the difference between that number and{" "}
+			<MathTalics m='n' /> to "skip" directly to our desired coordinates. We just have to do a little bit of
+			math to determine how far and in which direction(s) to move. Since
+			this is a single-step solution, it's hard to make a fun animation like the previous two. Instead, I'll
+			just try to show off how fast this solution is. The block below will calculate a number of random
+			spiral positions within a given range. It will accept a quantity up to 1000 (each point is a DOM
+			element so it might hit your performance) and a range up to 1e29. Try it out!
 		</div>
 	);
 }
@@ -208,14 +208,16 @@ function Text8() {
 function Footnote1() {
 	return (
 		<div>
-			Recording user location data in a 2D array was the most convenient and fast option for my app.
-			However, an infinite plane will necessarily require negative coordinates, which are not supported
-			by arrays. This requires a "virtual" negative space accomplished by an automatic offset of the
-			array so that the lowest in-use x and y values on the plot are above 0. This could be done by just
-			offsetting all users' x and y coordinates whenever needed, but this would require many error-prone
-			changes to user data and, for reasons specific to my backend, would greatly increase the database
-			load per-user. We could also just put everyone at some arbitrarily large X and Y offset, but this
-			would be too ugly of a solution for a hobby project.
+			Recording user location data in a 2D array was the most intuitive option, but an infinite plane
+			will necessarily require negative coordinates, which are not supported by arrays. This requires a
+			"virtual" negative space accomplished by an automatic offset of the array so that the lowest
+			in-use x and y values on the plot are above 0. This could be done by offsetting all users' x and y
+			coordinates whenever needed, but this would require many error-prone changes to user data and, for
+			reasons specific to my backend, would greatly increase the database load per-user. We could also
+			just put everyone at some arbitrarily large X and Y offset, but this would be too ugly of a
+			solution for a hobby project. I needed my back end to have some layer of abstraction which allowed
+			for offsets to be made without directly editing user data. Using a single positive integer is a
+			scaleable and NoSQL-friendly way to do this.
 		</div>
 	);
 }
@@ -231,9 +233,9 @@ function Footnote2() {
 			<MathTalics m='O\sqrt{n}' /> memory complexity along with the <MathTalics m='O(n)' /> average-case
 			time complexity.
 			<br />
-			The second was more complex: trying to find a single formula for a point on a spiral given n.
-			These solutions were very interesting. Most sources I was able to find all pointed back to the
-			same thread on Mathematics Stack Exchange called{" "}
+			The second was more complex: trying to find a single formula for a point on a spiral given{" "}
+			<MathTalics m='n' />. These solutions were very interesting. Most sources I was able to find all
+			pointed back to the same thread on Mathematics Stack Exchange called{" "}
 			<a
 				href='https://math.stackexchange.com/questions/3157030/parametrizing-the-square-spiral'
 				target='_blank'
@@ -248,7 +250,7 @@ function Footnote2() {
 			that I was able to find. My issue with this approach is that the marriage of algorithm and
 			equation gives you the worst of both worlds. You would hope that the equative solution would
 			remove the need for iterations and conditional logic, like applying math to a combinatorics
-			problem. However, this solution hides logic in the variables (<MathTalics m='\^{n}' /> contains
+			problem. However, this solution hides logic in the variables (<MathTalics m='{\^n}' /> contains
 			both a conditional and a floor operation) and then performs conditional logic using that variable.
 			Since I'm trying to apply this solution to a program, I either want the full benefits of an
 			equative approach (reduced complexity and easy copy-paste-ability) or the full benefits of an
@@ -269,9 +271,9 @@ function Footnote2() {
 			problems as the first solution for my use case. The last solution looked like this:
 			<br />
 			<img src={Summation} style={{ display: "block", margin: "auto" }} />
-			This is the shortest answer you are likely to find anywhere. The fact that the x and y
-			formulas are identical except for the swap betwen sine and cosine is pretty cool! However, this is
-			even slower than the naive approach so we can safely rule it out.
+			This is the shortest answer you are likely to find anywhere. The fact that the x and y formulas
+			are identical except for the swap betwen sine and cosine is pretty cool! However, this is even
+			slower than the naive approach so we can safely rule it out.
 		</div>
 	);
 }
@@ -293,11 +295,12 @@ function Footnote5() {
 	return (
 		<div>
 			When we draw a square spiral, we are drawing a sequence of squares. Each square's coordinates is
-			tied to its position in the sequence. For example, the first square (<i>n</i> = 0) will always be
-			at (0, 0), the second will always be at (1, 0), the 64th will always be at (-4, 4), etc. But so
-			far we have only tried one type of sequence: calculating the coordinates for every single square,
-			every value of <i>n</i>. We don't have to do that if we don't want to. For example, what if you
-			skipped every odd square? The new sequence would be <i>2n</i>, and it would look like this.
+			tied to its position in the sequence. For example, the first square (<MathTalics m='n=0' />) will
+			always be at (0, 0), the second will always be at (1, 0), the 64th will always be at (-4, 4), etc.
+			But so far we have only tried one type of sequence: calculating the coordinates for every single
+			square, every value of <MathTalics m='n.' /> We don't have to do that if we don't want to. For
+			example, what if you skipped every odd square? The new sequence would be <MathTalics m='2n' />,
+			and it would look like this.
 			<br />
 			<img src={img2n} style={{ display: "block", margin: "auto" }} />
 			<br />
@@ -306,25 +309,29 @@ function Footnote5() {
 			between a given sequence and the geometry it creates in its output. There is some weird, cool
 			stuff in here.
 			<br />
-			The most common pattern that you can see on the grid is based around the series n<sup>2</sup>.
-			That sequence looks like this.
+			The most common pattern that you can see on the grid is based around the series{" "}
+			<MathTalics m='n^2' />. That sequence looks like this.
+			<br />
 			<br />
 			<img src={imgn2} style={{ display: "block", margin: "auto" }} />
 			You end up with every perfect square on the grid. You might notice that every even square is on a
-			diagonal NorthWest of the origin, and every odd square is on a diagonal SouthEast from (1,0). We
-			can isolate these sides to interesting effect. For even numbers, this would look like (2n)
-			<sup>2</sup>, which evaluates to 4n<sup>2</sup> That sequence looks like this.
+			diagonal Northwest of the origin, and every odd square is on a diagonal Southeast from (1,0). We
+			can isolate these sides to interesting effect. For even numbers, this would look like{" "}
+			<MathTalics m='(2n)^2' />, which evaluates to <MathTalics m='4n^2' /> That sequence looks like
+			this.
 			<br />
 			<img src={img4n2} style={{ display: "block", margin: "auto" }} />
 			The thing that makes this sequence so interesting is that you can use it to create a similar radii
-			in any of the 8 possible directions. By adding or subtracting <i>n</i> from the sequence, you can
-			get the same sequence but rotated clockwise or counterclockwise by 45 degrees. Here's a
-			visualization of all 8 (technically 9) possible sequences.
+			in any of the 8 possible directions. By adding or subtracting <MathTalics m='n' /> from the
+			sequence, you can get the same sequence but rotated clockwise or counterclockwise by 45 degrees.
+			Here's a visualization of all 8 (technically 9) possible sequences.
 			<br />
 			<img src={gif4n2} style={{ display: "block", margin: "auto" }} />
+			<br />
+			Some notable sequences:
 			<ul type='1'>
 				<li>
-					4n<sup>2</sup> - 3n
+					<MathTalics m='4n^2-3n' />
 					<br />
 					Every{" "}
 					<a
@@ -335,19 +342,20 @@ function Footnote5() {
 					</a>
 				</li>
 				<li>
-					4n<sup>2</sup> <br /> One of the primary "anchors" I use for the <MathTalics m='O(1)' />{" "}
-					solution below
+					<MathTalics m='4n^2' /> <br /> Every even perfect square. One of the primary "anchors" I
+					use for the <MathTalics m='O(1)' /> solution below.
 				</li>
 				<li>
-					4n<sup>2</sup> + 2n
+					<MathTalics m='4n^2+2n' />
 					<br />
 					Every even integer squared plus that integer. Think of it like (2n)<sup>2</sup> + 2n or
 					2n*(n+1)
 				</li>
 				<li>
-					4n<sup>2</sup> + 4n
+					<MathTalics m='4n^2+4n' /> and <MathTalics m='4n^2-4n' />
 					<br />
-					The mirror to pattern 1. 4n<sup>2</sup> - 4n generates the same pattern.
+					Two squences that generate the same pattern of every odd perfect square minus one. The
+					mirror to <MathTalics m='4n^2' />
 				</li>
 			</ul>
 			These strong patterns are present outside of the origin as well. For example, our second anchor
@@ -356,21 +364,23 @@ function Footnote5() {
 			by 1. 5 out of 8 of this square's radii can be drawn with a similar sequence.
 			<br />
 			<img src={gif4n21} style={{ display: "block", margin: "auto" }} />
+			<br />
+			These 4 sequences do not cast a radii directly from the source:
 			<ul type='1'>
 				<li>
 					{" "}
-					4n<sup>2</sup> + n + 1 No pattern until 5
+					<MathTalics m='4n^2+1' /> No pattern until 5
 				</li>
 				<li>
 					{" "}
-					4n<sup>2</sup> + 1 No pattern until 6{" "}
+					<MathTalics m='4n^2+n+1' /> No pattern until 6{" "}
 				</li>
 				<li>
 					{" "}
-					4n<sup>2</sup> + 7n + 1 No pattern until 12
+					<MathTalics m='4n^2+7n+1' /> No pattern until 12
 				</li>
 				<li>
-					4n<sup>2</sup> + 8n + 1 No pattern until 13
+					<MathTalics m='4n^2+8n+1' /> No pattern until 13
 					<br />{" "}
 				</li>
 			</ul>
@@ -379,25 +389,28 @@ function Footnote5() {
 			Here's what I can tell you:
 			<br />
 			The 5 common radial patterns above can <i>almost</i> be generalized for all squares. The path
-			which moves directly away from the origin is 4n<sup>2</sup> + the value of the starting square +
-			the number of sides/edges which have been visited so far. Taking <i>m</i> to be the starting
-			square, and <i>s</i> to be the number of sides/edges visited so far, this would be written as 4n
-			<sup>2</sup> + (4+s)n + m. Without a means of deriving <i>s</i> in terms of <i>m</i>, I cannot
-			generalize any of the radial formulas. This could be solved programattically, but this trivializes
-			the problem either way. If you can generalize <i>s</i> in terms of <i>m</i> without conditional
-			statements or floor/ceiling operations, I'll send you $100.
+			which moves directly away from the origin is <MathTalics m='4n^2' /> + the value of the starting
+			square + the number of sides/edges which have been visited so far. Taking <MathTalics m='k' /> to
+			be the starting square, and <MathTalics m='s' /> to be the number of sides/edges visited so far,
+			this would be written as <MathTalics m='4n^2+n(s+4)+k.' /> Without a means of deriving{" "}
+			<MathTalics m='s' /> in terms of <MathTalics m='k' />, I cannot generalize any of the radial
+			formulas. This could be solved alogrithmically without much trouble, but this trivializes the
+			problem. If you can generalize <MathTalics m='s' /> in terms of <MathTalics m='k' /> without
+			conditional statements or floor/ceiling operations, I'll send you $100.
 			<br />
 			<br />
-			Last few observations in this novel of a footnote:
+			Last few unrealted observations in this novel of a footnote:
 			<ul>
 				<li>
-					All diagonals off of the origin are a product of each even square number. Top left is (2n)
-					<sup>2</sup> (every even square), top right is (2n)<sup>2</sup> - 2n, bottom left is (2n)
-					<sup>2</sup> + 2n, bottom right is (2n)<sup>2</sup> +/- 4n
+					All diagonals off of the origin are a product of each even positive integer. Top left is{" "}
+					<MathTalics m='(2n)^2' />
+					(every even square), top right is <MathTalics m='(2n)^2-2n,' /> bottom left is{" "}
+					<MathTalics m='(2n)^2+2n' />, bottom right is <MathTalics m='(2n)^2\pm4n' />
 				</li>
 				<li>
-					n<sup>2</sup> has more interesting patterns to look at. n<sup>2</sup> - n and n
-					<sup>2</sup> + n draw a SouthWest-NorthEast diagonal centered around the origin.
+					<MathTalics m='n^2' /> has more interesting patterns to look at.{" "}
+					<MathTalics m='n^2\pm n' /> draws a Southwest-Northeast diagonal centered around the
+					origin.
 				</li>
 			</ul>
 		</div>
@@ -410,7 +423,7 @@ function Footnote6() {
 			{" "}
 			Here is a visualization of these points:
 			<img src={imgn2} style={{ display: "block", margin: "auto" }} /> Every even number squared is in
-			the North-West radius, and every odd number squared is in the South-East radius.
+			the North-West radius, and every odd number squared is in the Southeast radius.
 		</div>
 	);
 }
@@ -457,7 +470,13 @@ function Footnote9() {
 
 const Footnotes = [Footnote1, Footnote2, null, Footnote4, Footnote5, Footnote6, null, Footnote8, Footnote9];
 function Footnote({ num, punctuation = ". ", extFootnote }) {
+	const scrollRef = useRef(null);
 	const [show, setShow] = useState(false);
+	const scrollBack = () => {
+		scrollRef.current.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+		setShow(false);
+	};
+
 	return (
 		<>
 			<span
@@ -465,7 +484,9 @@ function Footnote({ num, punctuation = ". ", extFootnote }) {
 				onClick={() => {
 					setShow(!show);
 				}}>
-				<sup style={{ color: "#de731d" }}>[{num}]</sup>
+				<sup ref={scrollRef} style={{ color: "#de731d" }}>
+					[{num}]
+				</sup>
 				{punctuation}
 			</span>
 
@@ -481,6 +502,9 @@ function Footnote({ num, punctuation = ". ", extFootnote }) {
 					</div>
 
 					{extFootnote ? extFootnote() : Footnotes[num - 1]()}
+				</div>
+				<div style={{ padding: "30px", cursor: "pointer" }} onClick={scrollBack}>
+					<hr style={{ borderTop: "1px solid #de731d" }} />
 				</div>
 			</Collapse>
 		</>
@@ -498,14 +522,15 @@ export default Content;
 // X Many pictures (wait until I'm done with the ulan component)
 // X Clean up "practicality" section for a shorter smoother transition to final toy. Say goodbye+thanks before the sequencer.
 // MUI "css" (remember to use the github theme creator)
-	// X Slider
-	// X Code dropdown
-	// Ulam button
-	// X Icon Buttons
-	// Cabinet (maybe add a closer at the bottom too)
-	// Many input boxes (+ button combo)
-// General CSS simplification + determinations
-// Section on stackoverflow solutions
+// X Slider
+// X Code dropdown
+// X Ulam button
+// X Icon Buttons
+// Cabinet (maybe add a closer at the bottom too)
+// Many input boxes (+ button combo)
+// X General CSS simplification + determinations
+// X Section on stackoverflow solutions
+// Clean up footnotes
 
 // X Cut down content or move to footnotes
 // Add table of first 50 values

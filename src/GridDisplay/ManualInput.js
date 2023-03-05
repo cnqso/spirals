@@ -17,6 +17,7 @@ export default function ManualInput({ newInput, matches, start = 25, label = mat
 	return (
 		<span>
 			<TextField
+			sx={{maxWidth: '90%'}}
 				variant='standard'
 				id='SquaresInput'
 				label={label}

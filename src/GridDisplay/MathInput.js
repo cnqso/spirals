@@ -18,12 +18,9 @@ import {
 } from "./icons";
 
 export default function MathInput({ formulaRef, newMathInput, newInput, updateFormula }) {
-	const matches = useMediaQuery("(min-width:600px)");
 	const buttonRef = useRef();
 
 	const numberRef = useRef(25);
-
-	const label = matches ? "Squares": null;
 
 	function onEnter() {
 		newInput(numberRef.current.value);
@@ -53,7 +50,7 @@ export default function MathInput({ formulaRef, newMathInput, newInput, updateFo
 				<TextField
 					variant='standard'
 					id='SquaresInput'
-					label={"label"}
+					label="Squares"
 					type='number'
 					defaultValue={250}
 					inputRef={numberRef}

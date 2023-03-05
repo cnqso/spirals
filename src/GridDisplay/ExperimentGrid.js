@@ -237,9 +237,11 @@ function ExperimentGrid({ type }) {
 							<>
 								<br />
 								<br />
+								<br />	
 							</>
 						) : (
 							<BlockMath math={katexText} />
+
 						)}
 					</div>
 				</ThemeProvider>
