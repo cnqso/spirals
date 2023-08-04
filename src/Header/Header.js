@@ -4,15 +4,8 @@ import { React, useState, useRef, useEffect } from "react";
 import BlockLetter from "./BlockLetter";
 import "./Header.css";
 import {
-	LogOutIcon,
-	SendIcon,
-	QuestionIcon,
-	SunMoonIcon,
 	GithubIcon,
 	WebsiteIcon,
-	ResidentialIcon,
-	IndustrialIcon,
-	CommercialIcon,
 } from "../GridDisplay/icons";
 
 function mathSquareSpiral(n) {

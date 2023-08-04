@@ -195,7 +195,7 @@ function ExperimentGrid() {
 			<div className='bigGridControl'>
 				<ThemeProvider theme={theme}>
 					<Button variant='outlined' onClick={togglePrime} sx={{ margin: 1 }}>
-						{primeMode ? "Ulan Spiral" : "Custom Pattern"}
+						{primeMode ? "Ulam Spiral" : "Custom Pattern"}
 					</Button>
 					{primeMode ? (
 						<ManualInput
